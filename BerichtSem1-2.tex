@@ -1,0 +1,141 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}% ermöglich die direkte Eingabe der Umlaute 
+\usepackage[T1]{fontenc} % das Trennen der Umlaute
+\usepackage[ngerman]{babel} % hiermit werden deutsche Bezeichnungen genutzt 
+\usepackage{csquotes} 	% Gänsefüßchen nach gesetzter Sprache
+\usepackage{graphicx}	% Bilder
+\usepackage{subcaption}	% Für die Subfigures
+\usepackage{geometry}	% Seitengröße
+\usepackage[backend=biber,style=numeric,]{biblatex}	% Fürs Literatursverzeichis
+\geometry{
+  left=3cm,
+  right=3cm,
+  top=2cm,
+  bottom=4cm,
+  bindingoffset=5mm
+}
+\addbibresource{literatur.bib}
+
+%------------------------
+% Deckblatt Titel und co.
+%------------------------
+
+\title{Praxisbericht\thanks{Damke am m1 Mamer uwu}}
+\author{R\"uckblick auf die Semester 1 und 2\\
+	Studiengang Informatik\\
+	Studienrichtung Informatik\\
+	DHBW Karlsruhe\\
+	von Jakob Jonathan Heitzmann
+}
+\date{\today}
+
+\begin{document}
+
+%-------
+% Bilder
+%-------
+
+\begin{figure}[t!]
+	\begin{subfigure}{0.4\linewidth}
+		\includegraphics[scale=0.25]{DHBWKarlsruhe.jpg}
+	\end{subfigure}
+	\hspace*{\fill}
+	\begin{subfigure}{0.4\linewidth}
+    	\includegraphics[scale=0.25]{YellowMap.png}
+	\end{subfigure} 
+\end{figure}
+
+\maketitle
+\vspace*{\fill}
+
+%----------------
+% Deckblatt unten
+%----------------
+
+\begin{center}
+	\begin{tabular}{p{8cm}r}
+		Matrikelnummer & 9119328\\
+		Kurs & TINF19B4\\
+		Ausbildungsfirma & YellowMap AG, Karlsruhe\\
+		Betreuer & Markus Lind
+	\end{tabular}
+\end{center}
+\newpage
+
+%--------------------------
+% Eidesstattliche Erklärung
+%--------------------------
+
+\section*{Eidesstattliche Erkl\"arung}
+
+Gem\"a\ss\ \S\ 5 (3) der ''Studien- und Pr\"ufungsordnung DHBW Technik'' vom 29. September 2017 erkl\"are ich, Jakob Jonathan Heitzmann, dass ich die vorliegende Arbeit selbstst\"andig verfasst und keine anderen als die angegebenen Quellen und Hilfsmittel verwendet habe, sowie dass die physisch-vorliegende Version der Digitalen identisch ist.\\
+\hspace*{0.5cm}
+Karlsruhe, den \today
+
+\vspace*{2cm}
+
+\begin{tabular}{@{}l@{}}\hline
+\rule{0pt}{2ex}
+Jakob Jonathan Heitzmann
+\end{tabular}
+\newpage
+
+%---------------
+%Zusammenfassung
+%---------------
+
+\begin{abstract}
+Hier müsste ich erklären, dass das alles nur ein Bericht darüber ist, was ich den so gemacht habe, keine Ahnung. Ich bin mir noch nicht sicher ob ich überhaupt eine Zusammenfassung brauche\ldots
+\end{abstract}
+\newpage
+
+\tableofcontents
+\newpage
+
+%-----------------------------------------------------------------------------------------------
+%Hier beginnt das eigentliche Inhalt des Dokuments. (Davor nur Deckblatt bis Inhaltsverzeichniss)
+%-----------------------------------------------------------------------------------------------
+
+\section{Einf\"uhrung}
+Ziel der Arbeit ist es vorzuzeigen was ich in den ersten beiden Semestern meines Studiums bei der YellowMap AG gelernt und getan habe. Dabei wird sich auf die Gesamtheit der Bemühungen begrenzt, die dazu galten das monolithische Serverdesign zu brechen und das bestehende System in ein verteiltes System zu wandeln.
+
+\paragraph{Vorab}
+Das System ist als Monolith entworfen, der dem Model 2 Entwurfsmuster folgt, besteht aber aus zwei verschiedenen und getrennten Systemen, den YM3 und YM4.
+
+
+\section{Serverkommunikation mit Massage Broker} \label{rabbit}
+Die erste Aufgabe, die ich bekam, war es eine interne Serverkommunikation sicherstellen zu können. Damit sollten die zur Zeit getrennt laufenden Server nicht mehr darauf zurückgreifen sich über das externe Netz via HTTP-Anfragen zu verständigen. 
+\subsection{Was macht ein Massage Broker?}
+\subsection{Warum ein Massage Broker? Warum RabbitMQ?}
+Erklärung warum Überhaupt und warum RabbitMQ
+
+\section{Containerisierung mit Docker} \label{docker}
+Warum Container? Warum Docker?
+
+\paragraph{Vorgehen und Funde?}
+docker docker docker
+
+\section{Skallierung mit Kubernetes} \label{kubernetes}
+Warum überhaupt? Warum Kubernetes?
+
+\paragraph{Vorgehen und Funde?}
+docker docker docker docker docker docker
+
+\section{Stand des Projekts} \label{project_status}
+Erkläre halt wie weit du bist.
+
+\section{Fazit}\label{conclusion}
+Jetzt kannst du schwadronieren.
+\newpage
+
+%-----------------------------------------------------------------
+% Ab hier => Literaturverzeichnis + temporäre Kommentare und Tests
+%-----------------------------------------------------------------
+
+\printbibliography
+
+Und vergiss\cite{andererKey} nicht den Dank, auf dem Deckblatt, in der finalen\cite{sinnvollerKey} Version zu entfernen 
+
+Notiz:
+-Ein verteiltes System verbunden mit Dead-Letter-Exchange ist eine sehr schlechte Verbindung wenn es um Debugging geht...
+\end{document}
