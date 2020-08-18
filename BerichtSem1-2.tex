@@ -7,6 +7,7 @@
 \usepackage{subcaption}	% Für die Subfigures
 \usepackage{geometry}	% Seitengröße
 \usepackage[backend=biber,style=numeric,]{biblatex}	% Fürs Literatursverzeichis
+\usepackage{glossaries}\makeglossaries
 \geometry{
   left=3cm,
   right=3cm,
@@ -14,6 +15,7 @@
   bottom=4cm,
   bindingoffset=5mm
 }
+\loadglsentries{glossary.bib}
 \addbibresource{literatur.bib}
 
 %------------------------
@@ -85,7 +87,7 @@ Jakob Jonathan Heitzmann
 %---------------
 
 \begin{abstract}
-Hier müsste ich erklären, dass das alles nur ein Bericht darüber ist, was ich den so gemacht habe, keine Ahnung. Ich bin mir noch nicht sicher ob ich überhaupt eine Zusammenfassung brauche\ldots
+In dieser Arbeit geht es um meine Tätigkeit bei der YellowMap AG und was ich in den ersten zwei Semestern gelernt und getan habe. Diese Arbeit beschränkt sich aber in erster Linie auf die Bemühungen, die zur Umwandlung des Serversystems auf ein verteiltes System galten.
 \end{abstract}
 \newpage
 
@@ -97,25 +99,33 @@ Hier müsste ich erklären, dass das alles nur ein Bericht darüber ist, was ich
 %-----------------------------------------------------------------------------------------------
 
 \section{Einf\"uhrung}
-Ziel der Arbeit ist es vorzuzeigen was ich in den ersten beiden Semestern meines Studiums bei der YellowMap AG gelernt und getan habe. Dabei wird sich auf die Gesamtheit der Bemühungen begrenzt, die dazu galten das monolithische Serverdesign zu brechen und das bestehende System in ein verteiltes System zu wandeln.
+Ziel der Arbeit ist es vorzuzeigen was ich in den ersten beiden Semestern meines Studiums bei der YellowMap AG gelernt und getan habe. Dabei wird sich auf die Gesamtheit der Bemühungen begrenzt, die dazu galten das monolithische Serverdesign zu brechen und das bestehende System in ein verteiltes System zu wandeln. Zu diesem Zweck musste ich mich mit verschiedenen Arten der Serverkommunikation und Containerisierung beschäftigen. Im besonderen sollten dazu die beiden Technologien \gls{RabbitMQ} und \gls{Docker} verwendet werden. 
+
+Auch sollten die Container durch \gls{Kubernetes} erzeugbar sein, so dass eine spätere dynamische Skalierung möglich wäre.
 
 \paragraph{Vorab}
-Das System ist als Monolith entworfen, der dem Model 2 Entwurfsmuster folgt, besteht aber aus zwei verschiedenen und getrennten Systemen, den YM3 und YM4.
+Das System ist als Monolith entworfen, der dem Model 2 Entwurfsmuster folgt, besteht aber aus zwei verschiedenen und getrennten Systemen, dem YM3 und YM4. 
 
 
-\section{Serverkommunikation mit Massage Broker} \label{rabbit}
-Die erste Aufgabe, die ich bekam, war es eine interne Serverkommunikation sicherstellen zu können. Damit sollten die zur Zeit getrennt laufenden Server nicht mehr darauf zurückgreifen sich über das externe Netz via HTTP-Anfragen zu verständigen. 
-\subsection{Was macht ein Massage Broker?}
-\subsection{Warum ein Massage Broker? Warum RabbitMQ?}
-Erklärung warum Überhaupt und warum RabbitMQ
+\section{Serverkommunikation mit Message Broker} \label{rabbit}
+Die erste Aufgabe, die ich bekam, war es die interne Serverkommunikation sicherstellen zu können. Damit sollten die zur Zeit getrennt laufenden Server nicht mehr darauf zurückgreifen sich über das externe Netz via \gls{HTTP}-Anfragen zu verständigen. Im Hinblick auf die späteren Änderungen, die am System vorgeführt werden mussten um es zu verteilen, entschied man sich für einen Message Broker.
 
-\section{Containerisierung mit Docker} \label{docker}
+\subsection{Was macht ein Message Broker?}
+Ein Message Broker ist ein System zur Nachrichtenübertragung und Nachrichtenverteilung.
+
+\subsection{Warum ein Message Broker? Warum RabbitMQ?}
+In Hinblick auf die Containerisierung ist das Prinzip eines Message Brokers mehr als nützlich.
+Ein Broker kann einen Nachrichten-Pool schaffen, den er durch routing keys gezielt mit Nachrichten versorgt, die dann von den letztendlichen Verbrauchern Konsumiert werden können.
+
+Die Entscheidung dieses Prinzip mit RabbitMQ umzusetzen war eine einfache. RabbitMQ unterstützt nicht nur die komplette Spezifikation des \gls{AMQP}, es fügt auch nützliche Funktionen hinzu\cite{rabEx}.
+
+\section{Containerisierung mit \gls{Docker}} \label{docker}
 Warum Container? Warum Docker?
 
 \paragraph{Vorgehen und Funde?}
 docker docker docker
 
-\section{Skallierung mit Kubernetes} \label{kubernetes}
+\section{Skallierung mit \gls{Kubernetes}} \label{kubernetes}
 Warum überhaupt? Warum Kubernetes?
 
 \paragraph{Vorgehen und Funde?}
@@ -133,9 +143,6 @@ Jetzt kannst du schwadronieren.
 %-----------------------------------------------------------------
 
 \printbibliography
-
-Und vergiss\cite{andererKey} nicht den Dank, auf dem Deckblatt, in der finalen\cite{sinnvollerKey} Version zu entfernen 
-
-Notiz:
--Ein verteiltes System verbunden mit Dead-Letter-Exchange ist eine sehr schlechte Verbindung wenn es um Debugging geht...
+\newpage
+\printglossary
 \end{document}

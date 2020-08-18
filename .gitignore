@@ -1,3 +1,10 @@
+*.acn
+*.glg
+*.glo
+*.gls
+*.xdy
+*.ist
+*.idx
 *.thm
 *.pdf
 *.log
@@ -5,7 +12,6 @@
 *.bbl
 *.blg
 *.gz
-*.synctex.gz
 *.toc
 *.xml
 *.dvi
