@@ -104,23 +104,27 @@ Ziel der Arbeit ist es vorzuzeigen was ich in den ersten beiden Semestern meines
 Auch sollten die Container durch \gls{Kubernetes} erzeugbar sein, so dass eine spätere dynamische Skalierung möglich wäre.
 
 \paragraph{Vorab}
-Das System ist als Monolith entworfen, der dem Model 2 Entwurfsmuster folgt, besteht aber aus zwei verschiedenen und getrennten Systemen, dem YM3 und YM4. 
+Das System ist als Monolith entworfen, der dem Model 2 Entwurfsmuster folgt, besteht aber aus zwei verschiedenen und getrennten Systemen, den YM3 und YM4. 
 
 
 \section{Serverkommunikation mit Message Broker} \label{rabbit}
-Die erste Aufgabe, die ich bekam, war es die interne Serverkommunikation sicherstellen zu können. Damit sollten die zur Zeit getrennt laufenden Server nicht mehr darauf zurückgreifen sich über das externe Netz via \gls{HTTP}-Anfragen zu verständigen. Im Hinblick auf die späteren Änderungen, die am System vorgeführt werden mussten um es zu verteilen, entschied man sich für einen Message Broker.
+Die erste Aufgabe, die ich bekam, war es die interne Serverkommunikation sicherstellen zu können. Damit sollten die zur Zeit getrennt laufenden Server nicht mehr darauf zurückgreifen sich über das externe Netz via \gls{HTTP}-Anfragen zu verständigen. Im Hinblick auf die späteren Änderungen, die am System vorgenommen werden mussten um es zu verteilen, entschied man sich für einen Message Broker.
 
 \subsection{Was macht ein Message Broker?}
-Ein Message Broker ist ein System zur Nachrichtenübertragung und Nachrichtenverteilung.
+Ein Message Broker ist ein System zur Nachrichtenübertragung und Nachrichtenverteilung. Dafür fungiert der Message Broker selbst als der zentrale Umschlagplatz von dem aus Nachrichten Empfangen und Verteilt werden. Ebenso übersetzt er aktiv zwischen verschiedenen Protokollen\cite{mesBro}. 
 
 \subsection{Warum ein Message Broker? Warum RabbitMQ?}
+\paragraph{Warum ein Message Broker}
 In Hinblick auf die Containerisierung ist das Prinzip eines Message Brokers mehr als nützlich.
-Ein Broker kann einen Nachrichten-Pool schaffen, den er durch routing keys gezielt mit Nachrichten versorgt, die dann von den letztendlichen Verbrauchern Konsumiert werden können.
+Ein Message Broker kann einen Nachrichten-Pool schaffen, den er kontinuierlich und gezielt mit Nachrichten versorgt, die dann von den letztendlichen Verbrauchern konsumiert werden können. Dadurch schafft man ein Netz von Geräten, die nur noch eine zentrale Adresse kennen müssen und dadurch dynamischer und unabhängiger voneinander agieren können. 
 
-Die Entscheidung dieses Prinzip mit RabbitMQ umzusetzen war eine einfache. RabbitMQ unterstützt nicht nur die komplette Spezifikation des \gls{AMQP}, es fügt auch nützliche Funktionen hinzu\cite{rabEx}.
+\paragraph{Warum RabbitMQ}
+Die Entscheidung dieses Prinzip mit \gls{RabbitMQ} umzusetzen war eine Einfache. \gls{RabbitMQ} unterstützt nicht nur die komplette Spezifikation des \gls{AMQP}, es fügt auch nützliche Funktionen hinzu\cite{rabExt}.
+
+\subsection{Meeeen Jhot! Ich bin Jetzt DURCH.}
 
 \section{Containerisierung mit \gls{Docker}} \label{docker}
-Warum Container? Warum Docker?
+Docker ist ein Werkzeug zur Erstellung und Verwaltung von Containern. Container sind kleine voneinander unabhängige Umgebungen in denen Programme lauffähig und von außerhalb gezielt erreichbar sind.
 
 \paragraph{Vorgehen und Funde?}
 docker docker docker
