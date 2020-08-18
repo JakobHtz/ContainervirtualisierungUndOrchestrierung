@@ -1,0 +1,12 @@
+*.thm
+*.pdf
+*.log
+*.aux
+*.bbl
+*.blg
+*.gz
+*.synctex.gz
+*.toc
+*.xml
+*.dvi
+*.bcf
