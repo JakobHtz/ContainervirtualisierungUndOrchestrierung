@@ -99,13 +99,15 @@ In dieser Arbeit geht es um meine Tätigkeit bei der YellowMap AG und was ich in
 %-----------------------------------------------------------------------------------------------
 
 \section{Einf\"uhrung}
-Ziel der Arbeit ist es vorzuzeigen was ich in den ersten beiden Semestern meines Studiums bei der YellowMap AG gelernt und getan habe. Dabei wird sich auf die Gesamtheit der Bemühungen begrenzt, die dazu galten das monolithische Serverdesign zu brechen und das bestehende System in ein verteiltes System zu wandeln. Zu diesem Zweck musste ich mich mit verschiedenen Arten der Serverkommunikation und Containerisierung beschäftigen. Im besonderen sollten dazu die beiden Technologien \gls{RabbitMQ} und \gls{Docker} verwendet werden. 
+Ziel der Arbeit ist es vorzuzeigen was ich in den ersten beiden Semestern meines Studiums bei der YellowMap AG gelernt und getan habe. Dabei wird sich auf die Gesamtheit der Bemühungen begrenzt, die dazu galten die bestehende Serverstruktur zu brechen und einen Prototypen zu konzeptionieren, mit wessen Vorbild man das bestehende System in ein verteiltes System wandeln könnte. Zu diesem Zweck musste ich mich mit verschiedenen Arten der Serverkommunikation und Containerisierung beschäftigen. Im besonderen sollten dazu die beiden Technologien \gls{RabbitMQ} und \gls{Docker} verwendet werden. 
 
-Auch sollten die Container durch \gls{Kubernetes} erzeugbar sein, so dass eine spätere dynamische Skalierung möglich wäre.
+Auch sollten die Container durch \gls{Kubernetes} erzeugbar sein, so dass diese horizontal skaliert werden können.
+Diese drei Technologien galten als gegeben und mussten verwendet werden. 
 
-\paragraph{Vorab}
-Das System ist als Monolith entworfen, der dem Model 2 Entwurfsmuster folgt, besteht aber aus zwei verschiedenen und getrennten Systemen, den YM3 und YM4. 
+\paragraph{Das bisherige Serverdesign}
+Das bestehende System wurde entworfen damit viele Anwendungen unabhängig voneinander entwickelt werden können ohne dass jede Funktionalität in jeder neuen Anwendung auch neu geschrieben werden müsste. Dazu greifen alle Projekte auf die selbe Schnittstelle zu, diese bietet dann die einzelnen Funktionalitäten in einem einheitlichen Format. Diese Art der Kommunikation ermöglicht es unabhängig von Art der Anwendung die Anbindung an die internen Dienste sicherzustellen. Eine Anfrage eines Projekt auf diese Schnittstelle landet 
 
+Das bestehende System hat sich über die Jahre in zwei gespalten und besteht mittlerweile aus zwei verschiedenen Servern, dem Dreier-(YM3) und Vierersystem(YM4). Das Vierersystem ist das neuere System und war der Versuch das Dreiersystem zu ersetzen. Doch alle Funktionalitäten des Dreiersystems deckt das Vierersystem bis heute nicht ab und greift bei manchen Anfragen sogar selbst auf das Dreiersystem zurück. Dies läuft über eine gewöhnliche HTTP-Anfrage auf die API des Dreiersystems ab und läuft somit über das externe Netz. Wird also eine Anfrage auf das Vierersystem geschickt, dass es einen Ort mit Straße geocodieren solle, geht diese Nachricht als erstes an den Proxy des Vierersystems, der diese dann annimmt. Von hier aus geht sie zum System Call. Hier werden Partnerdaten ausgewertet und zum Beispiel auch der Provider für weitere Anfragen gesetzt. Nun wird ein Command oder eine Command Group aufgerufen, die dann die Daten weiterhin anreichern und dann eine Command Action aufruft. Diese führt dann die eigentliche Anfrage aus, aber in unserem Beispiel beinhaltet dies den Aufruf des Dreiersystems. Es wird eine Anfrage an das Dreiersystem gestellt, die dort angenommen und bis zur nächsten Command Action innerhalb des Dreiersystems geschleust wird, die dann endlich den Ort mit Straße geocodieren kann, womit eben Koordinaten und andere Informationen zu dem Gesuchten zurückgeliefert wird.
 
 \section{Serverkommunikation mit Message Broker} \label{rabbit}
 Die erste Aufgabe, die ich bekam, war es die interne Serverkommunikation sicherstellen zu können. Damit sollten die zur Zeit getrennt laufenden Server nicht mehr darauf zurückgreifen sich über das externe Netz via \gls{HTTP}-Anfragen zu verständigen. Im Hinblick auf die späteren Änderungen, die am System vorgenommen werden mussten um es zu verteilen, entschied man sich für einen Message Broker.
@@ -137,7 +139,7 @@ Kubernetes ist ein Werkzeug zur Erstellung und Verwaltung von Containerclustern.
 
 \subsection{Was ist Skalierung?}
 
-\subsection{Warum gls{Kubernetes}?} 
+\subsection{Warum \gls{Kubernetes}?} 
 
 \subsection{Umsetzung}
 
