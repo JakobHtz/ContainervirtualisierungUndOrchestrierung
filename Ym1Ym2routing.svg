@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg8"
+   inkscape:export-filename="C:\Users\Jakob.Heitzmann\Pictures\YM4YM3ROUTING.png"
+   inkscape:export-xdpi="676.27509"
+   inkscape:export-ydpi="676.27509"
+   inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
+   sodipodi:docname="Ym1Ym2routing.svg">
+  <defs
+     id="defs2">
+    <inkscape:path-effect
+       effect="powerstroke"
+       id="path-effect123"
+       is_visible="true"
+       lpeversion="1"
+       offset_points="0,0.1322915"
+       sort_points="true"
+       interpolator_type="CubicBezierJohan"
+       interpolator_beta="0.2"
+       start_linecap_type="zerowidth"
+       linejoin_type="extrp_arc"
+       miter_limit="4"
+       scale_width="1"
+       end_linecap_type="zerowidth" />
+    <inkscape:path-effect
+       effect="powerstroke"
+       id="path-effect119"
+       is_visible="true"
+       lpeversion="1"
+       offset_points="0,0.1322915"
+       sort_points="true"
+       interpolator_type="CubicBezierJohan"
+       interpolator_beta="0.2"
+       start_linecap_type="zerowidth"
+       linejoin_type="extrp_arc"
+       miter_limit="4"
+       scale_width="1"
+       end_linecap_type="zerowidth" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="4.0598241"
+     inkscape:cx="178.46083"
+     inkscape:cy="102.7998"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     inkscape:document-rotation="0"
+     showgrid="false"
+     inkscape:object-paths="true"
+     inkscape:object-nodes="false"
+     inkscape:snap-nodes="false"
+     inkscape:snap-others="false"
+     inkscape:snap-page="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="1912"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       id="rect111"
+       style="fill:#000000;stroke-width:0.264529"
+       d="m 115.50935,17.455863 c -0.0125,-0.0049 -0.0167,0.368348 -0.0186,1.086755 H 98.212214 v 1.500169 h 17.279046 c 0.002,0.632095 0.006,0.980321 0.0181,0.975651 0.99926,-0.395002 4.42764,-1.774277 4.42764,-1.781289 0,-0.007 -3.42838,-1.386284 -4.42764,-1.781286 z" />
+    <rect
+       style="fill:#ffaaaa;stroke-width:0.188445"
+       id="rect163"
+       width="35"
+       height="40"
+       x="10"
+       y="10"
+       ry="2.46225" />
+    <rect
+       style="fill:#008080;stroke-width:0.225959"
+       id="rect52"
+       width="30"
+       height="26"
+       x="12"
+       y="22"
+       ry="1.674576" />
+    <rect
+       style="fill:#e6e6e6;stroke-width:0.268214"
+       id="rect56"
+       width="20"
+       height="4"
+       x="16.999985"
+       y="24"
+       ry="1.3962263" />
+    <rect
+       ry="1.3962262"
+       y="30"
+       x="16.999985"
+       height="4"
+       width="20"
+       id="rect56-7"
+       style="fill:#e6e6e6;stroke-width:0.268214" />
+    <rect
+       ry="1.3962262"
+       y="36"
+       x="16.999985"
+       height="4"
+       width="9.5"
+       id="rect56-8"
+       style="fill:#e6e6e6;stroke-width:0.184854" />
+    <rect
+       ry="1.3962262"
+       y="42"
+       x="16.999985"
+       height="4"
+       width="20"
+       id="rect56-5"
+       style="fill:#e6e6e6;stroke-width:0.268214" />
+    <rect
+       ry="1.3962262"
+       y="36"
+       x="27.999985"
+       height="4"
+       width="9.5"
+       id="rect56-71"
+       style="fill:#e6e6e6;stroke-width:0.184853" />
+    <rect
+       style="fill:#008080;stroke-width:0.264179"
+       id="rect93"
+       width="30"
+       height="26"
+       x="51.999992"
+       y="22"
+       ry="1.6881137" />
+    <rect
+       style="fill:#e6e6e6;stroke-width:0.240734"
+       id="rect95"
+       width="20"
+       height="4"
+       x="56.999992"
+       y="24"
+       ry="1.5547434" />
+    <rect
+       ry="1.5547434"
+       y="42"
+       x="56.999992"
+       height="4"
+       width="20"
+       id="rect97"
+       style="fill:#e6e6e6;stroke-width:0.240734" />
+    <path
+       d="m 52.300697,29.60711 c -0.01356,0.0069 0.126553,0.146641 0.40209,0.410639 l -16.184006,12.403836 0.579105,0.548413 16.184489,-12.404202 c 0.246093,0.229479 0.384323,0.353857 0.393563,0.343685 0.783481,-0.861742 3.462246,-3.827108 3.459541,-3.82968 -0.0028,-0.0021 -3.746348,1.954367 -4.834782,2.527309 z"
+       style="fill:#000000;stroke-width:0.208211"
+       id="path151" />
+    <path
+       d="m 27.999968,29.592308 c 0.003,-10e-4 -0.20678,-0.002 -0.61008,-0.002 v -1.59061 h -0.84216 v 1.59068 c -0.35484,2e-4 -0.55033,6e-4 -0.5477,0.002 0.22174,0.092 0.99603,0.40762 0.99997,0.40762 0.004,-1e-5 0.77823,-0.31561 0.99997,-0.4076 z"
+       style="fill:#000000;stroke-width:0.0601357"
+       id="path153" />
+    <path
+       id="path155"
+       style="fill:#000000;stroke-width:0.0601357"
+       d="m 22.999968,35.592308 c 0.003,-0.001 -0.20678,-0.002 -0.61008,-0.002 v -1.59061 h -0.84216 v 1.59068 c -0.35484,2e-4 -0.55033,6e-4 -0.5477,0.002 0.22174,0.092 0.99603,0.40762 0.99997,0.40762 0.004,-10e-6 0.77823,-0.31561 0.99997,-0.4076 z" />
+    <path
+       d="m 22.999968,41.592308 c 0.003,-0.001 -0.20678,-0.002 -0.61008,-0.002 v -1.59061 h -0.84216 v 1.59068 c -0.35484,2e-4 -0.55033,6e-4 -0.5477,0.002 0.22174,0.092 0.99603,0.40762 0.99997,0.40762 0.004,-10e-6 0.77823,-0.31561 0.99997,-0.4076 z"
+       style="fill:#000000;stroke-width:0.0601357"
+       id="path157" />
+    <path
+       d="m 67.999978,39.146718 c 0.003,-0.008 -0.20679,-0.0108 -0.61008,-0.012 v -11.13468 h -0.84216 v 11.13506 c -0.35485,10e-4 -0.55033,0.004 -0.54771,0.0116 0.22174,0.64399 0.99604,2.85332 0.99997,2.85332 0.004,5e-5 0.77823,-2.20933 0.99998,-2.85328 z"
+       style="fill:#000000;stroke-width:0.159107"
+       id="path159" />
+    <rect
+       style="fill:#008080;stroke-width:0.237171"
+       id="rect165"
+       width="15"
+       height="9"
+       x="12"
+       y="12"
+       ry="1.4390379" />
+    <rect
+       ry="1.4390379"
+       y="12"
+       x="28"
+       height="9"
+       width="15"
+       id="rect167"
+       style="fill:#008080;stroke-width:0.237171" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:2.72101px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.0680257"
+       x="12.123538"
+       y="9.3970165"
+       id="text171"
+       transform="scale(0.98915959,1.0109592)"><tspan
+         sodipodi:role="line"
+         id="tspan169"
+         x="12.123538"
+         y="9.3970165"
+         style="stroke-width:0.0680257">YM4</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:2.68377px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.0670945"
+       x="56.081131"
+       y="21.808584"
+       id="text175"
+       transform="scale(1.0162422,0.9840174)"><tspan
+         sodipodi:role="line"
+         id="tspan173"
+         x="56.081131"
+         y="21.808584"
+         style="stroke-width:0.0670945">YM3</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:1.76389px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.0466423"
+       x="23.244774"
+       y="23.827555"
+       id="text179"
+       transform="scale(0.89640273,1.11557)"><tspan
+         sodipodi:role="line"
+         id="tspan177"
+         x="23.244774"
+         y="23.827555"
+         style="font-size:1.76389px;stroke-width:0.0466423">Request/Proxy</tspan></text>
+    <text
+       transform="scale(0.91082645,1.097904)"
+       id="text183"
+       y="29.675915"
+       x="24.029852"
+       style="font-style:normal;font-weight:normal;font-size:1.76389px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.0473928"
+       xml:space="preserve"><tspan
+         style="font-size:1.76389px;stroke-width:0.0473928"
+         y="29.675915"
+         x="24.029852"
+         id="tspan181"
+         sodipodi:role="line">System Call</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:2.64376px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.0660943"
+       x="13.799025"
+       y="15.900031"
+       id="text187"
+       transform="scale(0.99593063,1.004086)"><tspan
+         sodipodi:role="line"
+         id="tspan185"
+         x="13.799025"
+         y="15.900031"
+         style="stroke-width:0.0660943">MVC</tspan></text>
+    <text
+       transform="scale(1.0022836,0.99772158)"
+       id="text191"
+       y="16.036541"
+       x="29.896646"
+       style="font-style:normal;font-weight:normal;font-size:2.75712px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.0689284"
+       xml:space="preserve"><tspan
+         style="stroke-width:0.0689284"
+         y="16.036541"
+         x="29.896646"
+         id="tspan189"
+         sodipodi:role="line">API</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:1.76389px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.0548027"
+       x="23.424829"
+       y="33.090759"
+       id="text195"
+       transform="scale(0.8493318,1.1773962)"><tspan
+         sodipodi:role="line"
+         id="tspan193"
+         x="23.424829"
+         y="33.090759"
+         style="font-size:1.76389px;stroke-width:0.0548027">Cmd</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:1.77676px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.0444191"
+       x="33.285309"
+       y="33.149303"
+       id="text199"
+       transform="scale(0.85367477,1.1714063)"><tspan
+         sodipodi:role="line"
+         id="tspan197"
+         x="33.285309"
+         y="33.149303"
+         style="font-size:1.76389px;stroke-width:0.0444191">Cmd Group</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:1.76389px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.0508298"
+       x="29.463194"
+       y="35.418499"
+       id="text203"
+       transform="scale(0.78776165,1.2694195)"><tspan
+         sodipodi:role="line"
+         id="tspan201"
+         x="29.463194"
+         y="35.418499"
+         style="font-size:1.76389px;stroke-width:0.0508298">Cmd Action</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:1.76389px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.0548665"
+       x="73.44355"
+       y="22.320051"
+       id="text207"
+       transform="scale(0.82781958,1.2079927)"><tspan
+         sodipodi:role="line"
+         id="tspan205"
+         x="73.44355"
+         y="22.320051"
+         style="font-size:1.76389px;stroke-width:0.0548665">GIS XML Service</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:1.76389px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.0535793"
+       x="75.628288"
+       y="37.334385"
+       id="text211"
+       transform="scale(0.83037388,1.2042768)"><tspan
+         sodipodi:role="line"
+         id="tspan209"
+         x="75.628288"
+         y="37.334385"
+         style="font-size:1.76389px;stroke-width:0.0535793">Cmd Action</tspan></text>
+  </g>
+</svg>
