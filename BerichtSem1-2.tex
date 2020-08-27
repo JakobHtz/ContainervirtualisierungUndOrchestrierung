@@ -39,12 +39,13 @@
 
 \begin{figure}[t!]
 	\begin{subfigure}{0.4\linewidth}
-		\includegraphics[scale=0.25]{DHBWKarlsruhe.jpg}
+		\includegraphics[scale=0.25]{DHBWKarlsruhe.jpg} 
 	\end{subfigure}
 	\hspace*{\fill}
 	\begin{subfigure}{0.4\linewidth}
     	\includegraphics[scale=0.25]{YellowMap.png}
-	\end{subfigure} 
+	\end{subfigure}
+	\caption[https://www.aldi-sued.de/filialen/]{DHBW}
 \end{figure}
 
 \maketitle
@@ -99,15 +100,20 @@ In dieser Arbeit geht es um meine Tätigkeit bei der YellowMap AG und was ich in
 %-----------------------------------------------------------------------------------------------
 
 \section{Einf\"uhrung}
-Ziel der Arbeit ist es vorzuzeigen was ich in den ersten beiden Semestern meines Studiums bei der YellowMap AG gelernt und getan habe. Dabei wird sich auf die Gesamtheit der Bemühungen begrenzt, die dazu galten die bestehende Serverstruktur zu brechen und einen Prototypen zu konzeptionieren, mit wessen Vorbild man das bestehende System in ein verteiltes System wandeln könnte. Zu diesem Zweck musste ich mich mit verschiedenen Arten der Serverkommunikation und Containerisierung beschäftigen. Im besonderen sollten dazu die beiden Technologien \gls{RabbitMQ} und \gls{Docker} verwendet werden. 
+Ziel der Arbeit ist es vorzuzeigen was ich in den ersten beiden Semestern meines Studiums bei der YellowMap AG gelernt und getan habe. Dabei wird sich auf die Gesamtheit der Bemühungen begrenzt, die dazu galten die bestehende Serverstruktur zu brechen und einen Prototypen zu konzeptionieren, mit wessen Vorbild man das bestehende System in ein verteiltes System wandeln könnte. Zu diesem Zweck musste ich mich mit verschiedenen Arten der Serverkommunikation und Containerisierung beschäftigen.
 
-Auch sollten die Container durch \gls{Kubernetes} erzeugbar sein, so dass diese horizontal skaliert werden können.
-Diese drei Technologien galten als gegeben und mussten verwendet werden. 
+\subsection{Kontextuelle Betrachtung der Rahmenbedingungen}
+
+YellowMap entwickelt und hostet in erster Linie Kartenanwendungen, bietet Entwicklern aber auch mit einer Java-Script-API die Möglichkeit mit wenig Selbstaufwand selbst eine solche Anwendung zu Entwickeln. Dabei laufen die Dienste mit allen gängigen großen Kartenanbietern so wie Google, OSM, Bing und sogar Baidu. Exemplarische Lösungen, die YellowMap anbietet, sind zum Beispiel die FilialFinder, mit denen alle Filialen eines Klienten auf dessen Webseite angezeigt werden können. Die Anzeige erfolgt natürlich auf einer Karte. Gesucht wird für gewöhnlich mit einer Umkreissuche auf den Standort des Gerätes. Die Gefundenen Filialen können auch neben der Karte auch auf einer Liste sortiert ausgegeben werden.\\
+Im umrissenen Zeitraum habe ich viele Tätigkeiten besonders in den Bereichen Backend und Testing übernommen. Doch auch ein paar kleinere Aufgaben im Bereich Frontend fielen mir zu. Gearbeitet habe ich mit .NET Core, Gatling, HTTP, CSS, JavaScript, Docker, Kubernetes und RabbitMQ. 
+Darunter war die Entwicklung eines Dienstes, der dazu fähig ist Termindaten von einer Datenbank zu ziehen und diese dann auf kleinen E-Paper-Bildschirmen anzuzeigen was vollständig in C\# realisiert wurde. Auch entwickelte ich zu Demozwecken Testwebseiten die Funktionen der JavaScript API präsentieren sollten. Ein anderes Projekt war die Realisierung von Stresstests auf ein schon bestehendes Projekt mittels Gatling. Dafür musste ich mich in die Programmiersprache Scala und Maven einarbeiten. 
+
+Das Projekt, auf das ich in diesem Bericht näher eingehen möchte war nun die Entwicklung eines Prototypen zur Containerisierung und automatischen horizontalen Skalierung mittels Docker und Kubernetes, sowie die Entwicklung eines Prototypen für die Serverkommunikation mit Message Broker mittels RabbitMQ. Für diese Aufgabe wurden diese Technologien vorgegeben. 
 
 \paragraph{Das bisherige Serverdesign}
-Das bestehende System wurde entworfen damit viele Anwendungen unabhängig voneinander entwickelt werden können ohne dass jede Funktionalität in jeder neuen Anwendung auch neu geschrieben werden müsste. Dazu greifen alle Projekte auf die selbe Schnittstelle zu, diese bietet dann die einzelnen Funktionalitäten in einem einheitlichen Format. Diese Art der Kommunikation ermöglicht es unabhängig von Art der Anwendung die Anbindung an die internen Dienste sicherzustellen. Eine Anfrage eines Projekt auf diese Schnittstelle landet 
+Das bestehende System wurde entworfen damit viele Anwendungen unabhängig voneinander entwickelt werden können ohne dass jede Funktionalität in jeder neuen Anwendung auch neu geschrieben werden müsste. Dazu greifen alle Projekte auf die selbe Schnittstelle zu, diese bietet dann die einzelnen Funktionalitäten in einem einheitlichen Format. Diese Art der Kommunikation ermöglicht es unabhängig von Art der Anwendung die Anbindung an die internen Dienste sicherzustellen. Eine Anfrage eines Projekt auf diese Schnittstelle landet als erstes am Proxy der Core, also zu deutsch dem Kern, hier wird die Anfrage angenommen und auf erster Ebene Authentifiziert. Diese Anfrage wird dann an den System Call weitergeleitet. Hier befindet sich der Partnerschalter. Er reichert die Daten der Anfrage mit den Daten zum gelieferten Partner aus der Datenbank an. Heißt er schaut zum Beispiel von welchem Provider der Partner seine Daten beziehen möchte und trifft dem entsprechend Vorkehrungen, dass die Daten in den folgenden Aufrufen und Aktionen richtig weitergegeben und verarbeitet werden. Auch wird hier die auszuführende Aktion ermittelt und der dazugehörige Befehl in Form eines Commands oder einer Command-Group. Ein Command reichert die Daten nun weiter an und reicht dann an eine Provider spezifische Command-Action weiter, die die angefragte Aktion dann ausführt. In Abb. 1 sehen wir so einen Aufruf, der dann aber Beispielshalber auf einen Lagacy-System zugreift, das wiederum selbst eine eigene Command-Action besitzt, die die Anfrage dann letztendlich ausführt. Diese Legacy-Systeme werden aber in dieser Arbeit nicht weiter betrachtet, da diese nicht mehr aktiv weiterentwickelt werden. 
 
-Das bestehende System hat sich über die Jahre in zwei gespalten und besteht mittlerweile aus zwei verschiedenen Servern, dem Dreier-(YM3) und Vierersystem(YM4). Das Vierersystem ist das neuere System und war der Versuch das Dreiersystem zu ersetzen. Doch alle Funktionalitäten des Dreiersystems deckt das Vierersystem bis heute nicht ab und greift bei manchen Anfragen sogar selbst auf das Dreiersystem zurück. Dies läuft über eine gewöhnliche HTTP-Anfrage auf die API des Dreiersystems ab und läuft somit über das externe Netz. Wird also eine Anfrage auf das Vierersystem geschickt, dass es einen Ort mit Straße geocodieren solle, geht diese Nachricht als erstes an den Proxy des Vierersystems, der diese dann annimmt. Von hier aus geht sie zum System Call. Hier werden Partnerdaten ausgewertet und zum Beispiel auch der Provider für weitere Anfragen gesetzt. Nun wird ein Command oder eine Command Group aufgerufen, die dann die Daten weiterhin anreichern und dann eine Command Action aufruft. Diese führt dann die eigentliche Anfrage aus, aber in unserem Beispiel beinhaltet dies den Aufruf des Dreiersystems. Es wird eine Anfrage an das Dreiersystem gestellt, die dort angenommen und bis zur nächsten Command Action innerhalb des Dreiersystems geschleust wird, die dann endlich den Ort mit Straße geocodieren kann, womit eben Koordinaten und andere Informationen zu dem Gesuchten zurückgeliefert wird.
+Das System ist also kein Monolithisches, da es aus vielen Einzelprojekten besteht, die größtenteils unabhängig von einander agieren können, aber es ist ebenso kein verteiltes System, da sich trotz des modularen Designs alles auf dem selben Server befindet.
 
 \section{Serverkommunikation mit Message Broker} \label{rabbit}
 Die erste Aufgabe, die ich bekam, war es die interne Serverkommunikation sicherstellen zu können. Damit sollten die zur Zeit getrennt laufenden Server nicht mehr darauf zurückgreifen sich über das externe Netz via \gls{HTTP}-Anfragen zu verständigen. Im Hinblick auf die späteren Änderungen, die am System vorgenommen werden mussten um es zu verteilen, entschied man sich für einen Message Broker.
@@ -156,4 +162,6 @@ Kubernetes ist ein Werkzeug zur Erstellung und Verwaltung von Containerclustern.
 \printbibliography
 \newpage
 \printglossary
+\newpage
+\listoffigures
 \end{document}
