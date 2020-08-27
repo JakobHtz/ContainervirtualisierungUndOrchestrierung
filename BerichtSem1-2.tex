@@ -7,7 +7,8 @@
 \usepackage{subcaption}	% Für die Subfigures
 \usepackage{geometry}	% Seitengröße
 \usepackage[backend=biber,style=numeric,]{biblatex}	% Fürs Literatursverzeichis
-\usepackage{glossaries}\makeglossaries
+\usepackage{glossaries}
+\makeglossaries
 \geometry{
   left=3cm,
   right=3cm,
@@ -22,12 +23,16 @@
 % Deckblatt Titel und co.
 %------------------------
 
-\title{Praxisbericht\thanks{Damke am m1 Mamer uwu}}
-\author{R\"uckblick auf die Semester 1 und 2\\
-	Studiengang Informatik\\
-	Studienrichtung Informatik\\
-	DHBW Karlsruhe\\
-	von Jakob Jonathan Heitzmann
+\title{\Large{\bfseries Containerisierung und horizontale Skalierung}\vspace{1cm}
+	\large PRAXISBERICHT\vspace{1cm}}
+\author{für die Prüfung zum\\\\
+	Bachelor of Engineering/Bachelor of Science\\\\
+	des Studiengangs Informatik\\
+	Studienrichtung Angewandte Informatik\\\\
+	an der\\\\
+	Dualen Hochschule Baden-Württemberg Karlsruhe\\\\\\
+	von\\\\
+	Jakob Jonathan Heitzmann
 }
 \date{\today}
 
@@ -45,7 +50,7 @@
 	\begin{subfigure}{0.4\linewidth}
     	\includegraphics[scale=0.25]{YellowMap.png}
 	\end{subfigure}
-	\caption[https://www.aldi-sued.de/filialen/]{DHBW}
+	%\caption[https://www.aldi-sued.de/filialen/]{DHBW} Caption für Abbildungsverzeichnis
 \end{figure}
 
 \maketitle
@@ -55,23 +60,24 @@
 % Deckblatt unten
 %----------------
 
-\begin{center}
-	\begin{tabular}{p{8cm}r}
-		Matrikelnummer & 9119328\\
-		Kurs & TINF19B4\\
-		Ausbildungsfirma & YellowMap AG, Karlsruhe\\
-		Betreuer & Markus Lind
-	\end{tabular}
-\end{center}
+
+\begin{tabular}{p{5cm}rr}
+	Matrikelnummer & 9119328\\
+	Kurs & TINF19B4\\
+	Ausbildungsfirma & YellowMap AG & Karlsruhe\\
+	Betreuer & Markus Lind
+\end{tabular}
+
 \newpage
 
 %--------------------------
 % Eidesstattliche Erklärung
 %--------------------------
 
-\section*{Eidesstattliche Erkl\"arung}
+\section*{Erkl\"arung}
 
 Gem\"a\ss\ \S\ 5 (3) der ''Studien- und Pr\"ufungsordnung DHBW Technik'' vom 29. September 2017 erkl\"are ich, Jakob Jonathan Heitzmann, dass ich die vorliegende Arbeit selbstst\"andig verfasst und keine anderen als die angegebenen Quellen und Hilfsmittel verwendet habe, sowie dass die physisch-vorliegende Version der Digitalen identisch ist.\\
+
 \hspace*{0.5cm}
 Karlsruhe, den \today
 
@@ -164,4 +170,6 @@ Kubernetes ist ein Werkzeug zur Erstellung und Verwaltung von Containerclustern.
 \printglossary
 \newpage
 \listoffigures
+\newpage
+\listoftables
 \end{document}
