@@ -1,4 +1,4 @@
-\documentclass[12pt,a4paper]{article}
+\documentclass[12pt,a4paper]{scrartcl}
 \usepackage[utf8]{inputenc}% ermöglich die direkte Eingabe der Umlaute 
 \usepackage[T1]{fontenc} % das Trennen der Umlaute
 \usepackage[ngerman]{babel} % hiermit werden deutsche Bezeichnungen genutzt 
@@ -8,7 +8,12 @@
 \usepackage{geometry}	% Seitengröße
 \usepackage[backend=biber,style=numeric,]{biblatex}	% Fürs Literatursverzeichis
 \usepackage{glossaries}
+\usepackage{caption}
+\usepackage{chngcntr}
 \makeglossaries
+\counterwithin{figure}{page}
+\counterwithin{table}{page}
+\usepackage{titling}
 \geometry{
   left=3cm,
   right=3cm,
@@ -23,25 +28,9 @@
 % Deckblatt Titel und co.
 %------------------------
 
-\title{\Large{\bfseries Containerisierung und horizontale Skalierung}\vspace{1cm}
-	\large PRAXISBERICHT\vspace{1cm}}
-\author{für die Prüfung zum\\\\
-	Bachelor of Engineering/Bachelor of Science\\\\
-	des Studiengangs Informatik\\
-	Studienrichtung Angewandte Informatik\\\\
-	an der\\\\
-	Dualen Hochschule Baden-Württemberg Karlsruhe\\\\\\
-	von\\\\
-	Jakob Jonathan Heitzmann
-}
-\date{\today}
-\begin{document}
-
-%-------
-% Bilder
-%-------
-
-\begin{figure}[t!]
+\pretitle{%
+\begin{center}
+  \begin{figure}[h!]
 	\begin{subfigure}{0.4\linewidth}
 		\includegraphics[scale=0.25]{DHBWKarlsruhe.jpg} 
 	\end{subfigure}
@@ -49,8 +38,27 @@
 	\begin{subfigure}{0.4\linewidth}
     	\includegraphics[scale=0.25]{YellowMap.png}
 	\end{subfigure}
-	%\caption[https://www.aldi-sued.de/filialen/]{DHBW} Caption für Abbildungsverzeichnis
 \end{figure}
+}
+\posttitle{\end{center}}
+\title{\Large{\bfseries Containerisierung und horizontale Skalierung}\vspace{1cm}
+	\large PRAXISBERICHT\vspace{1cm}}
+\author{
+	\normalsize für die Prüfung zum\\\\
+	\normalsize Bachelor of Engineering/Bachelor of Science\\\\
+	\normalsize des Studiengangs Informatik\\
+	\normalsize Studienrichtung Angewandte Informatik\\\\
+	\normalsize an der\\\\
+	\normalsize Dualen Hochschule Baden-Württemberg Karlsruhe\\\\\\
+	\normalsize von\\\\
+	\normalsize Jakob Jonathan Heitzmann
+}
+\date{\today}
+\begin{document}
+
+%-------
+% Bilder
+%-------
 
 \maketitle
 \vspace*{\fill}
@@ -99,6 +107,7 @@ In dieser Arbeit geht es um meine Tätigkeit bei der YellowMap AG und was ich in
 \newpage
 
 \tableofcontents
+\addcontentsline{toc}{section}{Inhaltsverzeichnis}
 \newpage
 
 %-----------------------------------------------------------------------------------------------
@@ -110,30 +119,49 @@ Ziel der Arbeit ist es vorzuzeigen was ich in den ersten beiden Semestern meines
 
 \subsection{Kontextuelle Betrachtung der Rahmenbedingungen}
 
-YellowMap entwickelt und hostet in erster Linie Kartenanwendungen, bietet Entwicklern aber auch mit einer Java-Script-API die Möglichkeit mit wenig Selbstaufwand selbst eine solche Anwendung zu Entwickeln. Dabei laufen die Dienste mit allen gängigen großen Kartenanbietern so wie Google, OSM, Bing und sogar Baidu. Exemplarische Lösungen, die YellowMap anbietet, sind zum Beispiel die FilialFinder, mit denen alle Filialen eines Klienten auf dessen Webseite angezeigt werden können. Die Anzeige erfolgt natürlich auf einer Karte. Gesucht wird für gewöhnlich mit einer Umkreissuche auf den Standort des Gerätes. Die Gefundenen Filialen können auch neben der Karte auch auf einer Liste sortiert ausgegeben werden.\\
+YellowMap entwickelt und hostet in erster Linie Kartenanwendungen, bietet Entwicklern aber auch mit einer Java-Script-API die Möglichkeit mit wenig Selbstaufwand selbst eine solche Anwendung zu Entwickeln. Dabei laufen die Dienste mit allen gängigen großen Kartenanbietern so wie Google, OSM, Bing und sogar Baidu. Exemplarische Lösungen, die YellowMap anbietet, sind zum Beispiel die FilialFinder, mit denen alle Filialen eines Klienten auf dessen Webseite angezeigt werden können. Die Anzeige erfolgt natürlich auf einer Karte. Gesucht wird für gewöhnlich mit einer Umkreissuche auf den Standort des Gerätes. Die Gefundenen Filialen können auch neben der Karte auch auf einer Liste sortiert ausgegeben werden.
+
+\begin{figure}[h!]
+	\includegraphics[scale=0.55]{YmFF.png}
+	\caption{FilialFinder}
+\end{figure}
+
 Im umrissenen Zeitraum habe ich viele Tätigkeiten besonders in den Bereichen Backend und Testing übernommen. Doch auch ein paar kleinere Aufgaben im Bereich Frontend fielen mir zu. Gearbeitet habe ich mit .NET Core, Gatling, HTML, CSS, JavaScript, Docker, Kubernetes und RabbitMQ. 
 Darunter war die Entwicklung eines Dienstes, der dazu fähig ist Termindaten von einer Datenbank zu ziehen und diese dann auf kleinen E-Paper-Bildschirmen anzuzeigen was vollständig in C\# realisiert wurde. Auch entwickelte ich zu Demozwecken Testwebseiten die Funktionen der JavaScript API präsentieren sollten. Ein anderes Projekt war die Realisierung von Stresstests auf ein schon bestehendes Projekt mittels Gatling. Dafür musste ich mich in die Programmiersprache Scala und Maven einarbeiten. 
 
 Das Projekt, auf das ich in diesem Bericht näher eingehen möchte war nun die Entwicklung eines Prototypen zur Containerisierung und automatischen horizontalen Skalierung mittels Docker und Kubernetes, sowie die Entwicklung eines Prototypen für die Serverkommunikation mit Message Broker mittels RabbitMQ. Für diese Aufgabe wurden diese Technologien vorgegeben. 
 
 \subsection{Das bisherige Serverdesign}
-Das bestehende System wurde entworfen damit viele Anwendungen unabhängig voneinander entwickelt werden können ohne dass jede Funktionalität in jeder neuen Anwendung auch neu geschrieben werden müsste. Dazu greifen alle Projekte auf die selbe Schnittstelle zu, diese bietet dann die einzelnen Funktionalitäten in einem einheitlichen Format. Diese Art der Kommunikation ermöglicht es unabhängig von Art der Anwendung die Anbindung an die internen Dienste sicherzustellen. Eine Anfrage eines Projekt auf diese Schnittstelle landet als erstes am Proxy der Core, also zu deutsch dem Kern, hier wird die Anfrage angenommen und auf erster Ebene Authentifiziert. Diese Anfrage wird dann an den System Call weitergeleitet. Hier befindet sich der Partnerschalter. Er reichert die Daten der Anfrage mit den Daten zum gelieferten Partner aus der Datenbank an. Heißt er schaut zum Beispiel von welchem Provider der Partner seine Daten beziehen möchte und trifft dem entsprechend Vorkehrungen, dass die Daten in den folgenden Aufrufen und Aktionen richtig weitergegeben und verarbeitet werden. Auch wird hier die auszuführende Aktion ermittelt und der dazugehörige Befehl in Form eines Commands oder einer Command-Group. Ein Command reichert die Daten nun weiter an und reicht dann an eine Provider spezifische Command-Action weiter, die die angefragte Aktion dann ausführt. In Abb. 1 sehen wir so einen Aufruf, der dann aber Beispielshalber auf einen Lagacy-System zugreift, das wiederum selbst eine eigene Command-Action besitzt, die die Anfrage dann letztendlich ausführt. Diese Legacy-Systeme werden aber in dieser Arbeit nicht weiter betrachtet, da diese nicht mehr aktiv weiterentwickelt werden. 
+Das bestehende System wurde entworfen damit viele Anwendungen unabhängig voneinander entwickelt werden können ohne dass jede Funktionalität in jeder neuen Anwendung auch neu geschrieben werden müsste. Dazu greifen alle Projekte auf die selbe Schnittstelle zu, diese bietet dann die einzelnen Funktionalitäten in einem einheitlichen Format. Diese Art der Kommunikation ermöglicht es unabhängig von Art der Anwendung die Anbindung an die internen Dienste sicherzustellen. Eine Anfrage eines Projekt auf diese Schnittstelle landet als erstes am Proxy der Core, also zu deutsch dem Kern, hier wird die Anfrage angenommen und auf erster Ebene Authentifiziert. Diese Anfrage wird dann an den System Call weitergeleitet. Hier befindet sich der Partnerschalter. Er reichert die Daten der Anfrage mit den Daten zum gelieferten Partner aus der Datenbank an. Heißt er schaut zum Beispiel von welchem Provider der Partner seine Daten beziehen möchte und trifft dem entsprechend Vorkehrungen, dass die Daten in den folgenden Aufrufen und Aktionen richtig weitergegeben und verarbeitet werden. Auch wird hier die auszuführende Aktion ermittelt und der dazugehörige Befehl in Form eines Commands oder einer Command-Group. Ein Command reichert die Daten nun weiter an und reicht dann an eine Provider spezifische Command-Action weiter, die die angefragte Aktion dann ausführt. In Abbildung 7.1 sehen wir so einen Aufruf, der dann aber Beispielshalber auf einen Lagacy-System zugreift, das wiederum selbst eine eigene Command-Action besitzt, die die Anfrage dann letztendlich ausführt. Diese Legacy-Systeme werden aber in dieser Arbeit nicht weiter betrachtet, da diese nicht mehr aktiv weiterentwickelt werden. 
+
+\newpage
+
+\begin{figure}[h!]
+	\includegraphics[scale=2]{YmSysReq.png}
+	\caption{Beispielanfrage}
+\end{figure}
 
 Das System ist also kein Monolithisches, da es aus vielen Einzelprojekten besteht, die größtenteils unabhängig von einander agieren können, aber es ist ebenso kein verteiltes System, da sich trotz des modularen Designs alles auf dem selben Server befindet.
 
 \section{Serverkommunikation mit Message Broker} \label{rabbit}
-Zuerst begann ich den Prototypen für die Serverkommunikation mittels Message Broker zu konzeptionieren. Der Message Broker sollte eine neue interne Schnittstelle zwischen dem Serversystem und dem Legacy-System etablieren, da diese zuvor via normale HTTP-Aufrufe, die über das externe Netz gingen, realisiert wurde. 
+Zuerst begann ich den Prototypen für die Serverkommunikation mittels Message Broker zu konzeptionieren. Der Message Broker sollte eine neue interne Schnittstelle zwischen dem Serversystem und dem Legacy-System etablieren, da diese zuvor via normale HTTP-Aufrufe, die über das externe Netz gingen, realisiert wurde. Dies benötigte das Herauslösen eigenständiger Komponenten des Legacy-Systems und die Umwandlung dieser in sogenannte Microservices. Im Hinblick auf die späteren Änderungen, die noch an dem System vorgenommen werden sollten, sollte auch die Möglichkeit betrachtet werden, die Protokollierung von Systemdaten über den Message Broker auf eine Vielzahl von Empfängersystemen zu ermöglichen. 
 
 \subsection{Funktion eines Message Brokers}
-Ein Message Broker ist ein System zur Nachrichtenübertragung und Nachrichtenverteilung. Dafür fungiert der Message Broker selbst als der zentrale Umschlagplatz von dem aus Nachrichten Empfangen und Verteilt werden. Ebenso übersetzt er aktiv zwischen verschiedenen Protokollen\cite{mesBro}. 
+Ein Message Broker ist ein System zur Nachrichtenübertragung und Nachrichtenverteilung. Dafür fungiert der Message Broker selbst als der zentrale Umschlagplatz von dem aus Nachrichten Empfangen und Verteilt werden. Ebenso übersetzt er aktiv zwischen verschiedenen Protokollen\cite{mesBro}. Er stellt eine Art Middleware da, was bedeutet, dass er als neutrale Komponente im System nur für die Vermittlung von Information zwischen anderen Komponenten verantwortlich ist.
 
-\subsection{Warum ein Message Broker? Warum RabbitMQ?}
-\paragraph{Warum ein Message Broker}
+\subsection{Anwendungsspezifische Betrachtung}
 In Hinblick auf die Containerisierung ist das Prinzip eines Message Brokers mehr als nützlich.
 Ein Message Broker kann einen Nachrichten-Pool schaffen, den er kontinuierlich und gezielt mit Nachrichten versorgt, die dann von den letztendlichen Verbrauchern konsumiert werden können. Dadurch schafft man ein Netz von Geräten, die nur noch eine zentrale Adresse kennen müssen und dadurch dynamischer und unabhängiger voneinander agieren können. 
 
-\paragraph{Warum RabbitMQ}
-Die Entscheidung dieses Prinzip mit \gls{RabbitMQ} umzusetzen war eine Einfache. \gls{RabbitMQ} unterstützt nicht nur die komplette Spezifikation des \gls{AMQP}, es fügt auch nützliche Funktionen hinzu\cite{rabExt}.
+\begin{figure}[h!]
+	\includegraphics[scale=1.8]{MesBroSys.png}
+	\caption{Serversystem mit Message Broker}
+\end{figure}
+
+In Abbildung 8.1 sehen wir wie der Message Broker seine Funktion als Middleware zwischen einem API-Gateway und mehreren Diensten erfüllt.  
+
+\subsection{RabbitMQ}
+RabbitMQ unterstützt nicht nur die komplette Spezifikation des \gls{AMQP}, es fügt auch nützliche Funktionen hinzu\cite{rabExt}.
 
 \subsection{Implementierung}
 
@@ -166,10 +194,14 @@ Kubernetes ist ein Werkzeug zur Erstellung und Verwaltung von Containerclustern.
 %-----------------------------------------------------------------
 
 \printbibliography
+\addcontentsline{toc}{section}{Literaturverzeichnis}
 \newpage
 \printglossary
+\addcontentsline{toc}{section}{Glossar}
 \newpage
 \listoffigures
+\addcontentsline{toc}{section}{Abbildungsverzeichnis}
 \newpage
 \listoftables
+\addcontentsline{toc}{section}{Tabellenverzeichnis}
 \end{document}
