@@ -161,7 +161,18 @@ Ein Message Broker kann einen Nachrichten-Pool schaffen, den er kontinuierlich u
 In Abbildung 8.1 sehen wir wie der Message Broker seine Funktion als Middleware zwischen einem API-Gateway und mehreren Diensten erfüllt.  
 
 \subsection{RabbitMQ}
-RabbitMQ unterstützt nicht nur die komplette Spezifikation des \gls{AMQP}, es fügt auch nützliche Funktionen hinzu\cite{rabExt}.
+RabbitMQ ist ein Open-Source-Message-Broker, der das Advanced-Message-Queuing-Protokoll (AMQP) unterstützt und sogar um einige nützliche Funktionalitäten erweitert\cite{rabExt}.
+Darunter ist eine grafische Managementoberfläche und Unterstützung für Remote-Procedure-Calls (RPC). Dies sind beides Funktionen die enormst praktisch für die vorgesehene Verwendung sind.
+
+Mittels grafischer Managementoberfläche wird die Fehlersuche immens einfacher Gestaltet. Sie zeigt an, an welchen Endpunkten Nachrichten eingetroffen sind, wie viele es sind, ob ein Endpunkt gemeldete Konsumenten hat und vieles mehr. Mit ihr kann man ebenfalls sämtliche Konstrukte selbst erzeugen und die Nachrichten im allgemeinen Verwalten. 
+
+Ein RPC ermöglicht es uns eine Funktion auf einem anderen Gerät auszuführen und ebenso dessen Wert zurückgeliefert zu bekommen. Was genau das ist was wir in einem verteilten System wollen.
+
+\subsubsection{Grundlegende Funktionsweise}
+
+RabbitMQ stellt in erster Linie einen Serverdienst, eine Managementoberfläche und Nutzerschnittstellen zur Verfügung. Der Serverdienst nimmt Nachrichten entgegen und Verwaltet diese. 
+Er besitzt Exchanges und Queues. Ein Exchange nimmt eine Nachricht entgegen und verteilt diese an eine oder mehrere Queues, die ein Binding auf den jeweiligen Exchange haben. Es gibt verschiedene Arten von Exchanges, die Nachrichten auf verschiedene Weise verteilen. Ein Fanout-Exchange sendet die Nachricht an jede Queue, mit der er ein Binding besitzt. Ein Direct-Exchange sendet eine Nachricht nur an eine Queue, wenn der Routing-Key der Nachricht mit dem Namen einer Queue übereinstimmt, die natürlich auch ein Binding auf dem Exchange haben muss.
+Ein Topic-Exchange wiederum verteilt an mehrere Queues in seinem Binding. Dabei dürfen die Queues keinen willkürlichen Namen tragen, sondern müssen einem gewissen Namensmuster Folgen, dass teilweise den Routing-Key der zu empfangenden Nachrichten reflektieren soll. Wenn zu Beispiel der Routing-Key einer Nachricht core.failure.critical wäre, so wäre auch *.*.critical ein Name, unter dem eine Queue diese Nachricht empfangen würde. Dabei steht das Sternchen als Platzhalter für jedes mögliche Wort. Die Punkte reflektieren die Punkte im Routing-Key. 
 
 \subsection{Implementierung}
 
