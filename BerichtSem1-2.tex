@@ -172,12 +172,46 @@ Ein RPC ermöglicht es uns eine Funktion auf einem anderen Gerät auszuführen u
 
 RabbitMQ stellt in erster Linie einen Serverdienst, eine Managementoberfläche und Nutzerschnittstellen zur Verfügung. Der Serverdienst nimmt Nachrichten entgegen und Verwaltet diese. 
 Er besitzt Exchanges und Queues. Ein Exchange nimmt eine Nachricht entgegen und verteilt diese an eine oder mehrere Queues, die ein Binding auf den jeweiligen Exchange haben. Es gibt verschiedene Arten von Exchanges, die Nachrichten auf verschiedene Weise verteilen. Ein Fanout-Exchange sendet die Nachricht an jede Queue, mit der er ein Binding besitzt. Ein Direct-Exchange sendet eine Nachricht nur an eine Queue, wenn der Routing-Key der Nachricht mit dem Namen einer Queue übereinstimmt, die natürlich auch ein Binding auf dem Exchange haben muss.
-Ein Topic-Exchange wiederum verteilt an mehrere Queues in seinem Binding. Dabei dürfen die Queues keinen willkürlichen Namen tragen, sondern müssen einem gewissen Namensmuster Folgen, dass teilweise den Routing-Key der zu empfangenden Nachrichten reflektieren soll. Wenn zu Beispiel der Routing-Key einer Nachricht core.failure.critical wäre, so wäre auch *.*.critical ein Name, unter dem eine Queue diese Nachricht empfangen würde. Dabei steht das Sternchen als Platzhalter für jedes mögliche Wort. Die Punkte reflektieren die Punkte im Routing-Key. 
+
+\begin{figure}[h!]
+	\includegraphics[scale=1]{P2C.jpg}
+	\caption{Produzent, Queue und Konsument}
+\end{figure}
+
+Ein Topic-Exchange wiederum verteilt an mehrere Queues in seinem Binding. Dabei dürfen die Queues keinen willkürlichen Namen tragen, sondern müssen einem gewissen Namensmuster Folgen, dass teilweise den Routing-Key der zu empfangenden Nachrichten reflektieren soll. Wenn zum Beispiel der Routing-Key einer Nachricht core.failure.critical wäre, so wäre auch *.*.critical ein Name, unter dem eine Queue diese Nachricht empfangen würde. Dabei steht das Sternchen als Platzhalter für jedes mögliche Wort. Die Punkte reflektieren die Punkte im Routing-Key. Eine Raute ist dabei ein Platzhalter für mehrere Wörter, also über Punkte hinaus. 
+
+Der Standard-Exchange ist ein Direct-Exchange und wird innerhalb des Codes mit Hilfe einer Leeren Zeichenkette ausgewählt. Er ist auch notwendigerweise mit allen Queues verbunden.
+
+Ein Exchange wird von Produzenten befüllt. Ein Produzent erzeugt Nachrichten und schickt diese an Exchanges damit diese dann an einer oder mehreren Queues konsumiert werden.
+
+Eine Queue ist ein Speicher, der Nachrichten zwischenspeichert und nach dem First-in-First-Out (FIFO)-Prinzip an Konsumenten verteilt. Sie sind Anlaufstelle für Konsumenten. 
+
+Ein Konsument meldet sich bei einer Queue und wird dort in eine Liste von Konsumenten aufgenommen. So wird er dann von dem Server mit Nachrichten bedient. Wird eine Nachricht konsumiert kann ein Konsument diesen Vorgang bestätigen falls der Produzent es wünscht. Das heißt wiederum aber auch, dass der Produzent nun auch auf die Antwort des Konsumenten wartet und ihn somit potenziell Blockiert.
+
+Eine Nachricht wird in RabbitMQ mit vielen Attributen abgesendet. Sie folgt in erster Linie dem AMQP, doch RabbitMQ hat diese um einige Funktionen erweitert. So kommt zum Beispiel das Attribut reply\_to mit. In diesem Attribut kann eine Antwortadresse für zum Beispiel den Absender hinzugefügt werden. Dieses Attribut wird später im Remote-Procedure-Call benutzt. Sonst kommt offensichtlicherweise Informationen über die Zieladresse und den Ziel-Exchange, der Routing-Key und natürlich auch die eigentliche Nachricht, dem Body, mit.
+
+Die Managementoberfläche und Nutzerschnittstellen bieten eine Plattform, von der man mit dem Serverdienst wie beschrieben interagieren kann.
+
+\subsubsection{Remote-Procedure-Call (RPC)}
+Der RPC ist ein Muster, das uns ermöglicht auf eine Nachricht eine entsprechende Antwort zu bekommen, wie bei einem Funktionsaufruf. 
+
+\begin{figure}[h!]
+	\includegraphics[scale=0.74]{RPC.jpg}
+	\caption{RPC}
+\end{figure}
+
+Für dieses Muster verwenden wir zuerst einen normalen Produzenten, den wir jedoch um das Attribut reply\_to erweitern. Wir setzten die Antwort-Queue auf einen zufälligen Namen, den wir uns von RabbitMQ generieren lassen. Dann öffnen wir einen Konsumenten auf eben diese Queue.
+
+Der Konsument nimmt nun ganz normal diese Nachricht an und ließt das reply\_to-Attribut aus. Und sendet eine Antwort auf diese Queue.
+
+Der Sender konsumiert diese Antwort und überprüft die corelation\_id. Wenn diese nun übereinstimmt gibt er den Antworttext zurück und trennt die Verbindung zu der Queue, die, wenn diese die Eigenschaft auto\_delete gesetzt hat, sich dann von alleine löscht.
 
 \subsection{Implementierung}
 
+Bevor ich beginnen konnte meinen Prototypen zu bauen musste ich eigenständige Teile in der Serverarchitektur erkennen und isolieren. Meine Methodik lässt sich darauf beschränken, dass ich die eine die zu isolierende Funktion im Code ausmachte, sie in ein neues Projekt kopierte und nun alles entfernte, was offensichtlich keine Abhängigkeit zu der Funktion hatte. Nun konnte ich den Aufruf durch die alte Schnittstelle löschen und mit dem Aufruf durch RabbitMQ ersetzen. Ich benutzte dafür das RPC-Muster, das ich zuvor schon beschrieb. Den Sender oder auch RPC-Klient implementierte ich hierzu an der Stelle, an welcher auch normalerweise der HTTP-Aufruf für eben diese Funktion stattfand. Ich wandelte die Daten in eine JSON-Zeichenkette, was das Rückübersetzen in ein Objekt vereinfachte. Da es sich um komplexe Objekte handelte, die nicht nur Basisdatentypen als Werte hatten, musste ich den Übersetzer der JSON-Bibliothek, die ich verwendete, anpassen. Dann machte ich mich langsam daran, gezielt überflüssigen Code zu entfernen, solange bis nur noch der Kern der Funktion über war. 
+
 \section{Containerisierung mit \gls{Docker}} \label{docker}
-Docker ist ein Werkzeug zur Erstellung und Verwaltung von Containern. Container sind kleine voneinander unabhängige Umgebungen in denen Programme lauffähig und von außerhalb gezielt erreichbar sind.
+Docker ist ein Werkzeug zur Erstellung und Verwaltung von Containern. Container sind kleine voneinander unabhängige Umgebungen in denen Programme lauffähig und von außerhalb gezielt erreichbar sind. Sie werden dafür eingesetzt eine Anwendung von äußeren Einflüssen zu befreien. Ihre Prämisse lautet, dass wenn eine Anwendung auf einem System funktioniert, funktioniert sie auf allen Systemen. Ein Container hat für gewöhnlich nur das nötigste installiert um lauffähig zu sein, alles andere wird vom Entwickler selbst beigesteuert.
 
 \subsection{Was Containerisierung ist?}
 
@@ -197,6 +231,7 @@ Kubernetes ist ein Werkzeug zur Erstellung und Verwaltung von Containerclustern.
 \section{Stand des Projekts} \label{project_status}
 
 \section{Fazit}\label{conclusion}
+Und jetzt spitzt das warme Blut aus dem Hals der letzten Sau. Und mit ihr stirbt ein kleines Stück Geschichte unserer Stadt. Der Sau ist es egal, doch wir wissen es genau. Der Bagger macht viel mehr als nur den alten Schlachthof platt. 
 
 \newpage
 
