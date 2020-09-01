@@ -11,14 +11,17 @@
 \usepackage{caption}
 \usepackage{chngcntr}
 \makeglossaries
-\counterwithin{figure}{page}
-\counterwithin{table}{page}
+\counterwithin{figure}{section}
+\counterwithin{table}{section}
 \usepackage{titling}
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage[onehalfspacing]{setspace}
 \geometry{
-  left=3cm,
-  right=3cm,
-  top=2cm,
-  bottom=4cm,
+  left=2.5cm,
+  right=2.5cm,
+  top=2.5cm,
+  bottom=2cm,
   bindingoffset=5mm
 }
 \loadglsentries{glossary.bib}
@@ -28,14 +31,13 @@
 % Deckblatt Titel und co.
 %------------------------
 
-\pretitle{%
-\begin{center}
-  \begin{figure}[h!]
-	\begin{subfigure}{0.4\linewidth}
-		\includegraphics[scale=0.25]{DHBWKarlsruhe.jpg} 
+\pretitle{\begin{center}
+\begin{figure}[h!]
+	\begin{subfigure}{0.2\linewidth}
+		\includegraphics[scale=1]{DHBWLogo.png} 
 	\end{subfigure}
 	\hspace*{\fill}
-	\begin{subfigure}{0.4\linewidth}
+	\begin{subfigure}{0.3\linewidth}
     	\includegraphics[scale=0.25]{YellowMap.png}
 	\end{subfigure}
 \end{figure}
@@ -56,10 +58,6 @@
 \date{\today}
 \begin{document}
 
-%-------
-% Bilder
-%-------
-
 \maketitle
 \vspace*{\fill}
 \thispagestyle{empty}
@@ -69,11 +67,12 @@
 %----------------
 
 
-\begin{tabular}{p{5cm}rr}
+\begin{tabular}{p{5cm}ll}
 	Matrikelnummer & 9119328\\
 	Kurs & TINF19B4\\
-	Ausbildungsfirma & YellowMap AG & Karlsruhe\\
-	Betreuer & Markus Lind
+	Ausbildungsfirma & YellowMap AG, & Karlsruhe\\
+	Betreuer & Markus Lind\\
+	Prof. Jörn Eisenbiegler
 \end{tabular}
 
 \newpage
@@ -102,12 +101,24 @@ Jakob Jonathan Heitzmann
 %---------------
 
 \begin{abstract}
+\begin{center}
+Zusammenfassung
+\end{center}
 In dieser Arbeit geht es um meine Tätigkeit bei der YellowMap AG und was ich in den ersten zwei Semestern gelernt und getan habe. Diese Arbeit beschränkt sich aber in erster Linie auf die Bemühungen, die zur Umwandlung des Serversystems auf ein verteiltes System galten.
 \end{abstract}
 \newpage
 
 \tableofcontents
 \addcontentsline{toc}{section}{Inhaltsverzeichnis}
+\newpage
+\listoffigures
+\addcontentsline{toc}{section}{Abbildungsverzeichnis}
+\newpage
+\listoftables
+\addcontentsline{toc}{section}{Tabellenverzeichnis}
+\newpage
+\printglossary
+\addcontentsline{toc}{section}{Glossar}
 \newpage
 
 %-----------------------------------------------------------------------------------------------
@@ -122,6 +133,7 @@ Ziel der Arbeit ist es vorzuzeigen was ich in den ersten beiden Semestern meines
 YellowMap entwickelt und hostet in erster Linie Kartenanwendungen, bietet Entwicklern aber auch mit einer Java-Script-API die Möglichkeit mit wenig Selbstaufwand selbst eine solche Anwendung zu Entwickeln. Dabei laufen die Dienste mit allen gängigen großen Kartenanbietern so wie Google, OSM, Bing und sogar Baidu. Exemplarische Lösungen, die YellowMap anbietet, sind zum Beispiel die FilialFinder, mit denen alle Filialen eines Klienten auf dessen Webseite angezeigt werden können. Die Anzeige erfolgt natürlich auf einer Karte. Gesucht wird für gewöhnlich mit einer Umkreissuche auf den Standort des Gerätes. Die Gefundenen Filialen können auch neben der Karte auch auf einer Liste sortiert ausgegeben werden.
 
 \begin{figure}[h!]
+	\centering
 	\includegraphics[scale=0.55]{YmFF.png}
 	\caption{FilialFinder}
 \end{figure}
@@ -129,19 +141,18 @@ YellowMap entwickelt und hostet in erster Linie Kartenanwendungen, bietet Entwic
 Im umrissenen Zeitraum habe ich viele Tätigkeiten besonders in den Bereichen Backend und Testing übernommen. Doch auch ein paar kleinere Aufgaben im Bereich Frontend fielen mir zu. Gearbeitet habe ich mit .NET Core, Gatling, HTML, CSS, JavaScript, Docker, Kubernetes und RabbitMQ. 
 Darunter war die Entwicklung eines Dienstes, der dazu fähig ist Termindaten von einer Datenbank zu ziehen und diese dann auf kleinen E-Paper-Bildschirmen anzuzeigen was vollständig in C\# realisiert wurde. Auch entwickelte ich zu Demozwecken Testwebseiten die Funktionen der JavaScript API präsentieren sollten. Ein anderes Projekt war die Realisierung von Stresstests auf ein schon bestehendes Projekt mittels Gatling. Dafür musste ich mich in die Programmiersprache Scala und Maven einarbeiten. 
 
-Das Projekt, auf das ich in diesem Bericht näher eingehen möchte war nun die Entwicklung eines Prototypen zur Containerisierung und automatischen horizontalen Skalierung mittels Docker und Kubernetes, sowie die Entwicklung eines Prototypen für die Serverkommunikation mit Message Broker mittels RabbitMQ. Für diese Aufgabe wurden diese Technologien vorgegeben. 
+Das Projekt, auf das ich in diesem Bericht näher eingehen möchte war nun die Entwicklung eines Prototyps zur Containerisierung und automatischen horizontalen Skalierung mittels Docker und Kubernetes, sowie die Entwicklung eines Prototyps für die Serverkommunikation mit Message Broker mittels RabbitMQ. Für diese Aufgabe wurden diese Technologien vorgegeben. 
 
 \subsection{Das bisherige Serverdesign}
-Das bestehende System wurde entworfen damit viele Anwendungen unabhängig voneinander entwickelt werden können ohne dass jede Funktionalität in jeder neuen Anwendung auch neu geschrieben werden müsste. Dazu greifen alle Projekte auf die selbe Schnittstelle zu, diese bietet dann die einzelnen Funktionalitäten in einem einheitlichen Format. Diese Art der Kommunikation ermöglicht es unabhängig von Art der Anwendung die Anbindung an die internen Dienste sicherzustellen. Eine Anfrage eines Projekt auf diese Schnittstelle landet als erstes am Proxy der Core, also zu deutsch dem Kern, hier wird die Anfrage angenommen und auf erster Ebene Authentifiziert. Diese Anfrage wird dann an den System Call weitergeleitet. Hier befindet sich der Partnerschalter. Er reichert die Daten der Anfrage mit den Daten zum gelieferten Partner aus der Datenbank an. Heißt er schaut zum Beispiel von welchem Provider der Partner seine Daten beziehen möchte und trifft dem entsprechend Vorkehrungen, dass die Daten in den folgenden Aufrufen und Aktionen richtig weitergegeben und verarbeitet werden. Auch wird hier die auszuführende Aktion ermittelt und der dazugehörige Befehl in Form eines Commands oder einer Command-Group. Ein Command reichert die Daten nun weiter an und reicht dann an eine Provider spezifische Command-Action weiter, die die angefragte Aktion dann ausführt. In Abbildung 7.1 sehen wir so einen Aufruf, der dann aber Beispielshalber auf einen Lagacy-System zugreift, das wiederum selbst eine eigene Command-Action besitzt, die die Anfrage dann letztendlich ausführt. Diese Legacy-Systeme werden aber in dieser Arbeit nicht weiter betrachtet, da diese nicht mehr aktiv weiterentwickelt werden. 
-
-\newpage
+Das bestehende System wurde entworfen damit viele Anwendungen unabhängig voneinander entwickelt werden können ohne, dass jede Funktionalität in jeder neuen Anwendung auch neu geschrieben werden müsste. Dazu greifen alle Projekte auf dieselbe Schnittstelle zu, diese bietet dann die einzelnen Funktionalitäten in einem einheitlichen Format. Diese Art der Kommunikation ermöglicht es unabhängig von Art der Anwendung die Anbindung an die internen Dienste sicherzustellen. Eine Anfrage eines Projekts auf diese Schnittstelle landet als erstes am Proxy der Core, also zu Deutsch dem Kern, hier wird die Anfrage angenommen und auf erster Ebene Authentifiziert. Diese Anfrage wird dann an den System Call weitergeleitet. Hier befindet sich der Partnerschalter. Er reichert die Daten der Anfrage mit den Daten zum gelieferten Partner aus der Datenbank an. Heißt er schaut zum Beispiel von welchem Provider der Partner seine Daten beziehen möchte und trifft dem entsprechend Vorkehrungen, dass die Daten in den folgenden Aufrufen und Aktionen richtig weitergegeben und verarbeitet werden. Auch wird hier die auszuführende Aktion ermittelt und der dazugehörige Befehl in Form eines Commands oder einer Command-Group. Ein Command reichert die Daten nun weiter an und reicht dann an einen Provider spezifische Command-Action weiter, die die angefragte Aktion dann ausführt. In Abbildung 7.1 sehen wir so einen Aufruf, der dann aber Beispielshalber auf ein Lagacy-System zugreift, das wiederum selbst eine eigene Command-Action besitzt, die die Anfrage dann letztendlich ausführt. Diese Legacy-Systeme werden aber in dieser Arbeit nicht weiter betrachtet, da diese nicht mehr aktiv weiterentwickelt werden.
 
 \begin{figure}[h!]
+	\centering
 	\includegraphics[scale=2]{YmSysReq.png}
 	\caption{Beispielanfrage}
 \end{figure}
 
-Das System ist also kein Monolithisches, da es aus vielen Einzelprojekten besteht, die größtenteils unabhängig von einander agieren können, aber es ist ebenso kein verteiltes System, da sich trotz des modularen Designs alles auf dem selben Server befindet.
+Das System ist also kein Monolithisches, da es aus vielen Einzelprojekten besteht, die größtenteils unabhängig von einander agieren können, aber es ist ebenso kein verteiltes System, da sich trotz des modularen Designs alles auf demselben Server befindet.
 
 \section{Serverkommunikation mit Message Broker} \label{rabbit}
 Zuerst begann ich den Prototypen für die Serverkommunikation mittels Message Broker zu konzeptionieren. Der Message Broker sollte eine neue interne Schnittstelle zwischen dem Serversystem und dem Legacy-System etablieren, da diese zuvor via normale HTTP-Aufrufe, die über das externe Netz gingen, realisiert wurde. Dies benötigte das Herauslösen eigenständiger Komponenten des Legacy-Systems und die Umwandlung dieser in sogenannte Microservices. Im Hinblick auf die späteren Änderungen, die noch an dem System vorgenommen werden sollten, sollte auch die Möglichkeit betrachtet werden, die Protokollierung von Systemdaten über den Message Broker auf eine Vielzahl von Empfängersystemen zu ermöglichen. 
@@ -154,6 +165,7 @@ In Hinblick auf die Containerisierung ist das Prinzip eines Message Brokers mehr
 Ein Message Broker kann einen Nachrichten-Pool schaffen, den er kontinuierlich und gezielt mit Nachrichten versorgt, die dann von den letztendlichen Verbrauchern konsumiert werden können. Dadurch schafft man ein Netz von Geräten, die nur noch eine zentrale Adresse kennen müssen und dadurch dynamischer und unabhängiger voneinander agieren können. 
 
 \begin{figure}[h!]
+	\centering
 	\includegraphics[scale=1.8]{MesBroSys.png}
 	\caption{Serversystem mit Message Broker}
 \end{figure}
@@ -171,11 +183,24 @@ Ein RPC ermöglicht es uns eine Funktion auf einem anderen Gerät auszuführen u
 \subsubsection{Grundlegende Funktionsweise}
 
 RabbitMQ stellt in erster Linie einen Serverdienst, eine Managementoberfläche und Nutzerschnittstellen zur Verfügung. Der Serverdienst nimmt Nachrichten entgegen und Verwaltet diese. 
-Er besitzt Exchanges und Queues. Ein Exchange nimmt eine Nachricht entgegen und verteilt diese an eine oder mehrere Queues, die ein Binding auf den jeweiligen Exchange haben. Es gibt verschiedene Arten von Exchanges, die Nachrichten auf verschiedene Weise verteilen. Ein Fanout-Exchange sendet die Nachricht an jede Queue, mit der er ein Binding besitzt. Ein Direct-Exchange sendet eine Nachricht nur an eine Queue, wenn der Routing-Key der Nachricht mit dem Namen einer Queue übereinstimmt, die natürlich auch ein Binding auf dem Exchange haben muss.
+Er besitzt Exchanges und Queues. Ein Exchange nimmt eine Nachricht entgegen und verteilt diese an eine oder mehrere Queues, die ein Binding auf den jeweiligen Exchange haben. 
 
 \begin{figure}[h!]
+	\centering
 	\includegraphics[scale=1]{P2C.jpg}
 	\caption{Produzent, Queue und Konsument}
+\end{figure}
+
+Es gibt verschiedene Arten von Exchanges, die Nachrichten auf verschiedene Weise verteilen. 
+
+Ein Fanout-Exchange sendet die Nachricht an jede Queue, mit der er ein Binding besitzt. 
+
+Ein Direct-Exchange sendet eine Nachricht nur an eine Queue, wenn der Routing-Key der Nachricht mit dem Namen einer Queue übereinstimmt, die natürlich auch ein Binding auf dem Exchange haben muss.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=1.65]{exchanges.png}
+	\caption{Pruduzent, Exchange und Queue}
 \end{figure}
 
 Ein Topic-Exchange wiederum verteilt an mehrere Queues in seinem Binding. Dabei dürfen die Queues keinen willkürlichen Namen tragen, sondern müssen einem gewissen Namensmuster Folgen, dass teilweise den Routing-Key der zu empfangenden Nachrichten reflektieren soll. Wenn zum Beispiel der Routing-Key einer Nachricht core.failure.critical wäre, so wäre auch *.*.critical ein Name, unter dem eine Queue diese Nachricht empfangen würde. Dabei steht das Sternchen als Platzhalter für jedes mögliche Wort. Die Punkte reflektieren die Punkte im Routing-Key. Eine Raute ist dabei ein Platzhalter für mehrere Wörter, also über Punkte hinaus. 
@@ -196,11 +221,12 @@ Die Managementoberfläche und Nutzerschnittstellen bieten eine Plattform, von de
 Der RPC ist ein Muster, das uns ermöglicht auf eine Nachricht eine entsprechende Antwort zu bekommen, wie bei einem Funktionsaufruf. 
 
 \begin{figure}[h!]
+	\centering
 	\includegraphics[scale=0.74]{RPC.jpg}
 	\caption{RPC}
 \end{figure}
 
-Für dieses Muster verwenden wir zuerst einen normalen Produzenten, den wir jedoch um das Attribut reply\_to erweitern. Wir setzten die Antwort-Queue auf einen zufälligen Namen, den wir uns von RabbitMQ generieren lassen. Dann öffnen wir einen Konsumenten auf eben diese Queue.
+Für dieses Muster verwenden wir zuerst einen normalen Produzenten, den wir jedoch um die Attribute reply\_to und correlation\_id erweitern. Wir setzten die Antwort-Queue auf einen zufälligen Namen, den wir uns von RabbitMQ generieren lassen. Mit der correlation\_id machen wir das ähnlich. Dann öffnen wir einen Konsumenten auf eben diese Queue.
 
 Der Konsument nimmt nun ganz normal diese Nachricht an und ließt das reply\_to-Attribut aus. Und sendet eine Antwort auf diese Queue.
 
@@ -208,7 +234,26 @@ Der Sender konsumiert diese Antwort und überprüft die corelation\_id. Wenn die
 
 \subsection{Implementierung}
 
-Bevor ich beginnen konnte meinen Prototypen zu bauen musste ich eigenständige Teile in der Serverarchitektur erkennen und isolieren. Meine Methodik lässt sich darauf beschränken, dass ich die eine die zu isolierende Funktion im Code ausmachte, sie in ein neues Projekt kopierte und nun alles entfernte, was offensichtlich keine Abhängigkeit zu der Funktion hatte. Nun konnte ich den Aufruf durch die alte Schnittstelle löschen und mit dem Aufruf durch RabbitMQ ersetzen. Ich benutzte dafür das RPC-Muster, das ich zuvor schon beschrieb. Den Sender oder auch RPC-Klient implementierte ich hierzu an der Stelle, an welcher auch normalerweise der HTTP-Aufruf für eben diese Funktion stattfand. Ich wandelte die Daten in eine JSON-Zeichenkette, was das Rückübersetzen in ein Objekt vereinfachte. Da es sich um komplexe Objekte handelte, die nicht nur Basisdatentypen als Werte hatten, musste ich den Übersetzer der JSON-Bibliothek, die ich verwendete, anpassen. Dann machte ich mich langsam daran, gezielt überflüssigen Code zu entfernen, solange bis nur noch der Kern der Funktion über war. 
+Bevor ich beginnen konnte meinen Prototypen zu bauen musste ich eigenständige Teile in der Serverarchitektur erkennen und isolieren. Meine Methodik lässt sich darauf beschränken, dass ich das Projekt kopierte, die zu isolierende Funktion im Code ausmachte und nun alles entfernte, was offensichtlich keine Abhängigkeit zu der Funktion hatte. Nun konnte ich den Aufruf durch die alte Schnittstelle löschen und mit dem Aufruf durch RabbitMQ ersetzen. Ich benutzte dafür das RPC-Muster, das ich zuvor schon beschrieben habe. 
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.6]{RPCWorkerWhite.png}
+	\caption{RPC-Empfänger}
+\end{figure}
+
+In Abbildung 2.5 sehen wir 
+
+Den Sender, oder auch RPC-Client genannt, implementierte ich hierzu an der Stelle, an welcher auch normalerweise der HTTP-Aufruf für eben diese Funktion stattfand. Ich wandelte die Daten in eine JSON-Zeichenkette, was das Rückübersetzen in ein Objekt vereinfachte. Da es sich um komplexe Objekte handelte, die nicht nur Basisdatentypen als Werte hatten, musste ich den Übersetzer der JSON-Bibliothek, die ich verwendete, anpassen, so dass das innere Objekt der Anfrage mit übersetzt werden konnte. Dann machte ich mich langsam daran, gezielt überflüssigen Code zu entfernen, solange bis nur noch der Kern der Funktion über war.
+
+\newpage
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.7]{RPCKlientWhite.png}
+	\caption{RPC-Sender}
+\end{figure}
+
+Den Prototypen zum Fanout-Exchange implementierte ich als Dead-Letter-Exchange, eine Art Exchange, den man bei der Initialisierung einer Queue angeben kann. An ihn werden Nachrichten gesendet, wenn diese Nachrichten eine in der Queue gesetzten Time-To-Live (TTL) überschreiten.
 
 \section{Containerisierung mit \gls{Docker}} \label{docker}
 Docker ist ein Werkzeug zur Erstellung und Verwaltung von Containern. Container sind kleine voneinander unabhängige Umgebungen in denen Programme lauffähig und von außerhalb gezielt erreichbar sind. Sie werden dafür eingesetzt eine Anwendung von äußeren Einflüssen zu befreien. Ihre Prämisse lautet, dass wenn eine Anwendung auf einem System funktioniert, funktioniert sie auf allen Systemen. Ein Container hat für gewöhnlich nur das nötigste installiert um lauffähig zu sein, alles andere wird vom Entwickler selbst beigesteuert.
@@ -241,13 +286,4 @@ Und jetzt spitzt das warme Blut aus dem Hals der letzten Sau. Und mit ihr stirbt
 
 \printbibliography
 \addcontentsline{toc}{section}{Literaturverzeichnis}
-\newpage
-\printglossary
-\addcontentsline{toc}{section}{Glossar}
-\newpage
-\listoffigures
-\addcontentsline{toc}{section}{Abbildungsverzeichnis}
-\newpage
-\listoftables
-\addcontentsline{toc}{section}{Tabellenverzeichnis}
 \end{document}
