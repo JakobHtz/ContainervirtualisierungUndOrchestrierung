@@ -26,7 +26,7 @@
 }
 \usepackage{fancyhdr}			% Für die Kopf- und Fußzeile
 \pagestyle{fancy}				% Stil setzen
-\lhead{Containerisierung und horizontale Skalierung}	% Header
+\lhead{Containervirtualisierung und horizontale Skalierung}	% Header
 \rhead{}\chead{}				% Andere Header leeren
 \loadglsentries{glossary.bib}	% Datenfiles einfügen
 \addbibresource{literatur.bib}
@@ -47,7 +47,7 @@
 \end{figure}
 }
 \posttitle{\end{center}}
-\title{\Large{\bfseries Containerisierung und horizontale Skalierung}\vspace{1cm}
+\title{\Large{\bfseries Containervirtualisierung und horizontale Skalierung}\vspace{1cm}
 	\large PRAXISBERICHT\vspace{1cm}}
 \author{
 	\normalsize für die Prüfung zum\\
@@ -130,7 +130,7 @@ In dieser Arbeit geht es um meine Tätigkeit bei der YellowMap AG und was ich in
 %-----------------------------------------------------------------------------------------------
 
 \section{Einf\"uhrung}
-Ziel der Arbeit ist es vorzuzeigen was ich in den ersten beiden Semestern meines Studiums bei der YellowMap AG gelernt und getan habe. Dabei wird sich auf die Gesamtheit der Bemühungen begrenzt, die dazu galten die bestehende Serverstruktur zu brechen und einen Prototypen zu konzeptionieren, mit wessen Vorbild man das bestehende System in ein verteiltes System wandeln könnte. Zu diesem Zweck musste ich mich mit verschiedenen Arten der Serverkommunikation und Containerisierung beschäftigen.
+Ziel der Arbeit ist es vorzuzeigen was ich in den ersten beiden Semestern meines Studiums bei der YellowMap AG gelernt und getan habe. Dabei wird sich auf die Gesamtheit der Bemühungen begrenzt, die dazu galten die bestehende Serverstruktur zu brechen und einen Prototypen zu konzeptionieren, mit wessen Vorbild man das bestehende System in ein verteiltes System wandeln könnte. Zu diesem Zweck musste ich mich mit verschiedenen Arten der Serverkommunikation und Containervirtualisierung beschäftigen.
 
 \subsection{Kontextuelle Betrachtung der Rahmenbedingungen}
 
@@ -139,13 +139,13 @@ YellowMap entwickelt und hostet in erster Linie Kartenanwendungen, bietet Entwic
 \begin{figure}[h!]
 	\centering
 	\includegraphics[scale=0.55]{YmFF.png}
-	\caption{FilialFinder}
+	\caption[https://www.aldi-sued.de/filialen/]{FilialFinder}
 \end{figure}
 
 Im umrissenen Zeitraum habe ich viele Tätigkeiten besonders in den Bereichen Backend und Testing übernommen. Doch auch ein paar kleinere Aufgaben im Bereich Frontend fielen mir zu. Gearbeitet habe ich mit .NET Core, Gatling, HTML, CSS, JavaScript, Docker, Kubernetes und RabbitMQ. 
 Darunter war die Entwicklung eines Dienstes, der dazu fähig ist Termindaten von einer Datenbank zu ziehen und diese dann auf kleinen E-Paper-Bildschirmen anzuzeigen was vollständig in C\# realisiert wurde. Auch entwickelte ich zu Demozwecken Testwebseiten die Funktionen der JavaScript API präsentieren sollten. Ein anderes Projekt war die Realisierung von Stresstests auf ein schon bestehendes Projekt mittels Gatling. Dafür musste ich mich in die Programmiersprache Scala und Maven einarbeiten. 
 
-Das Projekt, auf das ich in diesem Bericht näher eingehen möchte war nun die Entwicklung eines Prototyps zur Containerisierung und automatischen horizontalen Skalierung mittels Docker und Kubernetes, sowie die Entwicklung eines Prototyps für die Serverkommunikation mit Message Broker mittels RabbitMQ. Für diese Aufgabe wurden diese Technologien vorgegeben. 
+Das Projekt, auf das ich in diesem Bericht näher eingehen möchte war nun die Entwicklung eines Prototyps zur Containervirtualisierung und automatischen horizontalen Skalierung mittels Docker und Kubernetes, sowie die Entwicklung eines Prototyps für die Serverkommunikation mit Message Broker mittels RabbitMQ. Für diese Aufgabe wurden diese Technologien vorgegeben. 
 
 \subsection{Das bisherige Serverdesign}
 Das bestehende System wurde entworfen damit viele Anwendungen unabhängig voneinander entwickelt werden können ohne, dass jede Funktionalität in jeder neuen Anwendung auch neu geschrieben werden müsste. Dazu greifen alle Projekte auf dieselbe Schnittstelle zu, diese bietet dann die einzelnen Funktionalitäten in einem einheitlichen Format. Diese Art der Kommunikation ermöglicht es unabhängig von Art der Anwendung die Anbindung an die internen Dienste sicherzustellen. Eine Anfrage eines Projekts auf diese Schnittstelle landet als erstes am Proxy der Core, also zu Deutsch dem Kern, hier wird die Anfrage angenommen und auf erster Ebene Authentifiziert. Diese Anfrage wird dann an den System Call weitergeleitet. Hier befindet sich der Partnerschalter. Er reichert die Daten der Anfrage mit den Daten zum gelieferten Partner aus der Datenbank an. Heißt er schaut zum Beispiel von welchem Provider der Partner seine Daten beziehen möchte und trifft dem entsprechend Vorkehrungen, dass die Daten in den folgenden Aufrufen und Aktionen richtig weitergegeben und verarbeitet werden. Auch wird hier die auszuführende Aktion ermittelt und der dazugehörige Befehl in Form eines Commands oder einer Command-Group. Ein Command reichert die Daten nun weiter an und reicht dann an einen Provider spezifische Command-Action weiter, die die angefragte Aktion dann ausführt. In Abbildung 7.1 sehen wir so einen Aufruf, der dann aber Beispielshalber auf ein Lagacy-System zugreift, das wiederum selbst eine eigene Command-Action besitzt, die die Anfrage dann letztendlich ausführt. Diese Legacy-Systeme werden aber in dieser Arbeit nicht weiter betrachtet, da diese nicht mehr aktiv weiterentwickelt werden.
@@ -153,7 +153,7 @@ Das bestehende System wurde entworfen damit viele Anwendungen unabhängig vonein
 \begin{figure}[h!]
 	\centering
 	\includegraphics[scale=2]{YmSysReq.png}
-	\caption{Beispielanfrage}
+	\caption[Selbst erstellte Grafik]{Beispielanfrage}
 \end{figure}
 
 Das System ist also kein Monolithisches, da es aus vielen Einzelprojekten besteht, die größtenteils unabhängig von einander agieren können, aber es ist ebenso kein verteiltes System, da sich trotz des modularen Designs alles auf demselben Server befindet.
@@ -165,13 +165,13 @@ Zuerst begann ich den Prototypen für die Serverkommunikation mittels Message Br
 Ein Message Broker ist ein System zur Nachrichtenübertragung und Nachrichtenverteilung. Dafür fungiert der Message Broker selbst als der zentrale Umschlagplatz von dem aus Nachrichten Empfangen und Verteilt werden. Ebenso übersetzt er aktiv zwischen verschiedenen Protokollen\cite{mesBro}. Er stellt eine Art Middleware da, was bedeutet, dass er als neutrale Komponente im System nur für die Vermittlung von Information zwischen anderen Komponenten verantwortlich ist.
 
 \subsection{Anwendungsspezifische Betrachtung}
-In Hinblick auf die Containerisierung ist das Prinzip eines Message Brokers mehr als nützlich.
+In Hinblick auf die Containervirtualisierung ist das Prinzip eines Message Brokers mehr als nützlich.
 Ein Message Broker kann einen Nachrichten-Pool schaffen, den er kontinuierlich und gezielt mit Nachrichten versorgt, die dann von den letztendlichen Verbrauchern konsumiert werden können. Dadurch schafft man ein Netz von Geräten, die nur noch eine zentrale Adresse kennen müssen und dadurch dynamischer und unabhängiger voneinander agieren können. 
 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[scale=1.8]{MesBroSys.png}
-	\caption{Serversystem mit Message Broker}
+	\caption[Selbst erstellte Grafik]{Serversystem mit Message Broker}
 \end{figure}
 
 In Abbildung 8.1 sehen wir wie der Message Broker seine Funktion als Middleware zwischen einem API-Gateway und mehreren Diensten erfüllt.  
@@ -192,7 +192,7 @@ Er besitzt Exchanges und Queues. Ein Exchange nimmt eine Nachricht entgegen und 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[scale=1]{P2C.jpg}
-	\caption{Produzent, Queue und Konsument}
+	\caption[https://www.rabbitmq.com/tutorials/tutorial-one-dotnet.html]{Produzent, Queue und Konsument}
 \end{figure}
 
 Es gibt verschiedene Arten von Exchanges, die Nachrichten auf verschiedene Weise verteilen. 
@@ -204,7 +204,7 @@ Ein Direct-Exchange sendet eine Nachricht nur an eine Queue, wenn der Routing-Ke
 \begin{figure}[h!]
 	\centering
 	\includegraphics[scale=1.65]{exchanges.png}
-	\caption{Pruduzent, Exchange und Queue}
+	\caption[https://www.rabbitmq.com/tutorials/tutorial-three-dotnet.html]{Produzent, Exchange und Queue}
 \end{figure}
 
 Ein Topic-Exchange wiederum verteilt an mehrere Queues in seinem Binding. Dabei dürfen die Queues keinen willkürlichen Namen tragen, sondern müssen einem gewissen Namensmuster Folgen, dass teilweise den Routing-Key der zu empfangenden Nachrichten reflektieren soll. Wenn zum Beispiel der Routing-Key einer Nachricht core.failure.critical wäre, so wäre auch *.*.critical ein Name, unter dem eine Queue diese Nachricht empfangen würde. Dabei steht das Sternchen als Platzhalter für jedes mögliche Wort. Die Punkte reflektieren die Punkte im Routing-Key. Eine Raute ist dabei ein Platzhalter für mehrere Wörter, also über Punkte hinaus. 
@@ -227,7 +227,7 @@ Der RPC ist ein Muster, das uns ermöglicht auf eine Nachricht eine entsprechend
 \begin{figure}[h!]
 	\centering
 	\includegraphics[scale=0.74]{RPC.jpg}
-	\caption{RPC}
+	\caption[https://www.rabbitmq.com/tutorials/tutorial-six-dotnet.html]{RPC}
 \end{figure}
 
 Für dieses Muster verwenden wir zuerst einen normalen Produzenten, den wir jedoch um die Attribute reply\_to und correlation\_id erweitern. Wir setzten die Antwort-Queue auf einen zufälligen Namen, den wir uns von RabbitMQ generieren lassen. 
@@ -246,7 +246,7 @@ Nun konnte ich den Aufruf durch die alte Schnittstelle löschen und mit dem Aufr
 \begin{figure}[h!]
 	\centering
 	\includegraphics[scale=0.6]{RPCWorkerWhite.png}
-	\caption{RPC-Empfänger}
+	\caption[Screenshot]{RPC-Empfänger}
 \end{figure}
 
 In Abbildung 2.5 sehen wir ein Beispiel für einen Empfänger. Als erstes wird eine Verbindung zum Server aufgebaut und die Anfrage-Queue deklariert. Zusätzlich konfigurieren wir den Server nur eine unbestätigte Nachricht pro Queue zu erlauben. Wird dieser Wert erreicht, so werden keine Nachrichten mehr von der Queue verteilt. Dann wird ein Konsument erzeugt und dem Event Received via Lambda-Ausdruck eine Funktion übergeben, die auf empfangene Nachrichten reagiert. Innerhalb dieser wird die Nachricht ausgelesen und mit dem ausgelesenen Informationen eine Methode aufgerufen. Daraufhin schickt sie die Rückgabe der Methode an die Antwort-Queue. Zu guter Letzt wird der Konsument dann auch an die Anfrage-Queue angehängt.
@@ -256,7 +256,7 @@ Den Sender, oder auch RPC-Client genannt, implementierte ich an der Stelle, an w
 \begin{figure}[h!]
 	\centering
 	\includegraphics[scale=0.7]{RPCKlientWhite.png}
-	\caption{RPC-Sender}
+	\caption[Screenshot]{RPC-Sender}
 \end{figure}
 
 Abbildung 2.6 zeigt einen Beispiel-Sender. Er baut wie schon der Empfänger zuerst eine Verbindung zum Server auf. Danach erzeugt er Eigenschaften für die Nachricht und befüllt diese mit einem zuvor erzeugten Namen für die Antwort-Queue und einer zufälligen correlation\_id. Nun wird nur noch dem Konsument eine Funktion übergeben, die den Inhalt der Nachricht als Zeichenkette zwischenspeichert. Wenn nun die Call-Methode aufgerufen wird, wird eine Nachricht and die Anfrage-Queue gesendet und direkt danach der Konsument an die Antwort-Queue angehängt. Wurde die Antwort empfangen wird nun die zwischengespeicherte Zeichenkette zurückgegeben und aus dem Zwischenspeicher entfernt.
@@ -268,10 +268,31 @@ Dann machte ich mich langsam daran, gezielt überflüssigen Code zu entfernen, s
 
 Den Prototypen zum Fanout-Exchange implementierte ich als Dead-Letter-Exchange, eine Art Exchange, den man bei der Initialisierung einer Queue angeben kann. An ihn werden Nachrichten gesendet, wenn diese Nachrichten eine in der Queue gesetzten Time-To-Live (TTL) überschreiten.
 
-\section{Containerisierung mit \gls{Docker}} \label{docker}
-Docker ist ein Werkzeug zur Erstellung und Verwaltung von Containern. Container sind kleine voneinander unabhängige Umgebungen in denen Programme lauffähig und von außerhalb gezielt erreichbar sind. Sie werden dafür eingesetzt eine Anwendung von äußeren Einflüssen zu befreien. Ihre Prämisse lautet, dass wenn eine Anwendung auf einem System funktioniert, funktioniert sie auf allen Systemen. Ein Container hat für gewöhnlich nur das nötigste installiert um lauffähig zu sein, alles andere wird vom Entwickler selbst beigesteuert.
+\section{Containervirtualisierung mit Docker} \label{docker}
+Docker ist ein Werkzeug zur Erstellung und Verwaltung von Containern. 
+Container sind kleine voneinander unabhängige Umgebungen in denen Programme lauffähig und von außerhalb gezielt erreichbar sind. Sie werden dafür eingesetzt eine Anwendung von äußeren Einflüssen zu befreien. Ihre Prämisse lautet, wenn eine Anwendung auf einem System funktioniert, funktioniert sie auf allen Systemen. Ein Container hat für gewöhnlich nur das nötigste installiert um lauffähig zu sein, alles andere wird vom Entwickler selbst beigesteuert. Was ihnen wiederum einen entscheidenden Vorteil vor einer virtuellen Maschine (VM) gibt. Aber nicht nur das. Einen Container aufzusetzen ist auch mit um einiges weniger Aufwand verbunden als das Aufsetzen einer VM. 
 
-\subsection{Was Containerisierung ist?}
+\subsection{Grundlagen der Containervirtualisierung}
+
+Auch wenn Containervirtualisierung eine Art der Virtualisierung ist, laufen hierbei die Container nicht über ein Gastbetriebssystem, sondern befinden sich trotzdem auf ihrem Hostbetriebsystem. Auch wenn sie strikt getrennte Programminstanzen mit allesamt eigenen Abhängigkeiten und Ressourcen sind, teilen sie sich den selben Systemkernel. 
+
+\begin{figure}[h!]
+\centering
+	\begin{subfigure}{0.4\linewidth}
+		\includegraphics[scale=0.2]{DockerContainer.png} 
+	\end{subfigure}
+	\hspace*{1 cm}
+	\begin{subfigure}{0.4\linewidth}
+    	\includegraphics[scale=0.2]{DockerVM.png}
+	\end{subfigure}
+	\caption[https://docs.docker.com/get-started/]{Containervirtualisierung im Vergleich zu klassischer Virtualisierung.}
+\end{figure}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=2]{DockerWindows.png}
+	\caption[https://docs.microsoft.com/de-de/virtualization/windowscontainers/deploy-containers/linux-containers]{Linux Container auf Windows}
+\end{figure}
 
 \subsection{Warum Docker?}
 

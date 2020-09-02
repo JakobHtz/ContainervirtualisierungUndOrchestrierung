@@ -1,0 +1,500 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   sodipodi:docname="DockerWindows.svg"
+   inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
+   id="svg8"
+   version="1.1"
+   viewBox="0 0 210 297"
+   height="297mm"
+   width="210mm">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     inkscape:window-maximized="1"
+     inkscape:window-y="-8"
+     inkscape:window-x="3832"
+     inkscape:window-height="1017"
+     inkscape:window-width="1920"
+     showgrid="false"
+     inkscape:document-rotation="0"
+     inkscape:current-layer="layer1"
+     inkscape:document-units="mm"
+     inkscape:cy="174.93896"
+     inkscape:cx="33.777121"
+     inkscape:zoom="1.4142136"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:groupmode="layer"
+     inkscape:label="Ebene 1">
+    <rect
+       ry="1.5462911"
+       y="8"
+       x="27"
+       height="40"
+       width="20"
+       id="rect57"
+       style="fill:#87deaa;stroke-width:0.336732" />
+    <rect
+       ry="1.338899"
+       y="8"
+       x="5"
+       height="40"
+       width="20"
+       id="rect55"
+       style="fill:#aaccff;stroke-width:0.303274" />
+    <rect
+       ry="0.94257814"
+       y="28.5"
+       x="10"
+       height="10.5"
+       width="10.5"
+       id="rect10"
+       style="fill:#000000;stroke-width:0.269816" />
+    <path
+       d="m 10.899592,28.750018 c -0.359905,0 -0.649573,0.289668 -0.649573,0.649572 v 8.700762 c 0,0.359905 0.289668,0.649572 0.649573,0.649572 h 8.700762 c 0.359905,0 0.649573,-0.289667 0.649573,-0.649572 V 29.39959 c 0,-0.359904 -0.289668,-0.649572 -0.649573,-0.649572 z"
+       style="fill:#008080;stroke-width:0.138672"
+       id="rect12" />
+    <rect
+       style="fill:#000000;stroke-width:0.269816"
+       id="rect19"
+       width="10.5"
+       height="10.5"
+       x="9"
+       y="29.5"
+       ry="0.94257814" />
+    <path
+       id="path21"
+       style="fill:#008080;stroke-width:0.138672"
+       d="m 9.8995922,29.750017 c -0.359905,0 -0.649573,0.289668 -0.649573,0.649573 v 8.700762 c 0,0.359905 0.289668,0.649572 0.649573,0.649572 h 8.7007608 c 0.359905,0 0.649573,-0.289667 0.649573,-0.649572 V 30.39959 c 0,-0.359905 -0.289668,-0.649573 -0.649573,-0.649573 z" />
+    <rect
+       ry="0.94257814"
+       y="30.5"
+       x="8"
+       height="10.5"
+       width="10.5"
+       id="rect23"
+       style="fill:#000000;stroke-width:0.269816" />
+    <path
+       d="m 8.8995922,30.750017 c -0.359905,0 -0.649573,0.289668 -0.649573,0.649573 v 8.700763 c 0,0.359905 0.289668,0.649572 0.649573,0.649572 h 8.7007618 c 0.359905,0 0.649573,-0.289667 0.649573,-0.649572 V 31.39959 c 0,-0.359905 -0.289668,-0.649573 -0.649573,-0.649573 z"
+       style="fill:#008080;stroke-width:0.138672"
+       id="path25" />
+    <rect
+       style="fill:#000000;stroke-width:0.269816"
+       id="rect27"
+       width="10.5"
+       height="10.5"
+       x="32"
+       y="28.5"
+       ry="0.94257814" />
+    <path
+       id="path29"
+       style="fill:#008080;stroke-width:0.138672"
+       d="m 32.899596,28.750021 c -0.359905,0 -0.649573,0.289668 -0.649573,0.649572 v 8.700762 c 0,0.359905 0.289668,0.649572 0.649573,0.649572 h 8.700761 c 0.359905,0 0.649573,-0.289667 0.649573,-0.649572 v -8.700762 c 0,-0.359904 -0.289668,-0.649572 -0.649573,-0.649572 z" />
+    <rect
+       ry="0.94257814"
+       y="29.5"
+       x="31"
+       height="10.5"
+       width="10.5"
+       id="rect31"
+       style="fill:#000000;stroke-width:0.269816" />
+    <path
+       d="m 31.899596,29.75002 c -0.359905,0 -0.649573,0.289668 -0.649573,0.649573 v 8.700762 c 0,0.359905 0.289668,0.649572 0.649573,0.649572 h 8.70076 c 0.359905,0 0.649573,-0.289667 0.649573,-0.649572 v -8.700762 c 0,-0.359905 -0.289668,-0.649573 -0.649573,-0.649573 z"
+       style="fill:#008080;stroke-width:0.138672"
+       id="path33" />
+    <rect
+       style="fill:#000000;stroke-width:0.269816"
+       id="rect35"
+       width="10.5"
+       height="10.5"
+       x="30"
+       y="30.5"
+       ry="0.94257814" />
+    <path
+       id="path37"
+       style="fill:#008080;stroke-width:0.138672"
+       d="m 30.899596,30.75002 c -0.359905,0 -0.649573,0.289668 -0.649573,0.649573 v 8.700763 c 0,0.359905 0.289668,0.649572 0.649573,0.649572 h 8.700761 c 0.359905,0 0.649573,-0.289667 0.649573,-0.649572 v -8.700763 c 0,-0.359905 -0.289668,-0.649573 -0.649573,-0.649573 z" />
+    <rect
+       ry="0.72289157"
+       y="50"
+       x="5"
+       height="5"
+       width="42"
+       id="rect39"
+       style="fill:#000000;stroke-width:0.386191" />
+    <rect
+       ry="0.59999937"
+       y="50.25"
+       x="5.25"
+       height="4.5"
+       width="41.5"
+       id="rect41"
+       style="fill:#ececec;stroke-width:0.385445" />
+    <rect
+       style="fill:#000000;stroke-width:0.188442"
+       id="rect43"
+       width="10"
+       height="5"
+       x="29"
+       y="14"
+       ry="0.72289157" />
+    <rect
+       style="fill:#b3b3b3;stroke-width:0.184416"
+       id="rect45"
+       width="9.5"
+       height="4.5"
+       x="29.25"
+       y="14.25"
+       ry="0.59999937" />
+    <rect
+       ry="0.72289157"
+       y="20"
+       x="13"
+       height="5"
+       width="10"
+       id="rect47"
+       style="fill:#000000;stroke-width:0.188442" />
+    <rect
+       ry="0.59999937"
+       y="20.25"
+       x="13.25"
+       height="4.5"
+       width="9.5"
+       id="rect49"
+       style="fill:#b3b3b3;stroke-width:0.184416" />
+    <rect
+       style="fill:#000000;stroke-width:0.188442"
+       id="rect51"
+       width="10"
+       height="5"
+       x="7"
+       y="14"
+       ry="0.72289157" />
+    <rect
+       style="fill:#b3b3b3;stroke-width:0.184416"
+       id="rect53"
+       width="9.5"
+       height="4.5"
+       x="7.25"
+       y="14.25"
+       ry="0.59999937" />
+    <rect
+       ry="0.63736093"
+       y="43"
+       x="28"
+       height="4"
+       width="18"
+       id="rect59"
+       style="fill:#2ca05a;stroke-width:0.264583" />
+    <rect
+       style="fill:#5f8dd3;stroke-width:0.264583"
+       id="rect61"
+       width="18"
+       height="4"
+       x="6"
+       y="43"
+       ry="0.63736093" />
+    <text
+       id="text65"
+       y="10.840143"
+       x="5.9207625"
+       style="font-style:normal;font-weight:normal;font-size:1.76389px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       xml:space="preserve"><tspan
+         style="font-size:1.76389px;stroke-width:0.264583"
+         y="10.840143"
+         x="5.9207625"
+         id="tspan63"
+         sodipodi:role="line">Windows Container </tspan><tspan
+         id="tspan67"
+         style="font-size:1.76389px;stroke-width:0.264583"
+         y="13.045006"
+         x="5.9207625"
+         sodipodi:role="line">Host</tspan></text>
+    <text
+       id="text71"
+       y="10.805692"
+       x="27.827745"
+       style="font-style:normal;font-weight:normal;font-size:1.76389px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       xml:space="preserve"><tspan
+         style="font-size:1.76389px;stroke-width:0.264583"
+         y="10.805692"
+         x="27.827745"
+         id="tspan69"
+         sodipodi:role="line">Linux Container</tspan><tspan
+         id="tspan73"
+         style="font-size:1.76389px;stroke-width:0.264583"
+         y="13.010554"
+         x="27.827745"
+         sodipodi:role="line">Host</tspan></text>
+    <text
+       id="text77"
+       y="15.840143"
+       x="8.9009533"
+       style="font-style:normal;font-weight:normal;font-size:1.76389px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       xml:space="preserve"><tspan
+         style="font-size:1.76389px;stroke-width:0.264583"
+         y="15.840143"
+         x="8.9009533"
+         id="tspan75"
+         sodipodi:role="line">Docker </tspan><tspan
+         id="tspan79"
+         style="font-size:1.76389px;stroke-width:0.264583"
+         y="18.045006"
+         x="8.9009533"
+         sodipodi:role="line">Client</tspan></text>
+    <text
+       id="text83"
+       y="15.840143"
+       x="30.327745"
+       style="font-style:normal;font-weight:normal;font-size:1.76389px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       xml:space="preserve"><tspan
+         style="font-size:1.76389px;stroke-width:0.264583"
+         y="15.840143"
+         x="30.327745"
+         id="tspan81"
+         sodipodi:role="line">Docker </tspan><tspan
+         id="tspan85"
+         style="font-size:1.76389px;stroke-width:0.264583"
+         y="18.045004"
+         x="30.327745"
+         sodipodi:role="line">Daemon</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:1.76389px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="14.327745"
+       y="21.840143"
+       id="text91"><tspan
+         sodipodi:role="line"
+         id="tspan87"
+         x="14.327745"
+         y="21.840143"
+         style="font-size:1.76389px;stroke-width:0.264583">Docker </tspan><tspan
+         sodipodi:role="line"
+         x="14.327745"
+         y="24.045006"
+         style="font-size:1.76389px;stroke-width:0.264583"
+         id="tspan89">Daemon</tspan></text>
+    <text
+       id="text95"
+       y="52.840141"
+       x="20.840664"
+       style="font-style:normal;font-weight:normal;font-size:1.76389px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       xml:space="preserve"><tspan
+         style="font-size:1.76389px;stroke-width:0.264583"
+         y="52.840141"
+         x="20.840664"
+         id="tspan93"
+         sodipodi:role="line">hypervisor</tspan></text>
+    <text
+       id="text99"
+       y="45.590141"
+       x="10.577745"
+       style="font-style:normal;font-weight:normal;font-size:1.76389px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       xml:space="preserve"><tspan
+         style="font-size:1.76389px;stroke-width:0.264583"
+         y="45.590141"
+         x="10.577745"
+         id="tspan97"
+         sodipodi:role="line">NT Kernel</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:1.76389px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="31.577745"
+       y="45.590141"
+       id="text103"><tspan
+         sodipodi:role="line"
+         id="tspan101"
+         x="31.577745"
+         y="45.590141"
+         style="font-size:1.76389px;stroke-width:0.264583">Linux Kernel</tspan></text>
+    <text
+       id="text107"
+       y="33.340141"
+       x="8.920763"
+       style="font-style:normal;font-weight:normal;font-size:1.76389px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       xml:space="preserve"><tspan
+         style="font-size:1.76389px;stroke-width:0.264583"
+         y="33.340141"
+         x="8.920763"
+         id="tspan105"
+         sodipodi:role="line">Windows</tspan><tspan
+         id="tspan109"
+         style="font-size:1.76389px;stroke-width:0.264583"
+         y="35.545002"
+         x="8.920763"
+         sodipodi:role="line">Process</tspan><tspan
+         id="tspan111"
+         style="font-size:1.76389px;stroke-width:0.264583"
+         y="37.749866"
+         x="8.920763"
+         sodipodi:role="line">Container</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:1.76389px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="30.920763"
+       y="33.340141"
+       id="text119"><tspan
+         sodipodi:role="line"
+         id="tspan113"
+         x="30.920763"
+         y="33.340141"
+         style="font-size:1.76389px;stroke-width:0.264583">Linux</tspan><tspan
+         sodipodi:role="line"
+         x="30.920763"
+         y="35.545002"
+         style="font-size:1.76389px;stroke-width:0.264583"
+         id="tspan115">Process</tspan><tspan
+         sodipodi:role="line"
+         x="30.920763"
+         y="37.749866"
+         style="font-size:1.76389px;stroke-width:0.264583"
+         id="tspan117">Container</tspan></text>
+    <path
+       style="fill:#000000;stroke-width:0.014099"
+       d="m 21.296418,19.030652 0.190864,1.025378 -0.926549,-0.453586 c -0.509604,-0.249472 -0.929701,-0.457158 -0.93355,-0.461523 -0.0038,-0.0044 0.32721,-0.26167 0.735686,-0.571791 l 0.742685,-0.563855 z"
+       id="path131" />
+    <rect
+       transform="rotate(142.79376)"
+       style="fill:#000000;stroke-width:0.0652485"
+       id="rect133"
+       width="0.65246278"
+       height="2.4779756"
+       x="-5.3164229"
+       y="-27.270559"
+       ry="0" />
+    <rect
+       transform="rotate(97.060509)"
+       y="-21.112297"
+       x="14.043057"
+       height="2.317997"
+       width="0.65246201"
+       id="rect135"
+       style="fill:#000000;stroke-width:0.173925" />
+    <path
+       id="path137"
+       d="m 28.098076,16.624617 0.938062,0.455927 -0.915465,0.47556 c -0.503507,0.261559 -0.920211,0.475971 -0.926009,0.476473 -0.0058,4.4e-4 -0.01597,-0.418668 -0.02259,-0.931488 l -0.01205,-0.932399 z"
+       style="fill:#000000;stroke-width:0.014099" />
+    <rect
+       ry="0"
+       y="-24.303118"
+       x="16.226587"
+       height="2.4779756"
+       width="0.65246278"
+       id="rect139"
+       style="fill:#000000;stroke-width:0.0652485"
+       transform="rotate(91.027893)" />
+    <rect
+       inkscape:transform-center-y="-0.16967306"
+       inkscape:transform-center-x="0.0097330849"
+       style="fill:#000000;stroke-width:0.173925"
+       id="rect141"
+       width="0.65246201"
+       height="2.317997"
+       x="15.822438"
+       y="-22.131805"
+       transform="rotate(92.081446)" />
+    <rect
+       transform="rotate(91.027893)"
+       style="fill:#000000;stroke-width:0.0652485"
+       id="rect143"
+       width="0.65246278"
+       height="2.4779756"
+       x="16.226587"
+       y="-26.781094"
+       ry="0" />
+    <rect
+       ry="0"
+       y="-28.353399"
+       x="16.144499"
+       height="1.8320258"
+       width="0.65243804"
+       id="rect145"
+       style="fill:#000000;stroke-width:0.0561022"
+       transform="matrix(-0.02887282,0.99958309,-0.9997806,-0.02094653,0,0)" />
+    <path
+       inkscape:transform-center-y="-0.75129552"
+       inkscape:transform-center-x="-0.46845562"
+       id="path147"
+       d="m 17.228687,27.865441 -0.698847,0.774236 -0.202165,-1.011615 c -0.111191,-0.556388 -0.20124,-1.016287 -0.200109,-1.021995 0.0012,-0.0057 0.406588,0.101113 0.901017,0.237379 l 0.898959,0.247758 z"
+       style="fill:#000000;stroke-width:0.014099" />
+    <rect
+       inkscape:transform-center-y="-2.3378272"
+       inkscape:transform-center-x="-0.68813156"
+       ry="0"
+       y="-21.536129"
+       x="-23.854914"
+       height="2.2600884"
+       width="0.59509206"
+       id="rect149"
+       style="fill:#000000;stroke-width:0.0595112"
+       transform="rotate(-164.59154)" />
+    <path
+       id="path155"
+       d="m 12.874872,42.848799 -0.283658,0.566907 -0.282605,-0.559699 c -0.155434,-0.307835 -0.282822,-0.562587 -0.283087,-0.566114 -2.24e-4,-0.0035 0.254555,-0.0068 0.566264,-0.0072 l 0.566745,-7.89e-4 z"
+       style="fill:#000000;stroke-width:0.00856914" />
+    <rect
+       ry="0"
+       y="-42.402264"
+       x="-12.73103"
+       height="1.5060737"
+       width="0.39655638"
+       id="rect157"
+       style="fill:#000000;stroke-width:0.039657"
+       transform="rotate(179.9197)" />
+    <path
+       style="fill:#000000;stroke-width:0.00856914"
+       d="m 34.822711,42.790334 -0.283658,0.566907 -0.282605,-0.559699 c -0.155434,-0.307835 -0.282822,-0.562587 -0.283087,-0.566114 -2.24e-4,-0.0035 0.254555,-0.0068 0.566264,-0.0072 l 0.566745,-7.89e-4 z"
+       id="path165" />
+    <rect
+       transform="rotate(179.9197)"
+       style="fill:#000000;stroke-width:0.039657"
+       id="rect167"
+       width="0.39655638"
+       height="1.5060737"
+       x="-34.678932"
+       y="-42.374557"
+       ry="0" />
+    <path
+       style="fill:#000000;stroke-width:0.014099"
+       d="m 36.663347,27.57266 -0.468533,0.931828 -0.46317,-0.921798 c -0.254744,-0.506986 -0.463516,-0.926546 -0.46394,-0.932349 -3.51e-4,-0.0058 0.418844,-0.01034 0.931708,-0.01001 l 0.932476,4.92e-4 z"
+       id="path169"
+       inkscape:transform-center-x="-0.047207779"
+       inkscape:transform-center-y="-0.6682195" />
+    <rect
+       transform="matrix(-0.99999813,-0.00193416,1.6026649e-4,-0.99999999,0,0)"
+       style="fill:#000000;stroke-width:0.110921"
+       id="rect171"
+       width="0.59509307"
+       height="7.8514657"
+       x="-36.509804"
+       y="-26.751869"
+       ry="0"
+       inkscape:transform-center-x="-0.043593862"
+       inkscape:transform-center-y="-8.4646941" />
+  </g>
+</svg>
