@@ -10,13 +10,14 @@
 \usepackage{glossaries}			% Für Glossar
 \usepackage{caption}			% Für schicke Titel bei Figures und Tabellen
 \usepackage{chngcntr}			% Zähler für Figures und Tabellen anpassen
+\usepackage{titling}			% Für schicke Titel
+\usepackage{helvet}				% Für Helvetica 
+\usepackage[onehalfspacing]{setspace}	% Seitenabstände
+\usepackage{fancyhdr}			% Für die Kopf- und Fußzeile
 \makeglossaries					% Glossar 
 \counterwithin{figure}{section}	% Zähler
 \counterwithin{table}{section}
-\usepackage{titling}			% Für schicke Titel
-\usepackage{helvet}				% Für Helvetica 
 \renewcommand{\familydefault}{\sfdefault}	% Auch wegen Font
-\usepackage[onehalfspacing]{setspace}	% Seitenabstände
 \geometry{						% Seitengröße
   left=2.5cm,
   right=2.5cm,
@@ -24,10 +25,11 @@
   bottom=2cm,
   bindingoffset=5mm
 }
-\usepackage{fancyhdr}			% Für die Kopf- und Fußzeile
 \pagestyle{fancy}				% Stil setzen
 \lhead{Containervirtualisierung und horizontale Skalierung}	% Header
 \rhead{}\chead{}				% Andere Header leeren
+\rfoot{Seite \thepage}
+\lfoot{}\cfoot{}
 \loadglsentries{glossary.bib}	% Datenfiles einfügen
 \addbibresource{literatur.bib}
 
@@ -294,23 +296,29 @@ Auch wenn Containervirtualisierung eine Art der Virtualisierung ist, laufen hier
 	\caption[https://docs.microsoft.com/de-de/virtualization/windowscontainers/deploy-containers/linux-containers]{Linux Container auf Windows}
 \end{figure}
 
-\subsection{Warum Docker?}
+\subsection{Docker Grundlagen}
 
-\subsection{Umsetzung}
+\subsubsection{Dockerfile}
+
+\subsubsection{Docker-Compose}
 
 \section{Skalierung mit Kubernetes} \label{kubernetes}
 Kubernetes ist ein Werkzeug zur Erstellung und Verwaltung von Containerclustern. Containercluster sind Verbünde von einzelnen Containern die 
 
-\subsection{Was ist Skalierung?}
+\subsection{Kubernetes Komponenten}
 
-\subsection{Warum Kubernetes?} 
+\subsection{Horizontale Skalierung}
+
+\subsection{GitLab CI}
+
+\subsection{Helm}
 
 \subsection{Umsetzung}
 
 \section{Stand des Projekts} \label{project_status}
 
 \section{Fazit}\label{conclusion}
-Und jetzt spitzt das warme Blut aus dem Hals der letzten Sau. Und mit ihr stirbt ein kleines Stück Geschichte unserer Stadt. Der Sau ist es egal, doch wir wissen es genau. Der Bagger macht viel mehr als nur den alten Schlachthof platt. 
+%Und jetzt spitzt das warme Blut aus dem Hals der letzten Sau. Und mit ihr stirbt ein kleines Stück Geschichte unserer Stadt. Der Sau ist es egal, doch wir wissen es genau. Der Bagger macht viel mehr als nur den alten Schlachthof platt. 
 
 \newpage
 
