@@ -286,7 +286,9 @@ Dieser Vorteil wird aber erst bei einer größeren Anzahl an Instanzen richtig e
 
 \subsection{Docker Grundlagen}
 
-Docker ist nun eine Plattform auf der wir mit Containern interagieren können. Das heißt unter anderem Container erzeugen und löschen, Ports teilen und Speicher zuteilen. Ein Container wird mit einem Image erzeugt. Ein Image ist ein Abbild der auszuführenden Programminstanz und wird aus einer Registry, einer zentralen Sammelstelle für Images, gezogen. Docker Images werden mit Dockerfiles erzeugt und können dann lokal verwaltet und auf externe Registries geschoben werden. Da mehrere Instanzen des selben Containers auch mehrere Anwendungen auf dem selben Port und der selben Adresse heißen würde, muss man auf die Ports, die von der Anwendung verwendet werden, von anderen Ports verweisen. Dies nennt sich Port-Mapping. Container können über die Kommandozeile mit dem Befehl  \emph{docker run example/image:test} gestartet werden. Dabei können zahlreiche Parameter mitgegeben werden. Mit \emph{-p} können so Port-Mappings erstellt werden. Die lokalen Images können mit \emph{docker images} eingesehen werden. Mit \emph{docker ps} werden die laufenden Container angezeigt. Möchten wir auch die beendeten Container aufgelistet haben, so fügen wir das Kürzel \emph{-a} an. Wenn ein Container gestoppt werden soll geht dies mit \emph{docker stop container\_id}, für das entfernen \emph{docker rm container\_id}. Images werden mit \emph{docker rmi image\_id} entfernt. 
+Docker ist nun eine Plattform auf der wir mit Containern interagieren können. Das heißt unter anderem Container erzeugen und löschen, Ports teilen und Speicher zuteilen. Ein Container wird mit einem Image erzeugt. Ein Image ist ein Abbild der auszuführenden Programminstanz und wird aus einer Registry, einer zentralen Sammelstelle für Images, gezogen. Docker Images werden mit Dockerfiles erzeugt und können dann lokal verwaltet und auf externe Registries geschoben werden. Da mehrere Instanzen des selben Containers auch mehrere Anwendungen auf dem selben Port und der selben Adresse heißen würde, muss man auf die Ports, die von der Anwendung verwendet werden, von anderen Ports verweisen. Dies nennt sich Port-Mapping. 
+Docker bietet auch Container mit Netzwerken zu verbinden, so dass ein DNS Containernamen auf ihre IP-Adressen übersetzt. Es gibt zwar auch Standardlösungen für diese Netzwerke, auf denen aber die Auflösung von Containernamen aber nicht möglich ist. Deshalb ist es ratsam diese Netzwerke selbst zu definieren. Ein anderes Konzept, das Docker einführt, ist Volume. Ein Volume ist eine Art Speicher mit dem sich Container verbinden und es dann benutzen können.
+Container können über die Kommandozeile mit dem Befehl  \emph{docker run example/image:test} gestartet werden. Dabei können zahlreiche Parameter mitgegeben werden. Mit \emph{-p} können so Port-Mappings erstellt werden. Die lokalen Images können mit \emph{docker images} eingesehen werden. Mit \emph{docker ps} werden die laufenden Container angezeigt. Möchten wir auch die beendeten Container aufgelistet haben, so fügen wir das Kürzel \emph{-a} an. Wenn ein Container gestoppt werden soll geht dies mit \emph{docker stop container\_id}, für das entfernen \emph{docker rm container\_id}. Images werden mit \emph{docker rmi image\_id} entfernt.  
 
 \begin{figure}[h!]
 	\centering
@@ -306,15 +308,36 @@ Wie schon zuvor erwähnt wird mit einem Dockerfile ein Image unserer Anwendung e
 	\caption[Screenshot]{Beispiel für einen Dockerfile}
 \end{figure}
 
-In Abb. 3.3 sehen wir wie ein Dockerfile exemplarisch aussehen könnte. Als erstes wird eine Basis referenziert die unser Image braucht um ausgeführt werden zu können. In diesem Fall ist dies .Net Core 3.1. Danach geben wir die Anweisung den Port 80 für diese Anwendung freizugeben. Nun wird alles Programm relevante in den Kontext gezogen, gebaut und veröffentlicht. Zuletzt wird ein Einstiegspunkt gesetzt, das heißt einen Befehl der bei Start des Containers aufgerufen wird um die Anwendung auszuführen. 
+In Abb. 3.3 sehen wir wie ein Dockerfile exemplarisch aussehen könnte. Als erstes wird eine Basis referenziert die unser Image braucht um ausgeführt werden zu können. In diesem Fall ist dies .Net Core 3.1. Danach geben wir die Anweisung den Port 80 für diese Anwendung freizugeben. Nun wird alles Programm relevante in den Kontext gezogen, gebaut und veröffentlicht. Zuletzt wird ein Einstiegspunkt gesetzt, das heißt einen Befehl, der bei Start des Containers aufgerufen wird um die Anwendung auszuführen. 
 
-Um diesen Dockerfile nun ausführen zu können und so ein Image zu erstellen müssen wir in der Kommandozeile den Befehl \emph{docker build .} in dem jeweiligen Ordner ausführen. Damit wir das Image später besser referenzieren können, lohnt es sich dem Image einen Tag, zu geben. Dies machen wir mit dem Kürzel \emph{-t}.
+Der \emph{FROM} Befehl, den wir mehrfach in dem Dokument finden können, initialisiert ein Basis Image und wird im weiteren dazu verwendet die verschiedenen Phasen während des Bauvorgangs zu trennen. In der vorletzten Zeile finden wir eine \emph{--from} Anweisung, die aussagt, dass hier auf den Kontext des Images \emph{publish}, das zuvor Initialisiert wurde, zugegriffen wird.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=1]{DockerfileBlazor.png}
+	\caption[Screenshot]{Webserver als Basisimage}
+\end{figure}
+
+Im Falle einer statischen Website, die von einem Blazor-WebAssembly-Projekt erzeugt wird, muss diese zwar mit .Net gebaut werden braucht aber keine Runtime-Umgebung, sonder benötigt einen Webserver.
+Dies wird wie schon beschrieben erreicht indem wir die Basis wechseln und die gebauten Daten auf das neue Basisimage ziehen, wie auf Abb. 3.4 gezeigt. Ein Einsprungpunkt wird in diesem Fall nicht benötigt.
+
+Um einen Dockerfile nun ausführen zu können und so ein Image zu erstellen müssen wir in der Kommandozeile den Befehl \emph{docker build .} in dem jeweiligen Ordner ausführen. Damit wir das Image später besser referenzieren können, lohnt es sich dem Image ein Tag, zu geben. Dies machen wir mit dem Kürzel \emph{-t}. Der Dockerfile kann mit dem Kürzel \emph{-f} angegeben werden. So kann auch auf eine andere Position in der Ordnerstruktur hingewiesen werden.
 
 Images erzeugen zu können ist in Hinblick auf Kubernetes unerlässlich.
 
 \subsubsection{Docker-Compose}
 
-Mit Hilfe von Docker-Compose lassen sich Container vollständig konfiguriert und durch das Ausführen eines einzelnen Dokumentes starten. 
+Mit Hilfe von Docker-Compose lassen sich Container vollständig konfiguriert und durch das Ausführen eines einzelnen Dokumentes starten. Das ermöglicht dem Nutzer komplexe Anwendungssysteme mit nur einem simplen Befehl ausführen zu können. 
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=1]{DockerComposeMin.png}
+	\caption[Screenshot]{Beispiel für Docker-Compose}
+\end{figure}
+
+Dabei ist Docker-Compose sehr simpel aufgebaut und wird mit der Auszeichnungssprache YAML spezifiziert. Im Beispiel, das in Abb. 3.5 zusehen ist, wird ein Container namens \emph{smartmapssearch} definiert, der ein gleichnamiges Image benutzt. Es werden weiterhin ein Port-Mapping hinzugefügt und Information zum Bauen des Images angegeben. Gebaut wird das Image wie zuvor mit einem Dockerfile, dessen Position und Namen wir angeben. 
+
+Mit Docker-Compose können aber auch Volumes und Netzwerke hinzugefügt werden, die natürlich auch gleich an Container angebunden werden können.
 
 \section{Skalierung mit Kubernetes} \label{kubernetes}
 Kubernetes ist ein Werkzeug zur Erstellung und Verwaltung von Containerclustern. Containercluster sind Verbünde von einzelnen Containern die 
