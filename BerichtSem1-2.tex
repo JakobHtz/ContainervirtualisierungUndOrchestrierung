@@ -270,6 +270,8 @@ Den Prototypen zum Fanout-Exchange implementierte ich als Dead-Letter-Exchange, 
 Docker ist ein Werkzeug zur Erstellung und Verwaltung von Containern. 
 Container sind kleine voneinander unabhängige Umgebungen in denen Programme lauffähig und von außerhalb gezielt erreichbar sind. Sie werden dafür eingesetzt eine Anwendung von äußeren Einflüssen zu befreien. Ihre Prämisse lautet, wenn eine Anwendung auf einem System funktioniert, funktioniert sie auf allen Systemen. Ein Container hat für gewöhnlich nur das nötigste installiert um lauffähig zu sein, alles andere wird vom Entwickler selbst beigesteuert. Was ihnen wiederum einen entscheidenden Vorteil im Vergleich zu einer virtuellen Maschine (VM) gibt. Aber nicht nur das. Einen Container aufzusetzen ist auch mit um einiges weniger Aufwand verbunden als das Aufsetzen einer VM. 
 
+In Hinsicht auf die gezielte Serverstruktur soll Docker das Rückgrat dieser stellen. Die einzelnen Funktionen sollen durch die Containervirtualisierung voneinander abgekoppelt und skalierbar werden.
+
 \subsection{Grundlagen der Containervirtualisierung}
 
 Auch wenn Containervirtualisierung eine Art der Virtualisierung ist, laufen hierbei die Container nicht über ein Gastbetriebssystem, sondern befinden sich trotzdem auf ihrem Hostbetriebsystem. Auch wenn sie strikt getrennte Programminstanzen mit allesamt eigenen Abhängigkeiten und Ressourcen sind, teilen sie sich den selben Systemkernel. 
@@ -358,19 +360,61 @@ In Abbildung 3.6 sehen wir einen Codeauszug, der dies so implementiert. Unter de
 
 \subsection{Praktische Anwendung und Verdikt}
 
-Container sind zusammen mit Docker ein sehr praktisches Werkzeug für die Entwicklung von Diensten. Die isolierte Umgebung, die geboten wird, macht das Entwickeln von kleineren Anwendung  sehr einfach, auch wenn eben diese Isolation Anfangs zu so manchen Problemen führt, die zumeist aber durch ein Netzwerk gelöst werden können. In der Praxis war die Containervirtualisierung am besten bei kleine Anwendungen mit dedizierten Aufgaben zu realisieren, so wie für den Dienst, den ich schon zuvor aus dem Serversystem herauslöste. Durch Docker-Compose ist sogar kleine Ansätze von Skalierbarkeit zu erkennen, doch auch wenn Docker-Compose wesentlich hilft eine kleine Systeme aufzubauen und mit anderen Entwicklern zu teilen, ist der Aufwand, der mit der Erhaltung dieses Systems verbunden ist, sehr hoch.
+Container sind zusammen mit Docker ein sehr praktisches Werkzeug für die Entwicklung von Diensten. Die isolierte Umgebung, die geboten wird, macht das Entwickeln von kleineren Anwendung  sehr einfach, auch wenn eben diese Isolation Anfangs zu so manchen Problemen führt, die zumeist aber durch ein Netzwerk gelöst werden können. In der Praxis war die Containervirtualisierung am besten bei kleineren Anwendungen mit dedizierten Aufgaben zu realisieren, so wie für den Dienst, den ich schon zuvor aus dem Serversystem herauslöste. Durch Docker-Compose ist sogar kleine Ansätze von Skalierbarkeit zu erkennen, doch auch wenn Docker-Compose wesentlich hilft kleine Systeme aufzubauen und mit anderen Entwicklern zu teilen, ist der Aufwand, der mit der Erhaltung dieses Systems verbunden ist, sehr hoch.
 
 Falls nun in einem Containersystem einer der Container blockieren sollte, muss dies rechtzeitig erkannt werden und der betroffene Container manuell neu gestartet werden. Auch ist \emph{Loging} und \emph{Debugging} sehr umständlich. Dafür muss eine eigene Lösung realisiert werden, die die Logingdaten des Gesamtsystems zum Beispiel in einer Datenbank speichert. In diesem Bereich wäre auch sicherlich eine Lösung mittels Message Broker denkbar.
 
-Die schon angesprochene Skalierbarkeit ist mittels Docker-Compose zu erreichen aber nur rudimentär implementiert. So lassen sich mit \emph{docker-compose up --scale SERVICE=NUM} eine bestimmte Anzahl an Containern eines bestimmten Dienstes starten.
+Die schon angesprochene Skalierbarkeit ist mittels Docker-Compose zu erreichen aber nur rudimentär implementiert. So lassen sich mit \emph{docker-compose up --scale SERVICE=NUM} eine bestimmte Anzahl an Containern eines bestimmten Dienstes starten. Alternativ kann auch \emph{docker-compose scale SERVICE=NUM} eingesetzt werden. Dieser Befehl gilt aber als veraltet und soll nicht mehr verwendet werden. Hat man innerhalb der \emph{docker-compose.yaml} ein \emph{Port-Mapping} festgelegt, schlägt das Erstellen der Container auch fehl, da diese nicht alle unter dem selben Port erreichbar seinen können.
 
 \section{Skalierung mit Kubernetes} \label{kubernetes}
 
-Kubernetes ist ein Werkzeug zum erzeugen und verwalten von Containerclustern. 
+Kubernetes ist ein Werkzeug zur Container Orchestrierung, im Besonderen zum erzeugen und verwalten von Containerclustern. Mit Hilfe von Kubernetes können große, komplexe Containersysteme aufgespannt werden, in denen die einzelnen Anwendungen auf keinen bestimmten Ausführungsort angewiesen sind und es dadurch egal wird, auf welchem Rechner die Anwendungen ausgeführt werden. Neben dem \emph{Routing} übernimmt Kubernetes auch das \emph{Monitoring} der Anwendungen und startet diese neu, wenn diese nicht mehr wie gewohnt zu erreichen sind. Letztlich lässt sich mit Kubernetes auch die Skalierung der Anwendungen automatisieren. Wozu verschiedenste Metriken hinzugezogen werden können. 
 
 \subsection{Kubernetes Komponenten}
 
-\subsection{Horizontale Skalierung}
+Ein Cluster besteht dabei aus mindestens einem Worker-Knoten und einem Master-Knoten. Auf dem Worker-Knoten laufen sogenannte Pods, die die Funktion des eigentlichen Container darstellen. 
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.5]{KubeSimpleCluster.png}
+	\caption[https://www.redhat.com/de/topics/containers/what-is-kubernetes]{Simples Kubernetes Cluster}
+\end{figure}
+
+Auf Abbildung 4.1 sehen wir ein \emph{Kubernetes-Cluster} mit einem \emph{Worker-Knoten} auf dem sich zwei \emph{Pods} befinden. Auf dem \emph{Master-Knoten} laufen alle Controller, die Kubernetes für die Interaktion mit den Cluster-Komponenten benötigt. Darunter ist der \emph{API-Server}. Er ist verantwortlich für den allgemeinen Datenaustausch innerhalb des Systems und bietet eine Schnittstelle, über die der Nutzer den Status des Clusters abfragen kann aber die auch allen Komponenten innerhalb des Clusters ermöglicht miteinander zu kommunizieren. Auch werden durch diese Schnittstelle die einzelnen Komponenten konfiguriert.
+
+Mit einem \emph{Worker-Knoten} kommuniziert der \textit{API-Server} über ein \emph{kubelet}, das auf jedem \emph{Worker-Knoten} läuft. Es ist dafür verantwortlich die auf dem Knoten befindlichen Komponenten zu konfigurieren und zu überwachen. 
+
+\emph{Pods} stellen, wie schon zuvor erwähnt, unsere eigentliche Anwendung dar. Sie werden mit einem Docker-Image konfiguriert und können entweder manuell in der Kommandozeile, mit YAML oder automatisch mit einem \emph{Deployment} erzeugt werden.
+Ein \emph{Deployment} ist zur Verwaltung eines \emph{Pods} und seines \emph{ReplicaSets} gedacht. Erstellt man ein \emph{Deployment} so werden beide Komponenten erzeugt.
+Das \emph{ReplicaSet} ist für den Erhalt einer konstanten Anzahl gleichartiger \emph{Pods} gedacht. 
+Neben dem \emph{Deployment} gibt es auch \emph{DaemonSets} und \emph{StatefulSets}, die diesem ähneln. Ein \emph{DaemonSet} geht sicher, dass auf allen oder auch nur manchen Knoten ein Exemplar des spezifizierten \emph{Pods} läuft. Das \emph{StatefulSet} dem entgegen verhält sich fast wie ein \emph{Deployment} aber die \emph{Pods}, die es erzeugt, sind nicht absolut austauschbar und besitzen deshalb eine ID mit der man diese auseinanderhalten kann. Dies kann wichtig sein falls ein Container eigenen Speicher besitzt. 
+Egal wie man nun seine \emph{Pods} erzeugt, um auf seine Anwendung zugreifen zu können, braucht man einen \emph{Service}, der einen einfachen Weg bietet die Anwendung zu erreichen. Auch benötigt man einen \emph{Service} weil \emph{Pods} innerhalb eines \emph{Deployments} nicht permanent gleich bleiben. Sie werden je nach Bedarf gestartet und beendet und jeder Neue bekommt auch eine neue IP-Adresse zugewiesen. Man kann also die \emph{Pods} auf einem \emph{Deployment} besser erreichen indem man einen \emph{Service} erzeugt, der alle \emph{Pods} durch eine IP-Adresse erreichbar macht. Eine IP-Adresse lässt sich innerhalb des Clusters aber, ähnlich wie auch Docker, komplett vermeiden in dem man dem Schema \emph{service-name.namespace.svc} folgt.
+
+Mit dem Cluster interagieren wir mittels des \emph{kubectl} Befehls. So können wir durch \emph{kubectl create deployment somename --image some/image:test} ein \emph{Deployment} erschaffen und mit \emph{kubectl delete deployment somename} wieder entfernen. 
+
+Doch deutlich genauer und auch angenehmer ist das Erzeugen der Komponenten über \emph{YAML}. 
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=1]{KubeYmlPod.png}
+	\caption[Screenshot]{Pod-Konfiguration YAML}
+\end{figure}
+
+
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=1]{KubeYmlDep.png}
+	\caption[Screenshot]{Deployment-Konfiguration YAML}
+\end{figure}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=1]{KubeYmlSvc.png}
+	\caption[Screenshot]{Service-Konfiguration YAML}
+\end{figure}
+
+\subsection{Horizontale Skalierung} 
 
 \subsection{GitLab CI}
 
