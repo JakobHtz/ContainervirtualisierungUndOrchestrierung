@@ -129,7 +129,7 @@ YellowMap entwickelt und hostet in erster Linie Kartenanwendungen, bietet Entwic
 \begin{figure}[h!]
 	\centering
 	\includegraphics[scale=0.55]{YmFF.png}
-	\caption[https://www.aldi-sued.de/filialen/]{FilialFinder}
+	\caption[https://www.aldi-sued.de/filialen/ (Stand 28.08.2020)]{FilialFinder}
 \end{figure}
 
 %Redo
@@ -333,6 +333,8 @@ Dies wird wie schon beschrieben erreicht indem wir die Basis wechseln und die ge
 
 Um einen Dockerfile nun ausführen zu können und so ein Image zu erstellen müssen wir in der Kommandozeile den Befehl \emph{docker build .} in dem jeweiligen Ordner ausführen. Damit wir das Image später besser referenzieren können, lohnt es sich dem Image ein Tag, zu geben. Dies machen wir mit dem Kürzel \emph{-t}. Der Dockerfile kann mit dem Kürzel \emph{-f} angegeben werden. So kann auch auf eine andere Position in der Ordnerstruktur hingewiesen werden.
 
+Aus Sicherheitsgründen lohnt sich abzuwägen, ob die Anwendung beim bauen des Images einen Benutzer anzulegen und die Anwendung auf diesem laufen zulassen. Der Standardnutzer ist \emph{Root}.
+
 Images erzeugen zu können ist in Hinblick auf Kubernetes unerlässlich.
 
 \subsubsection{Docker-Compose}
@@ -372,7 +374,7 @@ Kubernetes ist ein Werkzeug zur Container Orchestrierung, im Besonderen zum erze
 
 \subsection{Kubernetes Komponenten}
 
-Ein Cluster besteht dabei aus mindestens einem Worker-Knoten und einem Master-Knoten. Auf dem Worker-Knoten laufen sogenannte Pods, die die Funktion des eigentlichen Container darstellen. 
+Ein Cluster besteht dabei aus mindestens einem Worker-Knoten und einem Master-Knoten. Auf dem Worker-Knoten laufen sogenannte \emph{Pods}, die die Funktion des eigentlichen Container darstellen. 
 
 \begin{figure}[h!]
 	\centering
@@ -380,17 +382,19 @@ Ein Cluster besteht dabei aus mindestens einem Worker-Knoten und einem Master-Kn
 	\caption[https://www.redhat.com/de/topics/containers/what-is-kubernetes]{Simples Kubernetes Cluster}
 \end{figure}
 
-Auf Abbildung 4.1 sehen wir ein \emph{Kubernetes-Cluster} mit einem \emph{Worker-Knoten} auf dem sich zwei \emph{Pods} befinden. Auf dem \emph{Master-Knoten} laufen alle Controller, die Kubernetes für die Interaktion mit den Cluster-Komponenten benötigt. Darunter ist der \emph{API-Server}. Er ist verantwortlich für den allgemeinen Datenaustausch innerhalb des Systems und bietet eine Schnittstelle, über die der Nutzer den Status des Clusters abfragen kann aber die auch allen Komponenten innerhalb des Clusters ermöglicht miteinander zu kommunizieren. Auch werden durch diese Schnittstelle die einzelnen Komponenten konfiguriert.
+Auf Abbildung 4.1 sehen wir ein \emph{Kubernetes-Cluster} mit einem \emph{Worker-Knoten} auf dem sich zwei \emph{Pods} befinden. Auf dem \emph{Master-Knoten} laufen alle Controller, die Kubernetes für die Interaktion mit den \emph{Cluster}-Komponenten benötigt. Darunter ist der \emph{API-Server}. Er ist verantwortlich für den allgemeinen Datenaustausch innerhalb des Systems und bietet eine Schnittstelle, über die der Nutzer den Status des \emph{Clusters} abfragen kann aber die auch allen Komponenten innerhalb des \emph{Clusters} ermöglicht miteinander zu kommunizieren. Auch werden durch diese Schnittstelle die einzelnen Komponenten konfiguriert.
 
 Mit einem \emph{Worker-Knoten} kommuniziert der \textit{API-Server} über ein \emph{kubelet}, das auf jedem \emph{Worker-Knoten} läuft. Es ist dafür verantwortlich die auf dem Knoten befindlichen Komponenten zu konfigurieren und zu überwachen. 
 
-\emph{Pods} stellen, wie schon zuvor erwähnt, unsere eigentliche Anwendung dar. Sie werden mit einem Docker-Image konfiguriert und können entweder manuell in der Kommandozeile, mit YAML oder automatisch mit einem \emph{Deployment} erzeugt werden.
+\emph{Pods} stellen, wie schon zuvor erwähnt, unsere eigentliche Anwendung dar. Sie werden mit einem Docker-Image konfiguriert und können entweder manuell in der Kommandozeile, mit YAML oder automatisch mit einem \emph{Deployment} erzeugt werden. Sie können mehrere Container beinhalten.
 Ein \emph{Deployment} ist zur Verwaltung eines \emph{Pods} und seines \emph{ReplicaSets} gedacht. Erstellt man ein \emph{Deployment} so werden beide Komponenten erzeugt.
 Das \emph{ReplicaSet} ist für den Erhalt einer konstanten Anzahl gleichartiger \emph{Pods} gedacht. 
-Neben dem \emph{Deployment} gibt es auch \emph{DaemonSets} und \emph{StatefulSets}, die diesem ähneln. Ein \emph{DaemonSet} geht sicher, dass auf allen oder auch nur manchen Knoten ein Exemplar des spezifizierten \emph{Pods} läuft. Das \emph{StatefulSet} dem entgegen verhält sich fast wie ein \emph{Deployment} aber die \emph{Pods}, die es erzeugt, sind nicht absolut austauschbar und besitzen deshalb eine ID mit der man diese auseinanderhalten kann. Dies kann wichtig sein falls ein Container eigenen Speicher besitzt. 
+Neben dem \emph{Deployment} gibt es auch \emph{DaemonSets} und \emph{StatefulSets}, die diesem ähneln. 
+Ein \emph{DaemonSet} geht sicher, dass auf allen oder auch nur manchen Knoten ein Exemplar des spezifizierten \emph{Pods} läuft. 
+Das \emph{StatefulSet} dem entgegen verhält sich fast wie ein \emph{Deployment} aber die \emph{Pods}, die es erzeugt, sind nicht absolut austauschbar und besitzen deshalb eine ID mit der man diese auseinanderhalten kann. Dies kann wichtig sein falls ein Container eigenen Speicher besitzt. 
 Egal wie man nun seine \emph{Pods} erzeugt, um auf seine Anwendung zugreifen zu können, braucht man einen \emph{Service}, der einen einfachen Weg bietet die Anwendung zu erreichen. Auch benötigt man einen \emph{Service} weil \emph{Pods} innerhalb eines \emph{Deployments} nicht permanent gleich bleiben. Sie werden je nach Bedarf gestartet und beendet und jeder Neue bekommt auch eine neue IP-Adresse zugewiesen. Man kann also die \emph{Pods} auf einem \emph{Deployment} besser erreichen indem man einen \emph{Service} erzeugt, der alle \emph{Pods} durch eine IP-Adresse erreichbar macht. Eine IP-Adresse lässt sich innerhalb des Clusters aber, ähnlich wie auch Docker, komplett vermeiden in dem man dem Schema \emph{service-name.namespace.svc} folgt.
 
-Mit dem Cluster interagieren wir mittels des \emph{kubectl} Befehls. So können wir durch \emph{kubectl create deployment somename --image some/image:test} ein \emph{Deployment} erschaffen und mit \emph{kubectl delete deployment somename} wieder entfernen. 
+Mit dem \emph{Cluster} interagieren wir mittels des \emph{kubectl} Befehls. So können wir durch \emph{kubectl create deployment somename --image some/image:test} ein \emph{Deployment} erschaffen und mit \emph{kubectl delete deployment somename} wieder entfernen. 
 
 Doch deutlich genauer und auch angenehmer ist das Erzeugen der Komponenten über \emph{YAML}. 
 
@@ -400,7 +404,7 @@ Doch deutlich genauer und auch angenehmer ist das Erzeugen der Komponenten über
 	\caption[Screenshot]{Pod-Konfiguration YAML}
 \end{figure}
 
-
+Auf der Abbildung 4.2 sehen wir ein Beispiel dazu wie dies für einen \emph{Pod} aussieht. Zu Beginn wird die \emph{apiVersion}, die Art der Komponente, der Namen und die Labels des \emph{Pods} festgelegt. Die \emph{apiVersion} kann sich von Komponente zu Komponente unterscheiden, wie wir später sehen werden. In \emph{spec} werden nun die zum \emph{Pod} gehörigen Container spezifiziert. Der Unterpunkt \emph{containers} ist eine Liste und kann mehrere Container beinhalten. Zu einem Container gehören Name, Image, eine Liste an Ports und idealerweise auch eine \emph{readinessPobe} und \emph{livenessProbe}.  Diese sind in Syntax und Argumenten identisch und unterscheiden sich nur in Funktion. Die \emph{readinessProbe} hat die Aufgabe zu erkennen ab wann die Anwendung betriebsbereit ist und Anfragen entgegennehmen kann. Die \emph{livenessProbe} überprüft ob die Anwendung noch betriebsbereit ist oder ob diese neu gestartet werden müsste. Im Beispiel benutzen beide eine HTTP-Anfrage aber es diese Überprüfung kann auch auf andere Weise realisiert werden.
 
 \begin{figure}[h!]
 	\centering
@@ -408,21 +412,31 @@ Doch deutlich genauer und auch angenehmer ist das Erzeugen der Komponenten über
 	\caption[Screenshot]{Deployment-Konfiguration YAML}
 \end{figure}
 
+Bei einem \emph{Deployment} verändert sich nur wenig wie man in Abbildung 4.3 sehen kann. In \emph{metadata} wurde lediglich um die Komponenten vom Rest des Clusters zu trennen ein \emph{Namespace} hinzugefügt. In \emph{spec} kommt nun doch mehr hinzu. So können wir nun mit \emph{replicas} die Anzahl der \emph{Pods} in unserem \emph{Deployment} auswählen und mit \emph{selector} werden die vom \emph{Deployment} betroffenen Container ausgewählt. Unter \emph{template} finden wir die \emph{metadata} und \emph{spec} unseres \emph{Pods} aus Abbildung 4.2 wieder.
+
 \begin{figure}[h!]
 	\centering
 	\includegraphics[scale=1]{KubeYmlSvc.png}
 	\caption[Screenshot]{Service-Konfiguration YAML}
 \end{figure}
 
-\subsection{Horizontale Skalierung} 
+Auf Abbildung 4.4 sehen wir zu guter Letzt einen \emph{Service}, der auf diese Weise definiert wird. Die allgemeine Struktur bleibt im Vergleich zu dem \emph{Pod} und dem \emph{Deployment} gleich. In \emph{spec} haben wir einen \emph{selector}, der das \emph{Deployment} referenziert. Danach folgt eine Liste an Ports. Diese werden später dann nach außen zur Verfügung gestellt.
 
-\subsection{GitLab CI}
+\subsection{Skalierung} 
+
+
 
 \subsection{Helm}
 
+Helm ist im Prinzip eine kleine Erweiterung zu dem \emph{YAML}-Format, das wir schon kennen gelernt haben. 
+
 \subsection{Umsetzung}
 
+
+
 \section{Stand des Projekts} \label{project_status}
+
+
 
 \section{Fazit}\label{conclusion}
 %Und jetzt spitzt das warme Blut aus dem Hals der letzten Sau. Und mit ihr stirbt ein kleines Stück Geschichte unserer Stadt. Der Sau ist es egal, doch wir wissen es genau. Der Bagger macht viel mehr als nur den alten Schlachthof platt. 
