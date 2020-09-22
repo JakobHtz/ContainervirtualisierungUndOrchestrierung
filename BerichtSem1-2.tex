@@ -154,6 +154,8 @@ Das System ist also kein Monolithisches, da es aus vielen Einzelprojekten besteh
 
 Beabsichtigt ist es das eben beschriebene System nun in ein verteiltes System umzuwandeln. Ein verteiltes System ist ein System, dass aus einer Ansammlung von unabhängigen Komponenten besteht, die über ein Netzwerk miteinander kommunizieren aber trotzdem nach außen als einzelnes System auftritt. Im Fall des Zielsystems soll dies mit einer zentralen API-Schnittstelle realisiert werden die mögliche Anfragen dann an die verschiedenen Komponenten weiterleitet. So tritt es zwar als einzelnes System auf aber kann komponentenweise sehr flexibel gehandhabt werden. So können einzelne Komponenten unabhängig vom Gesamtsystem einfach ausgetauscht werden. So wird uns auch ermöglicht das System auf sehr spezifische Weise zu Skalieren.
 
+
+\newpage
 \section{Serverkommunikation mit Message Broker} \label{rabbit}
 Zuerst begann ich den Prototypen für die Serverkommunikation mittels Message Broker zu konzeptionieren. Der Message Broker sollte eine neue interne Schnittstelle zwischen dem Serversystem und dem Legacy-System etablieren, da diese zuvor via normale HTTP-Aufrufe, die über das externe Netz gingen, realisiert wurde. Dies benötigte das Herauslösen eigenständiger Komponenten des Legacy-Systems und die Umwandlung dieser in sogenannte Microservices. Im Hinblick auf die späteren Änderungen, die noch an dem System vorgenommen werden sollten, sollte auch die Möglichkeit betrachtet werden, die Protokollierung von Systemdaten über den Message Broker auf eine Vielzahl von Empfängersystemen zu ermöglichen.
 
@@ -265,7 +267,7 @@ Dann machte ich mich langsam daran, gezielt überflüssigen Code zu entfernen, s
 Den Prototypen zum Fanout-Exchange implementierte ich als Dead-Letter-Exchange, eine Art Exchange, den man bei der Initialisierung einer Queue angeben kann. An ihn werden Nachrichten gesendet, wenn diese Nachrichten eine in der Queue gesetzten Time-To-Live (TTL) überschreiten.
 
 
-
+\newpage
 \section{Containervirtualisierung mit Docker} \label{docker}
 Docker ist ein Werkzeug zur Erstellung und Verwaltung von Containern. 
 Container sind kleine voneinander unabhängige Umgebungen in denen Programme lauffähig und von außerhalb gezielt erreichbar sind. Sie werden dafür eingesetzt eine Anwendung von äußeren Einflüssen zu befreien. Ihre Prämisse lautet, wenn eine Anwendung auf einem System funktioniert, funktioniert sie auf allen Systemen. Ein Container hat für gewöhnlich nur das nötigste installiert um lauffähig zu sein, alles andere wird vom Entwickler selbst beigesteuert. Was ihnen wiederum einen entscheidenden Vorteil im Vergleich zu einer virtuellen Maschine (VM) gibt. Aber nicht nur das. Einen Container aufzusetzen ist auch mit um einiges weniger Aufwand verbunden als das Aufsetzen einer VM. 
@@ -294,10 +296,11 @@ Dieser Vorteil wird aber erst bei einer größeren Anzahl an Instanzen richtig e
 
 \subsection{Docker Grundlagen}
 
-Docker ist nun eine Plattform auf der wir mit Containern interagieren können. Das heißt unter anderem Container erzeugen und löschen, Ports teilen und Speicher zuteilen. Ein Container wird mit einem Image erzeugt. Ein Image ist ein Abbild der auszuführenden Programminstanz und wird aus einer Registry, einer zentralen Sammelstelle für Images, gezogen. Docker Images werden mit Dockerfiles erzeugt und können dann lokal verwaltet und auf externe Registries geschoben werden. Da mehrere Instanzen des selben Containers auch mehrere Anwendungen auf dem selben Port und der selben Adresse heißen würde, muss man auf die Ports, die von der Anwendung verwendet werden, von anderen Ports verweisen. Dies nennt sich Port-Mapping. 
+Docker ist nun eine Plattform auf der wir mit Containern interagieren können. Das heißt unter anderem Container erzeugen und löschen, Ports teilen und Speicher zuteilen. Ein Container wird mit einem Image erzeugt. Ein Image ist ein Abbild der auszuführenden Programminstanz und wird aus einer Registry, einer zentralen Sammelstelle für Images, gezogen. Docker Images werden mit Dockerfiles erzeugt und können dann lokal verwaltet und auf externe Registries geschoben werden. Eine Registry, die nicht über HTTPS, sondern nur über HTTP erreichbar ist nennt man eine Unsecure Registry und muss der \emph{daemon.json} hinzugefügt werden. Das geht unter Windows einfach über die Einstellungen des Programms \emph{Docker Desktop}. Da mehrere Instanzen des selben Containers auch mehrere Anwendungen auf dem selben Port und der selben Adresse heißen würde, muss man auf die Ports, die von der Anwendung verwendet werden, von anderen Ports verweisen. Dies nennt sich Port-Mapping. 
 Docker bietet auch Container mit Netzwerken zu verbinden, so dass ein DNS Containernamen auf ihre IP-Adressen übersetzt. Es gibt zwar auch Standardlösungen für diese Netzwerke, auf denen aber die Auflösung von Containernamen nicht möglich ist. Deshalb ist es ratsam diese Netzwerke selbst zu definieren.
 Dabei ist aber zu bedenken, ob die Anfrage auch wirklich vom Container aus gesendet wird und nicht wie im Falle von JavaScript clientseitig gestellt wird.
 Ein anderes Konzept, das Docker einführt, ist Volume. Ein Volume ist eine Art Speicher mit dem sich Container verbinden und es dann benutzen können.
+
 Container können über die Kommandozeile mit dem Befehl  \emph{docker run example/image:test} gestartet werden. Dabei können zahlreiche Parameter mitgegeben werden. Mit \emph{-p} können so Port-Mappings erstellt werden. Die lokalen Images können mit \emph{docker images} eingesehen werden. Mit \emph{docker ps} werden die laufenden Container angezeigt. Möchten wir auch die beendeten Container aufgelistet haben, so fügen wir das Kürzel \emph{-a} an. Wenn ein Container gestoppt werden soll geht dies mit \emph{docker stop container\_id}, für das entfernen \emph{docker rm container\_id}. Images werden mit \emph{docker rmi image\_id} entfernt.  
 
 \begin{figure}[h!]
@@ -368,6 +371,8 @@ Falls nun in einem Containersystem einer der Container blockieren sollte, muss d
 
 Die schon angesprochene Skalierbarkeit ist mittels Docker-Compose zu erreichen aber nur rudimentär implementiert. So lassen sich mit \emph{docker-compose up --scale SERVICE=NUM} eine bestimmte Anzahl an Containern eines bestimmten Dienstes starten. Alternativ kann auch \emph{docker-compose scale SERVICE=NUM} eingesetzt werden. Dieser Befehl gilt aber als veraltet und soll nicht mehr verwendet werden. Hat man innerhalb der \emph{docker-compose.yaml} ein \emph{Port-Mapping} festgelegt, schlägt das Erstellen der Container auch fehl, da diese nicht alle unter dem selben Port erreichbar seinen können.
 
+
+\newpage
 \section{Skalierung mit Kubernetes} \label{kubernetes}
 
 Kubernetes ist ein Werkzeug zur Container Orchestrierung, im Besonderen zum erzeugen und verwalten von Containerclustern. Mit Hilfe von Kubernetes können große, komplexe Containersysteme aufgespannt werden, in denen die einzelnen Anwendungen auf keinen bestimmten Ausführungsort angewiesen sind und es dadurch egal wird, auf welchem Rechner die Anwendungen ausgeführt werden. Neben dem \emph{Routing} übernimmt Kubernetes auch das \emph{Monitoring} der Anwendungen und startet diese neu, wenn diese nicht mehr wie gewohnt zu erreichen sind. Letztlich lässt sich mit Kubernetes auch die Skalierung der Anwendungen automatisieren. Wozu verschiedenste Metriken hinzugezogen werden können. 
@@ -428,7 +433,7 @@ Auf Abbildung 4.4 sehen wir zu guter Letzt einen \emph{Service}, der auf diese W
 
 \subsection{Helm}
 
-Helm ist im Prinzip eine kleine Erweiterung zu dem \emph{YAML}-Format, das wir schon kennen gelernt haben. 
+Helm ist eine Erweiterung auf das uns schon bekannte \emph{YAML}-Format, das bei der Erzeugung von Kubernetes-Komponenten zum Einsatz kam. Ein sogenanntes Helm-Chart definiert alle Komponenten im selben Schema wie schon zuvor, doch fügt einiges an Funktionalität hinzu. Ein Helm-Chart besitzt eine \emph{Chart.yaml}, die Informationen zur Chart beinhaltet, einen Template-Ordner, der die YAML-Dateien der Komponenten beinhaltet und eine \emph{values.yaml}, in der Werte global für das komplette Chart gesetzt werden, die dann in den YAML-Dateien referenziert werden können. Es können sich auch in einem Charts-Ordner weitere Subcharts befinden. Helm-Charts können wie auch Images in Registries gespeichert werden. 
 
 \subsection{Umsetzung}
 
