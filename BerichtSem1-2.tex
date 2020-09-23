@@ -422,13 +422,13 @@ Bei einem \emph{Deployment} verändert sich nur wenig wie man in Abbildung 4.3 s
 
 Auf Abbildung 4.4 sehen wir zu guter Letzt einen \emph{Service}, der auf diese Weise definiert wird. Die allgemeine Struktur bleibt im Vergleich zu dem \emph{Pod} und dem \emph{Deployment} gleich. In \emph{spec} haben wir einen \emph{selector}, der das \emph{Deployment} referenziert. Danach folgt eine Liste an Ports. Diese werden später dann nach außen zur Verfügung gestellt.
 
-\subsection{Helm}
-
-Helm ist ein System zur Verwaltung von Kubernetes-Komponenten, diese werden hier wie zuvor über das YAML-Format  erzeugt, in denen aber nun auch häufig gebrauchte Werte global über eine Extradatei setzbar sind. Weiter gibt es ebenso wie schon bei Docker-Images Registries, in denen Helm-Charts gespeichert und verteilt werden können.
-
 \subsection{Skalierung} 
 
 
+
+\subsection{Helm}
+
+Helm ist eine Erweiterung auf das uns schon bekannte \emph{YAML}-Format, das bei der Erzeugung von Kubernetes-Komponenten zum Einsatz kam. Ein sogenanntes Helm-Chart definiert alle Komponenten im selben Schema wie schon zuvor, doch fügt einiges an Funktionalität hinzu. Ein Helm-Chart besitzt eine \emph{Chart.yaml}, die Informationen zur Chart beinhaltet, einen Template-Ordner, der die YAML-Dateien der Komponenten beinhaltet und eine \emph{values.yaml}, in der Werte global für das komplette Chart gesetzt werden, die dann in den YAML-Dateien referenziert werden können. Es können sich auch in einem Charts-Ordner weitere Subcharts befinden. Helm-Charts können wie auch Images in Registries gespeichert werden.
 
 \subsection{Umsetzung}
 
