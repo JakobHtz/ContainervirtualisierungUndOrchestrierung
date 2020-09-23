@@ -422,13 +422,13 @@ Bei einem \emph{Deployment} verändert sich nur wenig wie man in Abbildung 4.3 s
 
 Auf Abbildung 4.4 sehen wir zu guter Letzt einen \emph{Service}, der auf diese Weise definiert wird. Die allgemeine Struktur bleibt im Vergleich zu dem \emph{Pod} und dem \emph{Deployment} gleich. In \emph{spec} haben wir einen \emph{selector}, der das \emph{Deployment} referenziert. Danach folgt eine Liste an Ports. Diese werden später dann nach außen zur Verfügung gestellt.
 
+\subsection{Helm}
+
+Helm ist ein System zur Verwaltung von Kubernetes-Komponenten, diese werden hier wie zuvor über das YAML-Format  erzeugt, in denen aber nun auch häufig gebrauchte Werte global über eine Extradatei setzbar sind. Weiter gibt es ebenso wie schon bei Docker-Images Registries, in denen Helm-Charts gespeichert und verteilt werden können.
+
 \subsection{Skalierung} 
 
 
-
-\subsection{Helm}
-
-Helm ist im Prinzip eine kleine Erweiterung zu dem \emph{YAML}-Format, das wir schon kennen gelernt haben. 
 
 \subsection{Umsetzung}
 
@@ -443,9 +443,9 @@ Helm ist im Prinzip eine kleine Erweiterung zu dem \emph{YAML}-Format, das wir s
 
 \newpage
 
-%-----------------------------------------------------------------
-% Ab hier => Literaturverzeichnis + temporäre Kommentare und Tests
-%-----------------------------------------------------------------
+%--------------------------------
+% Ab hier => Literaturverzeichnis
+%--------------------------------
 
 \printbibliography
 \addcontentsline{toc}{section}{Literaturverzeichnis}
