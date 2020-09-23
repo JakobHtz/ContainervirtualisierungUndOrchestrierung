@@ -132,7 +132,7 @@ YellowMap entwickelt und hostet in erster Linie Kartenanwendungen, bietet Entwic
 	\caption[https://www.aldi-sued.de/filialen/ (Stand 28.08.2020)]{FilialFinder}
 \end{figure}
 
-%Redo
+%TODO Redo
 %Zu Beginn bekam ich diverse Sonderaufgaben zugeteilt, die zu meiner Einarbeitung dienten. 
 Im umrissenen Zeitraum habe ich viele Tätigkeiten besonders in den Bereichen Backend und Testing übernommen. Doch auch ein paar kleinere Aufgaben im Bereich Frontend fielen mir zu. Gearbeitet habe ich mit .NET Core, Gatling, HTML, CSS, JavaScript, Docker, Kubernetes und RabbitMQ. 
 Darunter war die Entwicklung eines Dienstes, der dazu fähig ist Termindaten von einer Datenbank zu ziehen und diese dann auf kleinen E-Paper-Bildschirmen anzuzeigen was vollständig in C\# realisiert wurde. Auch entwickelte ich zu Demozwecken Testwebseiten die Funktionen der JavaScript API präsentieren sollten. Ein anderes Projekt war die Realisierung von Stresstests auf ein schon bestehendes Projekt mittels Gatling. Dafür musste ich mich in die Programmiersprache Scala und Maven einarbeiten. 
@@ -150,9 +150,13 @@ Das bestehende System wurde entworfen damit viele Anwendungen unabhängig vonein
 
 Das System ist also kein Monolithisches, da es aus vielen Einzelprojekten besteht, die größtenteils unabhängig von einander agieren können, aber es ist ebenso kein verteiltes System, da sich trotz des modularen Designs alles auf demselben Server befindet.
 
-\subsection{Das Zielsystem}
-
+\subsection{Ziel der Arbeit}
+%TODO Ziel der Artbeit
 Beabsichtigt ist es das eben beschriebene System nun in ein verteiltes System umzuwandeln. Ein verteiltes System ist ein System, dass aus einer Ansammlung von unabhängigen Komponenten besteht, die über ein Netzwerk miteinander kommunizieren aber trotzdem nach außen als einzelnes System auftritt. Im Fall des Zielsystems soll dies mit einer zentralen API-Schnittstelle realisiert werden die mögliche Anfragen dann an die verschiedenen Komponenten weiterleitet. So tritt es zwar als einzelnes System auf aber kann komponentenweise sehr flexibel gehandhabt werden. So können einzelne Komponenten unabhängig vom Gesamtsystem einfach ausgetauscht werden. So wird uns auch ermöglicht das System auf sehr spezifische Weise zu Skalieren.
+
+Das Ziel meiner Arbeit liegt also darin an Hand der Entwicklung eines Prototyp die nötigen Grundlagen zu zu erarbeiten und mir das nötige Wissen anzueignen, das im Weiteren benötigt wird um ein verteiltes System aufzusetzen und zu verwalten. Meine Arbeit legt den Grundstein für alle kommenden Projekte, die auf dieser Plattform entwickelt werden sollen. 
+
+Wichtig für diesen Prototypen sind Flexibilität, Unabhängigkeit und Robustheit.
 
 
 \newpage
@@ -300,7 +304,7 @@ Docker ist nun eine Plattform auf der wir mit Containern interagieren können. D
 Docker bietet auch Container mit Netzwerken zu verbinden, so dass ein DNS Containernamen auf ihre IP-Adressen übersetzt. Es gibt zwar auch Standardlösungen für diese Netzwerke, auf denen aber die Auflösung von Containernamen nicht möglich ist. Deshalb ist es ratsam diese Netzwerke selbst zu definieren.
 Dabei ist aber zu bedenken, ob die Anfrage auch wirklich vom Container aus gesendet wird und nicht wie im Falle von JavaScript clientseitig gestellt wird.
 Ein anderes Konzept, das Docker einführt, ist Volume. Ein Volume ist eine Art Speicher mit dem sich Container verbinden und es dann benutzen können.
-Container können über die Kommandozeile mit dem Befehl  \emph{docker run example/image:test} gestartet werden. Dabei können zahlreiche Parameter mitgegeben werden. Mit \emph{-p} können so Port-Mappings erstellt werden. Die lokalen Images können mit \emph{docker images} eingesehen werden. Mit \emph{docker ps} werden die laufenden Container angezeigt. Möchten wir auch die beendeten Container aufgelistet haben, so fügen wir das Kürzel \emph{-a} an. Wenn ein Container gestoppt werden soll geht dies mit \emph{docker stop container\_id}, für das entfernen \emph{docker rm container\_id}. Images werden mit \emph{docker rmi image\_id} entfernt.  
+Container können über die Kommandozeile mit dem Befehl  \emph{docker run example/image:test} gestartet werden. Dabei können zahlreiche Parameter mitgegeben werden. Mit \emph{-p} können so Port-Mappings erstellt werden. Die lokalen Images können mit \emph{docker images} eingesehen werden. Mit \emph{docker ps} werden die laufenden Container angezeigt. Möchten wir auch die beendeten Container aufgelistet haben, so fügen wir das Kürzel \emph{-a} an. Wenn ein Container gestoppt werden soll geht dies mit \emph{docker stop container\_id}, für das entfernen \emph{docker rm container\_id}. Images werden mit \emph{docker rmi image\_id} entfernt. Zur Fehlersuche können wir mit \emph{docker logs container-name} auf die \emph{Log}-Dateien eines Containers zugreifen.
 
 \begin{figure}[h!]
 	\centering
@@ -426,24 +430,54 @@ Bei einem \emph{Deployment} verändert sich nur wenig wie man in Abbildung 4.3 s
 
 Auf Abbildung 4.4 sehen wir zu guter Letzt einen \emph{Service}, der auf diese Weise definiert wird. Die allgemeine Struktur bleibt im Vergleich zu dem \emph{Pod} und dem \emph{Deployment} gleich. In \emph{spec} haben wir einen \emph{selector}, der das \emph{Deployment} referenziert. Danach folgt eine Liste an Ports. Diese werden später dann nach außen zur Verfügung gestellt.
 
-\subsection{Helm}
+\subsubsection{Helm}
 
-Helm ist eine Erweiterung auf das uns schon bekannte \emph{YAML}-Format, das bei der Erzeugung von Kubernetes-Komponenten zum Einsatz kam. Ein sogenanntes Helm-Chart definiert alle Komponenten im selben Schema wie schon zuvor, doch fügt einiges an Funktionalität hinzu. Ein Helm-Chart besitzt eine \emph{Chart.yaml}, die Informationen zur Chart beinhaltet, einen Template-Ordner, der die YAML-Dateien der Komponenten beinhaltet und eine \emph{values.yaml}, in der Werte global für das komplette Chart gesetzt werden, die dann in den YAML-Dateien referenziert werden können. Es können sich auch in einem Charts-Ordner weitere Subcharts befinden. Helm-Charts können wie auch Images in Registries gespeichert werden.
+Helm ist eine Erweiterung auf das uns schon bekannte \emph{YAML}-Format, das bei der Erzeugung von Kubernetes-Komponenten zum Einsatz kam. Ein sogenanntes Helm-Chart definiert alle Komponenten im selben Schema wie schon zuvor, doch fügt einiges an Funktionalität hinzu. Ein Helm-\emph{Chart} besitzt eine \emph{Chart.yaml}, die Informationen zur \emph{Chart} beinhaltet, einen \emph{Template}-Ordner, der die \emph{YAML}-Dateien der Komponenten beinhaltet und eine \emph{values.yaml}, in der Werte global für das komplette Chart gesetzt werden, die dann in den \emph{YAML}-Dateien referenziert werden können. Es können sich auch in einem Charts-Ordner weitere \emph{Subcharts} befinden. Helm-\emph{Charts} können wie auch Images in Registries gespeichert werden.
 
-\subsection{Skalierung} 
+\subsubsection{Skalierung} 
+
+Die Idee hinter der Skalierung von Prozessen ist es, bei ansteigender Last auf ein System, dies auszugleichen, indem die relevanten Komponenten durch die Zuweisung von Ressourcen oder die Vervielfältigung dieser gestärkt werden.
+Die Zuweisung zusätzlicher Ressourcen nennt man vertikale Skalierung, die Vervielfältigung der betroffenen Container horizontale Skalierung.
+
+Beide Arten können durch Kubernetes dynamisch angepasst werden. Dies funktioniert auch automatisch. Bei horizontaler Skalierung erzeugt man in Kubernetes einen \emph{Horizontal Pod Autoscaler (HPA)} auf das gewünschte \emph{Deployment}. Im \emph{Deployment} müssen die Bedingungen für die Replikation der \emph{Pods} angegeben sein. Dies geht am einfachsten über die Angabe der Prozessorauslastung. Zum Lesen der Metrikdaten von \emph{Pods} benötigen wir einen \emph{metrics-server}. Diesen bekommen wir von \emph{Kubernetes SIGs} auf \emph{GitHub}.
+
+\subsection{Aufsetzen eines verteilten Systems}
+
+Nun galt es das gelernte in einem weiteren Prototyp zu verwirklichen. Das Ziel war es das neue Projekt \emph{Autocomplete} mit Testanwendung auf einem Kubernetes-Cluster als ein verteilten System zu realisieren. Die Testanwendungen waren einerseits eine Benutzeroberfläche zum Testen der Rückgabe auf Nutzereingaben, andererseits ein Dienst zum schreiben von Fehlerberichten auf eine externe Datenbank.
+Dazu habe ich zuerst für alle betroffenen Projekte mit einem \emph{Dockerfile} Images gebaut und auf eine Registry geschoben, auf die ich von dem Cluster aus Zugriff hatte. Die Adressen der Dienste, die nun innerhalb des Clusters laufen und untereinander kommunizieren sollten mussten davor natürlich so angepasst werden, dass diese auf einen \emph{Service} und nicht einfach eine Adresse ist oder auf einen Container verweist. Kleinere Probleme gab es mit der \emph{Registry}, da diese eine \emph{insecure registry} war und somit dem Cluster hinzugefügt werden musste.
+
+Um ein \emph{Cluster} auf dem eigenen Rechner aufzusetzen eignet sich Minikube. Wurde Minikube installiert und den Umgebungsvariablen hinzugefügt, können wir mit \emph{minikube start} ein eigenes \emph{Cluster} starten. Das ist sinnvoll aus Test- und Entwicklungszwecken. Mit Minikube lässt sich die Verwendung eines \emph{Ingress}-Controllers komplett vermeiden. Ein \emph{Service} kann auf \emph{localhost} erreicht werden, wenn dieser mit \emph{minikube service svc-name} ausgeführt wird. 
+
+Nach dem ich die Funktion vorerst lokal getestet hatte, konnte ich nun anfangen die verschiedenen \emph{YAML}-Dateien für die Kuberntes-Komponenten zu schreiben. Diese blieben zumeist unverändert von den Testdateien, die ich schon zuvor erstellt hatte. Für die drei Anwendungen gab es jeweils ein \emph{Deployment} und einen \emph{Service}, des Weiteren gab es einen \emph{Ingress}, der Anfragen auf die drei \emph{Services} aufteilt. Ich verwendete \emph{livenessProbes} und \emph{readinessProbes} aber musste leider die automatische Skalierung außer acht lassen, da der \emph{metrics-server} weder auf dem Testsystem vorhanden war, noch ich die nötigen Rechte hatte ihn zu installieren. Für den Gebrauch der \emph{Registry} musste ein \emph{Secret} auf dieser hinzugefügt werden. Ebenso musste das \emph{Secret} in der Datei unter \emph{imagePullSecrets} referenziert werden. Da das Image, wenn sich dessen Namen oder \emph{Tag} nicht verändert hat, nicht aktualisiert und die lokale version verwendet wird, setzte ich die \emph{imagePullPolicy} auf \emph{Always}.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=1]{KubeIngressPaths.png}
+	\caption[Screenshot]{Ingress Paths}
+\end{figure}
+
+Auf Abbildung 4.5 sehen wir unter welchen Paths die verschiedenen Services durch den Ingress erreichbar sind. Interessant ist, dass aufgepasst werden muss, dass Anwendungen sich mit ihren Endpunkten nicht gegenseitig in die Quere kommen falls wir wollen, dass diese auf der selben URL erreichbar seinen sollten. 
+Somit interagieren wir mit den Containern als wären diese ein einzelnes System aber halten diese austauschbar und dynamisch.
+
+Ein Helm-Chart erstellte ich nur für die \emph{Autocomplete}-Anwendung, für die Testanwendungen war dies meiner Meinung nicht notwendig, da diese nur zum Testen benötigt wurden.
 
 
-
-\subsection{Umsetzung}
-
-
-
-\section{Stand des Projekts} \label{project_status}
-
-
-
+\newpage
 \section{Fazit}\label{conclusion}
+%TODO Mehr belegen :c
+
+
+Eine Betrachtung von Datenbanken innerhalb eines Clusters war letztlich das Einzige was ich aus der Untersuchung ausschloss. Funktionstüchtig war die Anwendung leider nur auf meinem lokalen Cluster, da das Testcluster keinen Zugriff auf einen Datenbankserver hatte, der für die Funktion vital war. Auch die automatische Skalierung lief dank des fehlenden \emph{metrics-servers} nur auf meinem lokalen Cluster. 
+--> Externe Abhängikeiten sind nicht zu Hundert Prozent erfüllt -> Kann ich nicht für.
+
+Containervirtualisierung kann ein echt sinnvolles und auch nützliches Werkzeug zur Entwicklung und Veröffentlichung von Anwendungen sein. Mit Hilfe von Kubernetes kann es den Verwaltungsaufwand senken und auch die Leistung der Anwendung selbständig anpassen und somit verbessern.
+--> Mehr belegen -> Warum?
+
+Durch die verteilte Natur dieser Systeme wird die Fehlersuche sehr Aufwendig. 
+--> Nur anmerken und vlt auf andere abwälzen -> etwas für eine andere Untersuchung :)
+
 %Und jetzt spitzt das warme Blut aus dem Hals der letzten Sau. Und mit ihr stirbt ein kleines Stück Geschichte unserer Stadt. Der Sau ist es egal, doch wir wissen es genau. Der Bagger macht viel mehr als nur den alten Schlachthof platt. 
+%Ich bin mir nicht sicher aber eines weis ich genau. Tote tanzen keinen Pogo, trinken keinen Alkohol. Tote nehmen keine Drogen. Auch ohne Rausch fühlen sie sich wohl.
 
 \newpage
 
