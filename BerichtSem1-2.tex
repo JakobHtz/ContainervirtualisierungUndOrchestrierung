@@ -26,7 +26,7 @@
   bindingoffset=5mm
 }
 \pagestyle{fancy}				% Stil setzen
-\lhead{Containervirtualisierung und horizontale Skalierung}	% Header
+\lhead{Containervirtualisierung}	% Header
 \rhead{}\chead{}				% Andere Header leeren
 \rfoot{Seite \thepage}
 \lfoot{}\cfoot{}
@@ -331,9 +331,9 @@ Wie schon zuvor erwähnt wird mit einem \emph{Dockerfile} ein Image unserer Anwe
 	\caption[Screenshot]{Beispiel für einen Dockerfile}
 \end{figure}
 
-In Abbildung 3.3 sehen wir, wie ein Dockerfile exemplarisch aussehen könnte. Als Erstes wird eine Basis referenziert, die unser Image braucht, um ausgeführt werden zu können. In diesem Fall ist dies .Net Core 3.1. Danach geben wir die Anweisung, den Port 80 für diese Anwendung freizugeben. Nun wird alles Programmrelevante in den Kontext gezogen, gebaut und veröffentlicht. Zuletzt wird ein Einstiegspunkt gesetzt, das heißt, einen Befehl, der bei Start des Containers aufgerufen wird, um die Anwendung auszuführen. 
+In Abbildung 3.3 sehen wir, wie ein \emph{Dockerfile} exemplarisch aussehen könnte. Als Erstes wird eine Basis referenziert, die unser \emph{Image} braucht, um ausgeführt werden zu können. In diesem Fall ist dies \emph{.Net Core 3.1}. Danach geben wir die Anweisung, den Port 80 für diese Anwendung freizugeben. Nun wird alles Programmrelevante in den Kontext gezogen, gebaut und veröffentlicht. Zuletzt wird ein Einstiegspunkt gesetzt, das heißt, einen Befehl, der bei Start des Containers aufgerufen wird, um die Anwendung auszuführen. 
 
-Der \emph{FROM} Befehl, den wir mehrfach in dem Dokument finden können, initialisiert ein Basisimage und wird im Weiteren dazu verwendet, die verschiedenen Phasen während des Bauvorgangs zu trennen. In der vorletzten Zeile finden wir eine \emph{--from} Anweisung, die aussagt, dass hier auf den Kontext des Images \emph{publish}, das zuvor initialisiert wurde, zugegriffen wird.
+Der \emph{FROM} Befehl, den wir mehrfach in dem Dokument finden können, initialisiert ein \emph{Basisimage} und wird im Weiteren dazu verwendet, die verschiedenen Phasen während des Bauvorgangs zu trennen. In der vorletzten Zeile finden wir eine \emph{--from} Anweisung, die aussagt, dass hier auf den Kontext des \emph{Images} \emph{publish}, das zuvor initialisiert wurde, zugegriffen wird.
 
 \begin{figure}[h!]
 	\centering
@@ -341,14 +341,14 @@ Der \emph{FROM} Befehl, den wir mehrfach in dem Dokument finden können, initial
 	\caption[Screenshot]{Webserver als Basisimage}
 \end{figure}
 
-Im Falle einer statischen Website, die von einem Blazor-WebAssembly-Projekt erzeugt wird, muss diese zwar mit .Net gebaut werden, braucht aber keine Runtime-Umgebung, sonder benötigt einen Webserver.
-Dies wird wie schon beschrieben erreicht, indem wir die Basis wechseln und die gebauten Daten auf das neue Basisimage ziehen, wie auf Abbildung 3.4 gezeigt. Ein Einsprungpunkt wird in diesem Fall nicht benötigt.
+Im Falle einer statischen Website, die von einem \emph{Blazor-WebAssembly}-Projekt erzeugt wird, muss diese zwar mit \emph{.Net} gebaut werden, braucht aber keine \emph{Runtime}-Umgebung, sonder benötigt einen Webserver.
+Dies wird wie schon beschrieben erreicht, indem wir die Basis wechseln und die gebauten Daten auf das neue \emph{Basisimage} ziehen, wie auf Abbildung 3.4 gezeigt. Ein Einsprungpunkt wird in diesem Fall nicht benötigt.
 
-Um einen Dockerfile nun ausführen zu können und so ein Image zu erstellen, müssen wir in der Kommandozeile den Befehl \emph{docker build .} in dem jeweiligen Ordner ausführen. Damit wir das Image später besser referenzieren können, lohnt es sich, dem Image ein Tag zu geben. Dies machen wir mit dem Kürzel \emph{-t}. Der Dockerfile kann mit dem Kürzel \emph{-f} angegeben werden. So kann auch auf eine andere Position in der Ordnerstruktur hingewiesen werden.
+Um einen \emph{Dockerfile} nun ausführen zu können und so ein \emph{Image} zu erstellen, müssen wir in der Kommandozeile den Befehl \emph{docker build .} in dem jeweiligen Ordner ausführen. Damit wir das Image später besser referenzieren können, lohnt es sich, dem \emph{Image} ein \emph{Tag} zu geben. Dies machen wir mit dem Kürzel \emph{-t}. Der \emph{Dockerfile} kann mit dem Kürzel \emph{-f} angegeben werden. So kann auch auf eine andere Position in der Ordnerstruktur hingewiesen werden.
 
-Aus Sicherheitsgründen lohnt es sich abzuwägen, ob beim Bauen des Images ein neuer Benutzer angelegt und die Anwendung durch diesen gestartet werden sollte. Der Standardnutzer könnte eventuell \emph{Root}-Rechte haben.
+Aus Sicherheitsgründen lohnt es sich abzuwägen, ob beim Bauen des \emph{Images} ein neuer Benutzer angelegt und die Anwendung durch diesen gestartet werden sollte. Der Standardnutzer könnte eventuell \emph{Root}-Rechte haben.
 
-Images erzeugen zu können ist in Hinblick auf Kubernetes unerlässlich.
+\emph{Images} erzeugen zu können ist in Hinblick auf Kubernetes unerlässlich.
 
 \subsubsection{Docker-Compose}
 
@@ -360,9 +360,9 @@ Mithilfe von Docker-Compose lassen sich Container vollständig konfiguriert und 
 	\caption[Screenshot]{Beispiel für Docker-Compose}
 \end{figure}
 
-Dabei ist Docker-Compose sehr simpel aufgebaut und wird mit der Auszeichnungssprache YAML spezifiziert. Im Beispiel, das in Abbildung 3.5 zusehen ist, wird ein Container namens \emph{smartmapssearch} definiert, der ein gleichnamiges Image benutzt. Es werden weiterhin ein Port-Mapping hinzugefügt und Information zum Bauen des Images angegeben. Gebaut wird das Image wie zuvor mit einem Dockerfile, dessen Position und Namen wir angeben. 
+Dabei ist Docker-Compose sehr simpel aufgebaut und wird mit der Auszeichnungssprache \emph{YAML} spezifiziert. Im Beispiel, das in Abbildung 3.5 zusehen ist, wird ein Container namens \emph{smartmapssearch} definiert, der ein gleichnamiges \emph{Image} benutzt. Es werden weiterhin ein \emph{Port-Mapping} hinzugefügt und Information zum Bauen des \emph{Images} angegeben. Gebaut wird das \emph{Image} wie zuvor mit einem \emph{Dockerfile}, dessen Position und Namen wir angeben. 
 
-Mit Docker-Compose können aber auch Volumes und Netzwerke hinzugefügt werden, die natürlich auch gleich an Container angebunden werden können.
+Mit Docker-Compose können aber auch \emph{Volumes} und \emph{Netzwerke} hinzugefügt werden, die natürlich auch gleich an Container angebunden werden können.
 Containern kann man ebenfalls auch einen Alias hinzufügen, unter dem sie einen anderen Container innerhalb des Netzwerkes finden können. 
 
 In Abbildung 3.6 sehen wir einen Codeauszug, der dies so implementiert. Unter dem Bezeichner \emph{networks} werden alle Informationen des eigenen Netzwerks angegeben. Das deklarierte Netzwerk ist von Typ \emph{bridge}, was bedeutet, dass Anfragen mit einem bestimmten Alias oder dem Containernamen auf die jeweilige IP-Adresse umgeleitet werden. Von diesem Typ ist auch das Standardnetzwerk. Der Netzwerktyp \emph{host}, der nur unter Linux-Systemen auswählbar ist, wird hier vernachlässigt. Nach den Netzwerken werden wie gewohnt die Container definiert. Denen nun noch das Netzwerk und, wenn gewünscht, auch einen Alias hinzugefügt wird. Hier wurde der Dienst namens \emph{smartsearch} mit einem gleichnamigen Alias versehen. Zu beachten ist, dass die erzeugten Containernamen nicht gleich den Servicenamen sind und es ratsam ist, falls benötigt, einen Alias zu setzen.
@@ -450,7 +450,7 @@ Beide Arten können durch Kubernetes dynamisch angepasst werden. Dies funktionie
 
 \subsection{Aufsetzen eines verteilten Systems}
 
-Nun galt es das gelernte in einem weiteren Prototyp zu verwirklichen. Das Ziel war es das neue Projekt \emph{Autocomplete} mit Testanwendung auf einem Kubernetes-Cluster als ein verteilten System zu realisieren. Die Testanwendungen waren einerseits eine Benutzeroberfläche zum Testen der Rückgabe auf Nutzereingaben, andererseits ein Dienst zum schreiben von Fehlerberichten auf eine externe Datenbank.
+Nun galt es, das Gelernte in einem weiteren Prototyp zu verwirklichen. Das Ziel war es, das neue Projekt \emph{Autocomplete} mit Testanwendung auf einem Kubernetes-Cluster als ein verteiltes System zu realisieren. Die Testanwendungen waren einerseits eine Benutzeroberfläche zum Testen der Rückgabe auf Nutzereingaben, andererseits ein Dienst zum schreiben von Fehlerberichten auf eine externe Datenbank.
 Den Projekten musste jeweils \emph{readiness}- und \emph{liveness}-Endpunkte hinzugefügt werden. Dies macht man in der \emph{Setup.cs} indem man ihn in der Methode \emph{Configure} über \emph{UseEndpoints} konfiguriert. 
 
 \begin{figure}[h!]
@@ -461,11 +461,11 @@ Den Projekten musste jeweils \emph{readiness}- und \emph{liveness}-Endpunkte hin
 
 In Abbildung 4.5 wird so ein Endpunkt hinzugefügt, der aber keine \emph{Health Checks} prüft und somit immer \emph{healthy} zurückgeben wird. \emph{Health Checks} werden hier aber nicht weiter betrachtet, da der Fokus der Betrachtung auf Kubernetes liegen soll.
 
-Weiter habe ich für alle betroffenen Projekte mit einem \emph{Dockerfile} Images gebaut und auf eine Registry geschoben, auf die ich von dem Cluster aus Zugriff hatte. Die Adressen der Dienste, die nun innerhalb des Clusters laufen und untereinander kommunizieren sollten mussten davor natürlich so angepasst werden, dass diese auf einen \emph{Service} und nicht einfach eine Adresse ist oder auf einen Container verweist. Kleinere Probleme gab es mit der \emph{Registry}, da diese eine \emph{insecure registry} war und somit dem Cluster hinzugefügt werden musste.
+Weiter habe ich für alle betroffenen Projekte mit einem \emph{Dockerfile} Images gebaut und auf eine Registry geschoben, auf die ich von dem Cluster aus Zugriff hatte. Die Adressen der Dienste, die nun innerhalb des Clusters laufen und untereinander kommunizieren sollten, mussten davor natürlich so angepasst werden, dass diese auf einen \emph{Service} und nicht einfach auf eine Adresse oder auf einen Container verwiesen. Kleinere Probleme gab es mit der \emph{Registry}, da diese eine \emph{insecure registry} war und somit dem Cluster hinzugefügt werden musste.
 
-Um ein \emph{Cluster} auf dem eigenen Rechner aufzusetzen eignet sich Minikube. Wurde Minikube installiert und den Umgebungsvariablen hinzugefügt, können wir mit \emph{minikube start} ein eigenes \emph{Cluster} starten. Das ist sinnvoll aus Test- und Entwicklungszwecken. Mit Minikube lässt sich die Verwendung eines \emph{Ingress}-Controllers komplett vermeiden. Ein \emph{Service} kann auf \emph{localhost} erreicht werden, wenn dieser mit \emph{minikube service svc-name} ausgeführt wird. 
+Um ein \emph{Cluster} auf dem eigenen Rechner aufzusetzen, eignet sich Minikube. Wurde Minikube installiert und den Umgebungsvariablen hinzugefügt, können wir mit \emph{minikube start} ein eigenes \emph{Cluster} starten. Das ist sinnvoll aus Test- und Entwicklungszwecken. Mit Minikube lässt sich die Verwendung eines \emph{Ingress}-Controllers komplett vermeiden. Ein \emph{Service} kann auf \emph{localhost} erreicht werden, wenn dieser mit \emph{minikube service svc-name} ausgeführt wird. 
 
-Nach dem ich die Funktion vorerst lokal getestet hatte, konnte ich nun anfangen die verschiedenen \emph{YAML}-Dateien für die Kuberntes-Komponenten zu schreiben. Diese blieben zumeist unverändert von den Testdateien, die ich schon zuvor erstellt hatte. Für die drei Anwendungen gab es jeweils ein \emph{Deployment} und einen \emph{Service}, des Weiteren gab es einen \emph{Ingress}, der Anfragen auf die drei \emph{Services} aufteilt. Ich verwendete \emph{livenessProbes} und \emph{readinessProbes} aber musste leider die automatische Skalierung außer acht lassen, da der \emph{metrics-server} weder auf dem Testsystem vorhanden war, noch ich die nötigen Rechte hatte ihn zu installieren. Für den Gebrauch der \emph{Registry} musste ein \emph{Secret} auf dieser hinzugefügt werden. Ebenso musste das \emph{Secret} in der Datei unter \emph{imagePullSecrets} referenziert werden. Da das Image, wenn sich dessen Namen oder \emph{Tag} nicht verändert hat, nicht aktualisiert und die lokale version verwendet wird, setzte ich die \emph{imagePullPolicy} auf \emph{Always}.
+Nachdem ich die Funktion vorerst lokal getestet hatte, konnte ich nun anfangen, die verschiedenen \emph{YAML}-Dateien für die Kuberntes-Komponenten zu schreiben. Diese blieben zumeist unverändert von den Testdateien, die ich schon zuvor erstellt hatte. Für die drei Anwendungen gab es jeweils ein \emph{Deployment} und einen \emph{Service}. Des Weiteren gab es einen \emph{Ingress}, der Anfragen auf die drei \emph{Services} aufteilt. Ich verwendete \emph{livenessProbes} und \emph{readinessProbes} aber musste leider die automatische Skalierung außer acht lassen, da der \emph{metrics-server} weder auf dem Testsystem vorhanden war, noch ich die nötigen Rechte hatte, ihn zu installieren. Für den Gebrauch der \emph{Registry} musste ein \emph{Secret} auf dieser hinzugefügt werden. Ebenso musste das \emph{Secret} in der Datei unter \emph{imagePullSecrets} referenziert werden. Da das Image, wenn sich dessen Namen oder \emph{Tag} nicht verändert hat, nicht aktualisiert und die lokale Version verwendet wird, setzte ich die \emph{imagePullPolicy} auf \emph{Always}.
 
 \begin{figure}[h!]
 	\centering
@@ -473,34 +473,32 @@ Nach dem ich die Funktion vorerst lokal getestet hatte, konnte ich nun anfangen 
 	\caption[Screenshot]{Ingress Paths}
 \end{figure}
 
-Auf Abbildung 4.6 sehen wir unter welchen Paths die verschiedenen Services durch den Ingress erreichbar sind. Interessant ist, dass aufgepasst werden muss, dass Anwendungen sich mit ihren Endpunkten nicht gegenseitig in die Quere kommen falls wir wollen, dass diese auf der selben URL erreichbar seinen sollten. 
-Somit interagieren wir mit den Containern als wären diese ein einzelnes System aber halten diese austauschbar und dynamisch.
+Auf Abbildung 4.6 sehen wir, unter welchen Paths die verschiedenen Services durch den Ingress erreichbar sind. Interessant ist, dass aufgepasst werden muss, dass Anwendungen sich mit ihren Endpunkten nicht gegenseitig in die Quere kommen, falls wir wollen, dass diese auf derselben URL erreichbar sind. 
+Somit interagieren wir mit den Containern, als wären diese ein einzelnes System, aber halten diese austauschbar und dynamisch.
 
 Ein Helm-Chart erstellte ich nur für die \emph{Autocomplete}-Anwendung, für die Testanwendungen war dies meiner Meinung nicht notwendig, da diese nur zum Testen benötigt wurden.
 
 
 \newpage
 \section{Fazit}\label{conclusion}
-Nach Abschluss der Arbeit gilt nun zu bewerte ob und wie die gesetzten Vorgaben denn jetzt schließlich erreicht oder auch nicht erreicht wurden.
+Nach Abschluss der Arbeit gilt nun zu bewerten, ob und wie die gesetzten Vorgaben denn jetzt schließlich erreicht oder auch nicht erreicht wurden.
 
-Dazu vorerst einen kleinen Rückblick auf das geschaffene. Das Produkt der Arbeit sind zweit funktionstüchtige Prototypen. Diese resultieren einmal aus der Untersuchung zur Nachrichtenübermittlung mittels Message Broker und der Untersuchung zur Containervirtualisierung und Containerorchestrierung. 
+Dazu vorerst einen kleinen Rückblick auf das Geschaffene. Das Produkt der Arbeit sind zweit funktionstüchtige Prototypen. Diese resultieren einmal aus der Untersuchung zur Nachrichtenübermittlung mittels Message Broker und der Untersuchung zur Containervirtualisierung und Containerorchestrierung. 
 
-Die Untersuchung der Nachrichtenübermittlung mittels Message Broker, die mit RabbitMQ durchgeführt wurde, sollte eine dynamische Kommunikation zwischen den sonst unabhängigen Anwendungen schaffen. Dies wurde auch ermöglicht und funktionierte zuverlässig, aber die spätere Untersuchung zur Containerorchestrierung bot ebenfalls gute Wege zur dynamischen Kommunikation zwischen den verschiedenen Anwendungen innerhalb des Clusters. Ein finales Verdikt hierzu sollte durch eine weitere Untersuchung in Betracht gezogen werden. Nichts desto trotz bot RabbitMQ, durch die Funktion eine Nachricht an viele Konsumenten auf einmal zu verteilen, einen Mehrwert, der im Sammeln von \emph{Logging}-Daten weiter Verwendung finden kann.
+Die Untersuchung der Nachrichtenübermittlung mittels Message Broker, die mit RabbitMQ durchgeführt wurde, sollte eine dynamische Kommunikation zwischen den sonst unabhängigen Anwendungen schaffen. Dies wurde auch ermöglicht und funktionierte zuverlässig, aber die spätere Untersuchung zur Containerorchestrierung bot ebenfalls gute Wege zur dynamischen Kommunikation zwischen den verschiedenen Anwendungen innerhalb des Clusters. Ein finales Verdikt hierzu sollte durch eine weitere Untersuchung in Betracht gezogen werden. Nichtsdestotrotz bot RabbitMQ, durch die Funktion eine Nachricht an viele Konsumenten auf einmal zu verteilen, einen Mehrwert, der im Sammeln von \emph{Logging}-Daten weiter Verwendung finden kann.
 
 Die Untersuchung zur Containervirtualisierung, die mit Docker durchgeführt wurde, sollte Anwendungen eine Umgebung zur Verfügung stellen, in der sie unabhängig von anderen Anwendungen und deren Abhängigkeiten ausgeführt werden können. Dies war ebenfalls erfolgreich, aber ebenfalls soll angemerkt sein, dass die Notwendigkeit einer Nachuntersuchung zur Fehlersuche und \emph{Logging} bezüglich Containern in Betracht gezogen werden sollte, da dies hier nur in der Essenz betrachtet wurde.
 
-Die Untersuchung zur Containerorchestrierung, die mit Kubernetes durchgeführt wurde, baute auf der vorherigen Untersuchung zur Containervirtualisierung auf und sollte eine Umgebung bieten in der die zuvor untersuchten Container auf verschiedenen Systemen als ein System laufen können. Auch sollte untersucht werden wie die einzelnen Container von Kubernetes überwacht und neu gestartet werden können. Dies wurde zufriedenstellend erreicht. Weitere Folgeuntersuchungen, die in Betracht gezogen werden könnten, wären hierzu ebenfalls zur Fehlersuche und \emph{Logging}, aber auch wäre eine Untersuchung zur Skalierbarkeit denkbar.
+Die Untersuchung zur Containerorchestrierung, die mit Kubernetes durchgeführt wurde, baute auf der vorherigen Untersuchung zur Containervirtualisierung auf und sollte eine Umgebung bieten, in der die zuvor untersuchten Container auf verschiedenen Systemen als ein System laufen können. Auch sollte untersucht werden, wie die einzelnen Container von Kubernetes überwacht und neu gestartet werden können. Dies wurde zufriedenstellend erreicht. Weitere Folgeuntersuchungen, die in Betracht gezogen werden könnten, wären hierzu ebenfalls zur Fehlersuche und \emph{Logging}, aber auch wäre eine Untersuchung zur Skalierbarkeit denkbar.
 
 Nun zur Betrachtung der Arbeit an Hand der drei gesetzten Begriffen der Flexibilität, Unabhängigkeit und Robustheit.
-Die Flexibilität wird auf vielerlei Weise erreicht. Durch die Möglichkeiten über einen Message Broker oder auch über das in Kubernetes enthaltene \emph{Routing} gibt uns die Freiheit Anwendungen auszutauschen ohne mit direkten Adressen zu tun zu haben, das heißt, wenn eine neue Anwendung mit neuer Adresse startet wird diese trotzdem wie zuvor erreicht. 
+Die Flexibilität wird auf vielerlei Weise erreicht. Durch die Möglichkeiten über einen Message Broker oder auch über das in Kubernetes enthaltene \emph{Routing} gibt uns die Freiheit, Anwendungen auszutauschen, ohne mit direkten Adressen zu tun zu haben, das heißt, wenn eine neue Anwendung mit neuer Adresse startet, wird diese trotzdem wie zuvor erreicht. 
 
 Die Unabhängigkeit wird durch die Containervirtualisierung erreicht, die den Anwendungen eigene Umgebung bietet, in der jede Anwendung durch den Container, in dem sie läuft, abgeschirmt von äußeren Einflüssen ist.
 
-Die Robustheit wird durch Kubernetes erreicht. Kubernetes ist in der Lage durch die \emph{livenessProbe} und die \emph{readinessProbe} zu erkennen, ob ein Container noch wie gewünscht antwortet und startet diesen neu falls dies nicht der Fall sein sollte. Somit können Container nicht nur bei einem Absturz, sondern auch bei internen Fehlern automatisch neu gestartet werden.
+Die Robustheit wird durch Kubernetes erreicht. Kubernetes ist in der Lage, durch die \emph{livenessProbe} und die \emph{readinessProbe} zu erkennen, ob ein Container noch wie gewünscht antwortet und startet diesen neu, falls dies nicht der Fall sein sollte. Somit können Container nicht nur bei einem Absturz, sondern auch bei internen Fehlern automatisch neu gestartet werden.
 
-
-
-
+Somit wurden alle drei Begriffe erfüllt und damit das Forschungsprojekt erfolgreich abgeschlossen.
 
 %Und jetzt spitzt das warme Blut aus dem Hals der letzten Sau. Und mit ihr stirbt ein kleines Stück Geschichte unserer Stadt. Der Sau ist es egal, doch wir wissen es genau. Der Bagger macht viel mehr als nur den alten Schlachthof platt. 
 %Ich bin mir nicht sicher aber eines weis ich genau. Tote tanzen keinen Pogo, trinken keinen Alkohol. Tote nehmen keine Drogen. Auch ohne Rausch fühlen sie sich wohl.
