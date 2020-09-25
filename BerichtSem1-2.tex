@@ -26,10 +26,10 @@
   bindingoffset=5mm
 }
 \pagestyle{fancy}				% Stil setzen
-\lhead{Containervirtualisierung}	% Header
+\lhead{Containervirtualisierung und Orchestrierung}	% Header
 \rhead{}\chead{}				% Andere Header leeren
-\rfoot{Seite \thepage}
-\lfoot{}\cfoot{}
+%\rfoot{Seite \thepage}
+%\lfoot{}\cfoot{}
 \loadglsentries{glossary.bib}	% Datenfiles einfügen
 \addbibresource{literatur.bib}
 
@@ -49,7 +49,7 @@
 \end{figure}
 }
 \posttitle{\end{center}}
-\title{\Large{\bfseries Containervirtualisierung\\}\vspace{1cm}
+\title{\Large{\bfseries Containervirtualisierung und Orchestrierung\\}\vspace{1cm}
 	\large PRAXISBERICHT T1000\vspace{1cm}}
 \author{
 	\normalsize für die Prüfung zum\\
@@ -90,7 +90,7 @@
 \section*{Erklärung}
 %TODO Titel ändern
 (gemäß §5(3) der „Studien- und Prüfungsordnung DHBW Technik“ vom 29. 9. 2015)\\
-Ich versichere hiermit, dass ich meine Projektarbeit mit dem Thema: ''Containervirtualisierung'' selbstständig verfasst und keine anderen als die angegebenen Quellen und Hilfsmittel benutzt habe. Ich versichere zudem, dass die eingereichte elektronische Fassung mit der gedruckten Fassung übereinstimmt.\\
+Ich versichere hiermit, dass ich meine Projektarbeit mit dem Thema: ''Containervirtualisierung und Orchestrierung'' selbstständig verfasst und keine anderen als die angegebenen Quellen und Hilfsmittel benutzt habe. Ich versichere zudem, dass die eingereichte elektronische Fassung mit der gedruckten Fassung übereinstimmt.\\
 
 \vspace*{2.5cm}
 
@@ -125,7 +125,7 @@ Ziel der Arbeit ist es, vorzuzeigen, was ich in den ersten beiden Semestern mein
 
 \subsection{Kontextuelle Betrachtung der Rahmenbedingungen}
 
-YellowMap entwickelt und hostet in erster Linie Kartenanwendungen, bietet Entwicklern aber auch mit einer Java-Script-API die Möglichkeit, mit wenig Selbstaufwand selbst eine solche Anwendung zu entwickeln. Dabei laufen die Dienste mit allen gängigen großen Kartenanbietern so wie Google, OSM, Bing und sogar Baidu. Exemplarische Lösungen, die YellowMap anbietet, sind zum Beispiel die FilialFinder, mit denen alle Filialen eines Klienten auf dessen Webseite angezeigt werden können. Die Anzeige erfolgt natürlich auf einer Karte. Gesucht wird für gewöhnlich mit einer Umkreissuche auf den Standort des Gerätes. Die gefundenen Filialen können auch neben der Karte auch auf einer Liste sortiert ausgegeben werden.
+YellowMap\cite{yellow} entwickelt und hostet in erster Linie Kartenanwendungen, bietet Entwicklern aber auch mit einer Java-Script-\Gls{API} die Möglichkeit, mit wenig Selbstaufwand selbst eine solche Anwendung zu entwickeln\cite{yelMap}. Dabei laufen die Dienste mit allen gängigen großen Kartenanbietern so wie Google, OSM, Bing und sogar Baidu. Exemplarische Lösungen, die YellowMap anbietet, sind zum Beispiel die FilialFinder\cite{yellFF}, mit denen alle Filialen eines Klienten auf dessen Webseite angezeigt werden können. Die Anzeige erfolgt natürlich auf einer Karte. Gesucht wird für gewöhnlich mit einer Umkreissuche auf den Standort des Gerätes. Die gefundenen Filialen können auch neben der Karte auch auf einer Liste sortiert ausgegeben werden.
 
 \begin{figure}[h!]
 	\centering
@@ -143,12 +143,12 @@ Das Projekt, auf das ich in diesem Bericht näher eingehen möchte, war nun die 
 \subsection{Das bisherige Serverdesign}
 Das bestehende System wurde entworfen, damit viele Anwendungen unabhängig voneinander entwickelt werden können, ohne dass jede Funktionalität in jeder neuen Anwendung auch neu geschrieben werden müsste. Dazu greifen alle Projekte auf dieselbe Schnittstelle zu, diese bietet dann die einzelnen Funktionalitäten in einem einheitlichen Format. Diese Art der Kommunikation ermöglicht es, unabhängig von Art der Anwendung, die Anbindung an die internen Dienste sicherzustellen. 
 Eine Anfrage eines Projekts auf diese Schnittstelle landet als Erstes am Proxy der \emph{Core}, also zu Deutsch dem Kern, hier wird die Anfrage angenommen und auf erster Ebene authentifiziert. Diese Anfrage wird dann an den \emph{System Call} weitergeleitet. Hier befindet sich der Partnerschalter. Er reichert die Daten der Anfrage mit den Daten zum gelieferten Partner aus der Datenbank an. Heißt er schaut zum Beispiel, von welchem Provider der Partner seine Daten beziehen möchte und trifft dem entsprechend Vorkehrungen, dass die Daten in den folgenden Aufrufen und Aktionen richtig weitergegeben und verarbeitet werden. Auch wird hier die auszuführende Aktion ermittelt und der dazugehörige Befehl in Form eines \emph{Commands} oder einer \emph{Command-Group}. 
-Ein \emph{Command} reichert die Daten nun weiter an und reicht dann an einen Provider spezifische \emph{Command-Action} weiter, die die angefragte Aktion dann ausführt. In Abbildung 1.2 sehen wir einen Aufruf, der dann aber beispielshalber auf ein \emph{Lagacy-System} zugreift, das wiederum selbst eine eigene \emph{Command-Action} besitzt, die die Anfrage dann letztendlich ausführt. Diese \emph{Legacy-Systeme} werden aber in dieser Arbeit nicht weiter betrachtet, da diese nicht mehr aktiv weiterentwickelt werden.
+Ein \emph{Command} reichert die Daten nun weiter an und reicht dann an einen Provider spezifische \emph{Command-Action} weiter, die die angefragte Aktion dann ausführt. In Abbildung 1.2 sehen wir einen Aufruf, der dann aber beispielshalber auf ein \emph{Lagacy-System} zugreift, das wiederum selbst eine eigene \emph{Command-Action} besitzt, die die Anfrage dann letztendlich ausführt. Diese \emph{\Gls{Legacy-System}e} werden aber in dieser Arbeit nicht weiter betrachtet, da diese nicht mehr aktiv weiterentwickelt werden.
 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[scale=2]{YmSysReq.png}
-	\caption[Selbst erstellte Grafik]{Beispielanfrage}
+	\caption[Beispielanfrage]{Beispielanfrage}
 \end{figure}
 
 Das System ist also kein Monolithisches, da es aus vielen Einzelprojekten besteht, die größtenteils unabhängig von einander agieren können, aber es ist ebenso kein verteiltes System, da sich trotz des modularen Designs alles auf demselben Server befindet.
@@ -168,10 +168,10 @@ Weiterhin soll das System auch Robustheit beweisen, indem es bei dem Ausfall von
 
 \newpage
 \section{Serverkommunikation mit Message Broker} \label{rabbit}
-Zuerst begann ich den Prototypen für die Serverkommunikation mittels Message Broker zu konzeptionieren. Der Message Broker sollte eine neue interne Schnittstelle zwischen dem Serversystem und dem \emph{Legacy-System} etablieren, da diese zuvor via normale \emph{HTTP}-Aufrufe, die über das externe Netz gingen, realisiert wurde. Dies benötigte das Herauslösen eigenständiger Komponenten des \emph{Legacy-Systems} und die Umwandlung dieser in sogenannte \emph{Microservices}. Im Hinblick auf die späteren Änderungen, die noch an dem System vorgenommen werden sollten, sollte auch die Möglichkeit betrachtet werden, die Protokollierung von Systemdaten über den Message Broker auf eine Vielzahl von Empfängersystemen zu ermöglichen.
+Zuerst begann ich den Prototypen für die Serverkommunikation mittels Message Broker zu konzeptionieren. Der Message Broker sollte eine neue interne Schnittstelle zwischen dem Serversystem und dem \emph{Legacy-System} etablieren, da diese zuvor via normale \emph{HTTP}-Aufrufe, die über das externe Netz gingen, realisiert wurde. Dies benötigte das Herauslösen eigenständiger Komponenten des \emph{Legacy-Systems} und die Umwandlung dieser in sogenannte \emph{\Gls{Microservices}}. Im Hinblick auf die späteren Änderungen, die noch an dem System vorgenommen werden sollten, sollte auch die Möglichkeit betrachtet werden, die Protokollierung von Systemdaten über den Message Broker auf eine Vielzahl von Empfängersystemen zu ermöglichen.
 
 \subsection{Funktion eines Message Brokers}
-Ein Message Broker ist ein System zur Nachrichtenübertragung und Nachrichtenverteilung. Dafür fungiert der Message Broker selbst als der zentrale Umschlagplatz, von dem aus Nachrichten empfangen und verteilt werden. Ebenso übersetzt er aktiv zwischen verschiedenen Protokollen\cite{mesBro}. Er stellt eine Art \emph{Middleware} da, was bedeutet, dass er als neutrale Komponente im System nur für die Vermittlung von Information zwischen anderen Komponenten verantwortlich ist.
+Ein Message Broker ist ein System zur Nachrichtenübertragung und Nachrichtenverteilung. Dafür fungiert der Message Broker selbst als der zentrale Umschlagplatz, von dem aus Nachrichten empfangen und verteilt werden. Ebenso übersetzt er aktiv zwischen verschiedenen Protokollen\cite{mesBro}. Er stellt eine Art \emph{\Gls{Middleware}} da, was bedeutet, dass er als neutrale Komponente im System nur für die Vermittlung von Information zwischen anderen Komponenten verantwortlich ist.
 
 \subsection{Anwendungsspezifische Betrachtung}
 In Hinblick auf die Containervirtualisierung ist das Prinzip eines Message Brokers mehr als nützlich.
@@ -180,13 +180,13 @@ Ein Message Broker kann einen Nachrichten-Pool schaffen, den er kontinuierlich u
 \begin{figure}[h!]
 	\centering
 	\includegraphics[scale=1.8]{MesBroSys.png}
-	\caption[Selbst erstellte Grafik]{Serversystem mit Message Broker}
+	\caption[Serversystem mit Message Broker]{Serversystem mit Message Broker}
 \end{figure}
 
 In Abbildung 2.1 sehen wir, wie der Message Broker seine Funktion als \emph{Middleware} zwischen einem \emph{API-Gateway} und mehreren Diensten erfüllt.  
 
 \subsection{RabbitMQ}
-RabbitMQ ist ein Open-Source-Message-Broker, der das \emph{Advanced-Message-Queuing-Protokoll (AMQP)} unterstützt und sogar um einige nützliche Funktionalitäten erweitert\cite{rabExt}.
+RabbitMQ\cite{rabbit} ist ein Open-Source-Message-Broker, der das \emph{Advanced-Message-Queuing-Protokoll (AMQP)} unterstützt\cite{rabCon} und sogar um einige nützliche Funktionalitäten erweitert\cite{rabExt}.
 Darunter ist eine grafische Managementoberfläche und Unterstützung für \emph{Remote-Procedure-Calls (RPC)}. Dies sind beides Funktionen, die enorm praktisch für die vorgesehene Verwendung sind.
 
 Mittels grafischer Managementoberfläche wird die Fehlersuche immens einfacher gestaltet. Sie zeigt an, an welchen Endpunkten Nachrichten eingetroffen sind, wie viele es sind, ob ein Endpunkt gemeldete Konsumenten hat und vieles mehr. Mit ihr kann man ebenfalls sämtliche Konstrukte selbst erzeugen und die Nachrichten im allgemeinen Verwalten. 
@@ -196,12 +196,12 @@ Ein \emph{RPC} ermöglicht es uns, eine Funktion auf einem anderen Gerät auszuf
 \subsubsection{Grundlegende Funktionsweise}
 
 RabbitMQ stellt in erster Linie einen Serverdienst, eine Managementoberfläche und Nutzerschnittstellen zur Verfügung. Der Serverdienst nimmt Nachrichten entgegen und Verwaltet diese. 
-Er besitzt \emph{Exchanges} und \emph{Queues}. Ein \emph{Exchange} nimmt eine Nachricht entgegen und verteilt diese an eine oder mehrere \emph{Queues}, die ein \emph{Binding} auf den jeweiligen \emph{Exchange} haben. 
+Er besitzt \emph{Exchanges} und \emph{Queues}. Ein \emph{Exchange} nimmt eine Nachricht entgegen und verteilt diese an eine oder mehrere \emph{Queues}, die ein \emph{Binding} auf den jeweiligen \emph{Exchange} haben.
 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[scale=1]{P2C.jpg}
-	\caption[https://www.rabbitmq.com/tutorials/tutorial-one-dotnet.html]{Produzent, Queue und Konsument}
+	\caption[https://www.rabbitmq.com/tutorials/tutorial-one-dotnet.html (Stand 25.09.\\2020)]{Produzent, Queue und Konsument}
 \end{figure}
 
 Es gibt verschiedene Arten von \emph{Exchanges}, die Nachrichten auf verschiedene Weise verteilen. 
@@ -213,7 +213,7 @@ Ein \emph{Direct-Exchange} sendet eine Nachricht nur an eine \emph{Queue}, wenn 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[scale=1.65]{exchanges.png}
-	\caption[https://www.rabbitmq.com/tutorials/tutorial-three-dotnet.html]{Produzent, Exchange und Queue}
+	\caption[https://www.rabbitmq.com/tutorials/tutorial-three-dotnet.html (Stand 25.\\09.2020)]{Produzent, Exchange und Queue}
 \end{figure}
 
 Ein \emph{Topic-Exchange} wiederum verteilt an mehrere \emph{Queues} in seinem \emph{Binding}. Dabei dürfen die \emph{Queues} keinen willkürlichen Namen tragen, sondern müssen einem gewissen Namensmuster Folgen, dass teilweise den \emph{Routing-Key} der zu empfangenden Nachrichten reflektieren soll. Wenn zum Beispiel der \emph{Routing-Key} einer Nachricht \emph{core.failure.critical} wäre, so wäre auch \emph{*.*.critical} ein Name, unter dem eine \emph{Queue} diese Nachricht empfangen würde. Dabei steht das Sternchen als Platzhalter für jedes mögliche Wort. Die Punkte reflektieren die Punkte im \emph{Routing-Key}. Eine Raute ist dabei ein Platzhalter für mehrere Wörter, also über Punkte hinaus. 
@@ -224,19 +224,19 @@ Ein \emph{Exchange} wird von Produzenten befüllt. Ein Produzent erzeugt Nachric
 
 Eine \emph{Queue} ist ein Speicher, der Nachrichten zwischenspeichert und nach dem \emph{First-in-First-Out (FIFO)}-Prinzip an Konsumenten verteilt. Sie sind Anlaufstelle für Konsumenten. 
 
-Ein Konsument meldet sich bei einer \emph{Queue} und wird dort in eine Liste von Konsumenten aufgenommen. So wird er dann von dem Server mit Nachrichten bedient. Wird eine Nachricht konsumiert, kann ein Konsument diesen Vorgang bestätigen, falls der Produzent es wünscht. Das heißt wiederum aber auch, dass der Produzent nun auch auf die Antwort des Konsumenten wartet und ihn somit potenziell blockiert.
+Ein Konsument meldet sich bei einer \emph{Queue} und wird dort in eine Liste von Konsumenten aufgenommen. So wird er dann von dem Server mit Nachrichten bedient. Wird eine Nachricht konsumiert, kann ein Konsument diesen Vorgang bestätigen, falls der Produzent es wünscht.\cite{rabAck} Das heißt wiederum aber auch, dass der Produzent nun auch auf die Antwort des Konsumenten wartet und ihn somit potenziell blockiert.
 
-Eine Nachricht wird in RabbitMQ mit vielen Attributen abgesendet. Sie folgt in erster Linie dem \emph{AMQP}, doch RabbitMQ hat diese um einige Funktionen erweitert. So kommt zum Beispiel das Attribut \emph{reply\_to} mit. In diesem Attribut kann eine Antwortadresse für zum Beispiel den Absender hinzugefügt werden. Dieses Attribut wird später im \emph{Remote-Procedure-Call} benutzt. Sonst kommt offensichtlicherweise Informationen über die Zieladresse und den \emph{Ziel-Exchange}, den \emph{Routing-Key} und natürlich auch die eigentliche Nachricht, dem \emph{Body}, mit.
+Eine Nachricht wird in RabbitMQ mit vielen Attributen abgesendet. Sie folgt in erster Linie dem \emph{AMQP}, doch RabbitMQ hat diese um einige Funktionen erweitert. So kommt zum Beispiel das Attribut \emph{reply\_to} mit. Mit diesen Attribut kann eine Antwortadresse für zum Beispiel den Absender hinzugefügt werden. Dieses Attribut wird später im \emph{Remote-Procedure-Call} benutzt. Sonst kommt offensichtlicherweise Informationen über die Zieladresse und den \emph{Ziel-Exchange}, den \emph{Routing-Key} und natürlich auch die eigentliche Nachricht, dem \emph{Body}, mit.
 
 Die Managementoberfläche und Nutzerschnittstellen bieten eine Plattform, von der man mit dem Serverdienst wie beschrieben interagieren kann.
 
 \subsubsection{Remote-Procedure-Call (RPC)}
-Der \emph{RPC} ist ein Muster, das uns ermöglicht, auf eine Nachricht eine entsprechende Antwort zu bekommen, wie bei einem Funktionsaufruf. 
+Der \emph{RPC} ist ein Muster, das uns ermöglicht, auf eine Nachricht eine entsprechende Antwort zu bekommen, wie bei einem Funktionsaufruf.\cite{rabRpc}
 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[scale=0.74]{RPC.jpg}
-	\caption[https://www.rabbitmq.com/tutorials/tutorial-six-dotnet.html]{RPC}
+	\caption[https://www.rabbitmq.com/tutorials/tutorial-six-dotnet.html (Stand 25.09.\\2020)]{RPC}
 \end{figure}
 
 Für dieses Muster verwenden wir zuerst einen normalen Produzenten, den wir jedoch um die Attribute \emph{reply\_to} und \emph{correlation\_id} erweitern. Wir setzten die \emph{Antwort-Queue} auf einen zufälligen Namen, den wir uns von RabbitMQ generieren lassen. 
@@ -255,7 +255,7 @@ Nun konnte ich den Aufruf durch die alte Schnittstelle löschen und mit dem Aufr
 \begin{figure}[h!]
 	\centering
 	\includegraphics[scale=0.6]{RPCWorkerWhite.png}
-	\caption[Screenshot]{RPC-Empfänger}
+	\caption[RPC-Empfänger]{RPC-Empfänger}
 \end{figure}
 
 In Abbildung 2.5 sehen wir ein Beispiel für einen Empfänger. Als Erstes wird eine Verbindung zum Server aufgebaut und die \emph{Anfrage-Queue} deklariert. Zusätzlich konfigurieren wir den Server nur eine unbestätigte Nachricht pro \emph{Queue} zu erlauben. Wird dieser Wert erreicht, so werden keine Nachrichten mehr von der \emph{Queue} verteilt. Dann wird ein Konsument erzeugt und dem Event \emph{Received} via \emph{Lambda}-Ausdruck eine Funktion übergeben, die auf empfangene Nachrichten reagiert. Innerhalb dieser wird die Nachricht ausgelesen und mit den ausgelesenen Informationen eine Methode aufgerufen. Daraufhin schickt sie die Rückgabe der Methode an die \emph{Antwort-Queue}. Zu guter Letzt wird der Konsument dann auch an die \emph{Anfrage-Queue} angehängt.
@@ -265,23 +265,23 @@ Den Sender oder auch \emph{RPC-Client} genannt, implementierte ich an der Stelle
 \begin{figure}[h!]
 	\centering
 	\includegraphics[scale=0.7]{RPCKlientWhite.png}
-	\caption[Screenshot]{RPC-Sender}
+	\caption[RPC-Sender]{RPC-Sender}
 \end{figure}
 
 Abbildung 2.6 zeigt einen Beispiel-Sender. Er baut wie schon der Empfänger zuerst eine Verbindung zum Server auf. Danach erzeugt er Eigenschaften für die Nachricht und befüllt diese mit einem zuvor erzeugten Namen für die \emph{Antwort-Queue} und einer zufälligen \emph{correlation\_id}. Nun wird nur noch dem Konsumenten eine Funktion übergeben, die den Inhalt der Nachricht als Zeichenkette zwischenspeichert. Wenn nun die \emph{Call}-Methode aufgerufen wird, wird eine Nachricht an die \emph{Anfrage-Queue} gesendet und direkt danach der Konsument an die \emph{Antwort-Queue} angehängt. Wurde die Antwort empfangen, wird nun die zwischengespeicherte Zeichenkette zurückgegeben und aus dem Zwischenspeicher entfernt.
 
 Nachdem ich also eine Methode hatte, Zeichenketten mit dem Message Broker austauschen zu können, musste ich nun entscheiden, wie ich die Übergabeobjekte in solch eine Zeichenkette umwandeln sollte, sodass diese auch am Empfänger rückübersetzt werden konnten.
-Ich entschied mich dafür, die Objekte in eine \emph{JSON}-Zeichenkette umzuwandeln, da dies das Rückübersetzen in ein Objekt sehr einfach gestaltete und ich bis zu diesem Zeitpunkt aus den vorherigen Aufgaben schon mehrere Erfahrungen zum Umgang mit \emph{JSON}-Objekten hatte. 
+Ich entschied mich dafür, die Objekte in eine \emph{\Gls{JSON}}-Zeichenkette umzuwandeln, da dies das Rückübersetzen in ein Objekt sehr einfach gestaltete und ich bis zu diesem Zeitpunkt aus den vorherigen Aufgaben schon mehrere Erfahrungen zum Umgang mit \emph{JSON}-Objekten hatte. 
 Da es sich aber um komplexe Objekte handelte, die nicht nur Basisdatentypen als Werte hatten, musste ich den Übersetzer der \emph{JSON}-Bibliothek, die ich verwendete, anpassen, sodass innere Objekte der Anfrage mit übersetzt werden konnten. 
 Dann machte ich mich langsam daran, gezielt überflüssigen Code zu entfernen, solange bis nur noch der Kern der Funktion über war.
 
-Den Prototypen zum \emph{Fanout-Exchange} implementierte ich als \emph{Dead-Letter-Exchange}, eine Art \emph{Exchange}, den man bei der Initialisierung einer \emph{Queue} angeben kann. An ihn werden Nachrichten gesendet, wenn diese Nachrichten eine in der \emph{Queue} gesetzten \emph{Time-To-Live (TTL)} überschreiten.
+Den Prototypen zum \emph{Fanout-Exchange} implementierte ich als \emph{Dead-Letter-Exchange}\cite{rabDlx}, eine Art \emph{Exchange}, den man bei der Initialisierung einer \emph{Queue} angeben kann. An ihn werden Nachrichten gesendet, wenn diese Nachrichten eine in der \emph{Queue} gesetzten \emph{Time-To-Live (TTL)}\cite{rabTtl} überschreiten.
 
 
 \newpage
 \section{Containervirtualisierung mit Docker} \label{docker}
-Docker ist ein Werkzeug zur Erstellung und Verwaltung von Containern. 
-Container sind kleine, voneinander unabhängige Umgebungen, in denen Programme lauffähig und von außerhalb gezielt erreichbar sind. Sie werden dafür eingesetzt, eine Anwendung von äußeren Einflüssen zu befreien. Ihre Prämisse lautet, wenn eine Anwendung auf einem System funktioniert, funktioniert sie auf allen Systemen. Ein Container hat für gewöhnlich nur das Nötigste installiert, um lauffähig zu sein, alles andere wird vom Entwickler selbst beigesteuert. Was ihnen wiederum einen entscheidenden Vorteil im Vergleich zu einer \emph{virtuellen Maschine (VM)} gibt. Aber nicht nur das. Einen Container aufzusetzen ist auch mit um einiges weniger Aufwand verbunden als das Aufsetzen einer \emph{VM}. 
+Docker\cite{docker} ist ein Werkzeug zur Erstellung und Verwaltung von Containern. 
+Container sind kleine, voneinander unabhängige Umgebungen, in denen Programme lauffähig und von außerhalb gezielt erreichbar sind. Sie werden dafür eingesetzt, eine Anwendung von äußeren Einflüssen zu befreien. Ihre Prämisse lautet, wenn eine Anwendung auf einem System funktioniert, funktioniert sie auf allen Systemen. Ein Container hat für gewöhnlich nur das Nötigste installiert, um lauffähig zu sein, alles andere wird vom Entwickler selbst beigesteuert. Was ihnen wiederum einen entscheidenden Vorteil im Vergleich zu einer \emph{virtuellen Maschine (VM)} gibt. Aber nicht nur das. Einen Container aufzusetzen ist auch mit um einiges weniger Aufwand verbunden als das Aufsetzen einer \emph{VM}, da bei Containern kein Gastbetriebsystem mit eingerichtet werden muss. 
 
 In Hinsicht auf die gezielte Serverstruktur soll Docker das Rückgrat dieser stellen. Die einzelnen Funktionen sollen durch die Containervirtualisierung voneinander abgekoppelt und skalierbar werden.
 
@@ -298,10 +298,10 @@ Auch wenn Containervirtualisierung eine Art der Virtualisierung ist, laufen hier
 	\begin{subfigure}{0.4\linewidth}
     	\includegraphics[scale=0.2]{DockerVM.png}
 	\end{subfigure}
-	\caption[https://docs.docker.com/get-started/]{Containervirtualisierung im Vergleich zu klassischer Virtualisierung.}
+	\caption[https://docs.docker.com/get-started/ (Stand 25.09.2020)]{Containervirtualisierung im Vergleich zu klassischer Virtualisierung.}
 \end{figure}
 
-Auf Abbildung 3.1 sehen wir die Containervirtualisierung im Vergleich zur klassischen Virtualisierung. Es ist leicht zu erkennen, dass durch die Einsparung des Gastbetriebssystems auf jeder Instanz wertvoller Speicherplatz erhalten werden kann. 
+Auf Abbildung 3.1 sehen wir die Containervirtualisierung im Vergleich zur klassischen Virtualisierung. Es ist leicht zu erkennen, dass durch die Einsparung des Gastbetriebssystems auf jeder Instanz wertvoller Speicherplatz erhalten werden kann.\cite{docOvr}
 
 Dieser Vorteil wird aber erst bei einer größeren Anzahl an Instanzen richtig ersichtlich, weswegen diese Art der Virtualisierung bei verteilten Systemen zum Einsatz kommt. Ein verteiltes System ist ein System, in dem die einzelnen verschiedenen Funktionen, die das System erfüllt, von unabhängigen, getrennten Komponenten erfüllt werden, die auf eine dynamische Weise miteinander verbunden sind. So wird es ein Einfaches, dieses System horizontal zu Skalieren. Das heißt, Instanzen des zu Skalierenden hinzuzufügen. Durch die dynamische Einbindung aller Komponenten wird sicher gestellt, dass die Last nun auf alle Instanzen desselben Typs gleichmäßig verteilt sind. Dies geschieht zum Beispiel mit einem \emph{Load Balancer}. Mit einem Message Broker ist Ähnliches zu erreichen.
 
@@ -311,24 +311,24 @@ Docker ist nun eine Plattform, auf der wir mit Containern interagieren können. 
 Docker bietet auch Container mit Netzwerken zu verbinden, sodass ein \emph{Domain Name System (DNS)} Containernamen auf ihre IP-Adressen übersetzt. Es gibt zwar auch Standardlösungen für diese Netzwerke, auf denen aber die Auflösung von Containernamen nicht möglich ist. Deshalb ist es ratsam, diese Netzwerke selbst zu definieren.
 Dabei ist aber zu bedenken, ob die Anfrage auch wirklich vom Container aus gesendet wird und nicht wie im Falle von JavaScript clientseitig gestellt wird.
 Ein anderes Konzept, das Docker einführt, ist \emph{Volume}. Ein \emph{Volume} ist eine Art Speicher, mit dem sich Container verbinden und es dann benutzen können.
-Container können über die Kommandozeile mit dem Befehl  \emph{docker run example/image:test} gestartet werden. Dabei können zahlreiche Parameter mitgegeben werden. Mit \emph{-p} können so \emph{Port-Mappings} erstellt werden. Die lokalen \emph{Images} können mit \emph{docker images} eingesehen werden. Mit \emph{docker ps} werden die laufenden Container angezeigt. Möchten wir auch die beendeten Container aufgelistet haben, so fügen wir das Kürzel \emph{-a} an. Wenn ein Container gestoppt werden soll, geht dies mit \emph{docker stop container\_id} und zum Entfernen mit \emph{docker rm container\_id}. \emph{Images} werden mit \emph{docker rmi image\_id} entfernt. Zur Fehlersuche können wir mit \emph{docker logs container-name} auf die \emph{Log}-Dateien eines Containers zugreifen.
+Container können über die Kommandozeile mit dem Befehl  \emph{docker run example/image:test} gestartet werden. Dabei können zahlreiche Parameter mitgegeben werden. Mit \emph{-p} können so \emph{Port-Mappings} erstellt werden. Die lokalen \emph{Images} können mit \emph{docker images} eingesehen werden. Mit \emph{docker ps} werden die laufenden Container angezeigt. Möchten wir auch die beendeten Container aufgelistet haben, so fügen wir das Kürzel \emph{-a} an. Wenn ein Container gestoppt werden soll, geht dies mit \emph{docker stop container\_id} und zum Entfernen mit \emph{docker rm container\_id}. \emph{Images} werden mit \emph{docker rmi image\_id} entfernt. Zur Fehlersuche können wir mit \emph{docker logs container-name} auf die \emph{Log}-Dateien eines Containers zugreifen.\cite{docGst}
 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[scale=2]{DockerWindows.png}
-	\caption[https://docs.microsoft.com/de-de/virtualization/windowscontainers/deploy-containers/linux-containers]{Linux Container auf Windows}
+	\caption[https://docs.microsoft.com/de-de/virtualization/windowscontainers/deploy-containers/linux-containers (Stand 25.09.2020)]{Linux Container auf Windows}
 \end{figure}
 
 Für gewöhnlich werden Linux-Container verwendet, auch unter Windows. Docker erstellt dafür dann eine \emph{VM}, die das gewünschte Hostbetriebssystem so zur Verfügung stellt. Das wird auf Abbildung 3.2 verdeutlicht. 
 
 \subsubsection{Dockerfile}
 
-Wie schon zuvor erwähnt wird mit einem \emph{Dockerfile} ein Image unserer Anwendung erstellt. 
+Wie schon zuvor erwähnt wird mit einem \emph{Dockerfile} ein Image unserer Anwendung erstellt.\cite{docImg}
 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[scale=1]{DockerfileWhite.png}
-	\caption[Screenshot]{Beispiel für einen Dockerfile}
+	\caption[Beispiel für einen Dockerfile]{Beispiel für einen Dockerfile}
 \end{figure}
 
 In Abbildung 3.3 sehen wir, wie ein \emph{Dockerfile} exemplarisch aussehen könnte. Als Erstes wird eine Basis referenziert, die unser \emph{Image} braucht, um ausgeführt werden zu können. In diesem Fall ist dies \emph{.Net Core 3.1}. Danach geben wir die Anweisung, den Port 80 für diese Anwendung freizugeben. Nun wird alles Programmrelevante in den Kontext gezogen, gebaut und veröffentlicht. Zuletzt wird ein Einstiegspunkt gesetzt, das heißt, einen Befehl, der bei Start des Containers aufgerufen wird, um die Anwendung auszuführen. 
@@ -338,7 +338,7 @@ Der \emph{FROM} Befehl, den wir mehrfach in dem Dokument finden können, initial
 \begin{figure}[h!]
 	\centering
 	\includegraphics[scale=1]{DockerfileBlazor.png}
-	\caption[Screenshot]{Webserver als Basisimage}
+	\caption[Webserver als Basisimage]{Webserver als Basisimage}
 \end{figure}
 
 Im Falle einer statischen Website, die von einem \emph{Blazor-WebAssembly}-Projekt erzeugt wird, muss diese zwar mit \emph{.Net} gebaut werden, braucht aber keine \emph{Runtime}-Umgebung, sonder benötigt einen Webserver.
@@ -352,15 +352,15 @@ Aus Sicherheitsgründen lohnt es sich abzuwägen, ob beim Bauen des \emph{Images
 
 \subsubsection{Docker-Compose}
 
-Mithilfe von Docker-Compose lassen sich Container vollständig konfiguriert und durch das Ausführen eines einzelnen Dokumentes starten. Das ermöglicht dem Nutzer komplexe Anwendungssysteme mit nur einem simplen Befehl ausführen zu können. 
+Mithilfe von Docker-Compose lassen sich Container vollständig konfiguriert und durch das Ausführen eines einzelnen Dokumentes starten. Das ermöglicht dem Nutzer komplexe Anwendungssysteme mit nur einem simplen Befehl ausführen zu können.\cite{dcoOvr}
 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[scale=1]{DockerComposeMin.png}
-	\caption[Screenshot]{Beispiel für Docker-Compose}
+	\caption[Beispiel für Docker-Compose]{Beispiel für Docker-Compose}
 \end{figure}
 
-Dabei ist Docker-Compose sehr simpel aufgebaut und wird mit der Auszeichnungssprache \emph{YAML} spezifiziert. Im Beispiel, das in Abbildung 3.5 zusehen ist, wird ein Container namens \emph{smartmapssearch} definiert, der ein gleichnamiges \emph{Image} benutzt. Es werden weiterhin ein \emph{Port-Mapping} hinzugefügt und Information zum Bauen des \emph{Images} angegeben. Gebaut wird das \emph{Image} wie zuvor mit einem \emph{Dockerfile}, dessen Position und Namen wir angeben. 
+Dabei ist Docker-Compose sehr simpel aufgebaut und wird mit der Auszeichnungssprache \emph{\Gls{YAML}} spezifiziert. Im Beispiel, das in Abbildung 3.5 zusehen ist, wird ein Container namens \emph{smartmapssearch} definiert, der ein gleichnamiges \emph{Image} benutzt. Es werden weiterhin ein \emph{Port-Mapping} hinzugefügt und Information zum Bauen des \emph{Images} angegeben. Gebaut wird das \emph{Image} wie zuvor mit einem \emph{Dockerfile}, dessen Position und Namen wir angeben.\cite{dcoRef}
 
 Mit Docker-Compose können aber auch \emph{Volumes} und \emph{Netzwerke} hinzugefügt werden, die natürlich auch gleich an Container angebunden werden können.
 Containern kann man ebenfalls auch einen Alias hinzufügen, unter dem sie einen anderen Container innerhalb des Netzwerkes finden können. 
@@ -370,7 +370,7 @@ In Abbildung 3.6 sehen wir einen Codeauszug, der dies so implementiert. Unter de
 \begin{figure}[h!]
 	\centering
 	\includegraphics[scale=1]{DockerComposeNetwork.png}
-	\caption[Screenshot]{Netzwerk mit Alias}
+	\caption[Netzwerk mit Alias]{Netzwerk mit Alias}
 \end{figure}
 
 \subsection{Praktische Anwendung und Verdikt}
@@ -383,31 +383,32 @@ Die schon angesprochene Skalierbarkeit ist mittels Docker-Compose zu erreichen, 
 
 
 \newpage
-\section{Skalierung mit Kubernetes} \label{kubernetes}
+\section{Containerorchestrierung mit Kubernetes} \label{kubernetes}
 
-Kubernetes ist ein Werkzeug zur Container-Orchestrierung im Besonderen zum Erzeugen und verwalten von Containerclustern. Mit Hilfe von Kubernetes können große, komplexe Containersysteme aufgespannt werden, in denen die einzelnen Anwendungen auf keinen bestimmten Ausführungsort angewiesen sind und es dadurch egal wird, auf welchem Rechner die Anwendungen ausgeführt werden. Neben dem \emph{Routing} übernimmt Kubernetes auch das \emph{Monitoring} der Anwendungen und startet diese neu, wenn diese nicht mehr wie gewohnt zu erreichen sind. Letztlich lässt sich mit Kubernetes auch die Skalierung der Anwendungen automatisieren. Wozu verschiedenste Metriken hinzugezogen werden können. 
+Kubernetes\cite{k8sWeb} ist ein Werkzeug zur Container-Orchestrierung im Besonderen zum Erzeugen und verwalten von Containerclustern. Mit Hilfe von Kubernetes können große, komplexe Containersysteme aufgespannt werden, in denen die einzelnen Anwendungen auf keinen bestimmten Ausführungsort angewiesen sind und es dadurch egal wird, auf welchem Rechner die Anwendungen ausgeführt werden. Neben dem \emph{Routing} übernimmt Kubernetes auch das \emph{Monitoring} der Anwendungen und startet diese neu, wenn diese nicht mehr wie gewohnt zu erreichen sind. Letztlich lässt sich mit Kubernetes auch die Skalierung der Anwendungen automatisieren. Wozu verschiedenste Metriken hinzugezogen werden können.\cite{k8sOvr}
 
 \subsection{Kubernetes Komponenten}
 
+Kubernetes führt an dieser Stelle eine Reihe an Konzepten\cite{k8sKon} ein, die das Interagieren mit der Hardware\cite{k8sHrd} vereinfachen und so abstrahieren.
 Ein Cluster besteht dabei aus mindestens einem Worker-Knoten und einem Master-Knoten. Auf dem Worker-Knoten laufen sogenannte \emph{Pods}, die die Funktion des eigentlichen Containers darstellen. 
 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[scale=0.5]{KubeSimpleCluster.png}
-	\caption[https://www.redhat.com/de/topics/containers/what-is-kubernetes]{Simples Kubernetes Cluster}
+	\caption[https://www.redhat.com/de/topics/containers/what-is-kubernetes (Stand 25.09.2020)]{Simples Kubernetes Cluster}
 \end{figure}
 
 Auf Abbildung 4.1 sehen wir ein \emph{Kubernetes-Cluster} mit einem \emph{Worker-Knoten} auf dem sich zwei \emph{Pods} befinden. Auf dem \emph{Master-Knoten} laufen alle Controller, die Kubernetes für die Interaktion mit den \emph{Cluster}-Komponenten benötigt. Darunter ist der \emph{API-Server}. Er ist verantwortlich für den allgemeinen Datenaustausch innerhalb des Systems und bietet eine Schnittstelle, über die der Nutzer den Status des \emph{Clusters} abfragen kann, aber die auch allen Komponenten innerhalb des \emph{Clusters} ermöglicht, miteinander zu kommunizieren. Auch werden durch diese Schnittstelle die einzelnen Komponenten konfiguriert.
 
 Mit einem \emph{Worker-Knoten} kommuniziert der \textit{API-Server} über ein \emph{kubelet}, das auf jedem \emph{Worker-Knoten} läuft. Es ist dafür verantwortlich, die auf dem Knoten befindlichen Komponenten zu konfigurieren und zu überwachen. 
 
-\emph{Pods} stellen, wie schon zuvor erwähnt, unsere eigentliche Anwendung dar. Sie werden mit einem Docker-Image konfiguriert und können entweder manuell in der Kommandozeile, mit \emph{YAML} oder automatisch mit einem \emph{Deployment} erzeugt werden. Sie können mehrere Container beinhalten.
-Ein \emph{Deployment} ist zur Verwaltung eines \emph{Pods} und seines \emph{ReplicaSets} gedacht. Erstellt man ein \emph{Deployment}, so werden beide Komponenten erzeugt.
-Das \emph{ReplicaSet} ist für den Erhalt einer konstanten Anzahl gleichartiger \emph{Pods} gedacht. 
+\emph{Pods} stellen, wie schon zuvor erwähnt, unsere eigentliche Anwendung dar. Sie werden mit einem Docker-Image konfiguriert und können entweder manuell in der Kommandozeile, mit \emph{YAML} oder automatisch mit einem \emph{Deployment} erzeugt werden. Sie können mehrere Container beinhalten.\cite{k8sPod}
+Ein \emph{Deployment} ist zur Verwaltung eines \emph{Pods} und seines \emph{ReplicaSets} gedacht. Erstellt man ein \emph{Deployment}, so werden beide Komponenten erzeugt.\cite{k8sDep}
+Das \emph{ReplicaSet} ist für den Erhalt einer konstanten Anzahl gleichartiger \emph{Pods} gedacht.\cite{k8sRst}
 Neben dem \emph{Deployment} gibt es auch \emph{DaemonSets} und \emph{StatefulSets}, die diesem ähneln. 
-Ein \emph{DaemonSet} geht sicher, dass auf allen oder auch nur manchen Knoten ein Exemplar des spezifizierten \emph{Pods} läuft. 
-Das \emph{StatefulSet} dem entgegen, verhält sich fast wie ein \emph{Deployment}, aber die \emph{Pods}, die es erzeugt, sind nicht absolut austauschbar und besitzen deshalb eine \emph{ID}, mit der man diese auseinanderhalten kann. Dies kann wichtig sein, falls ein Container eigenen Speicher besitzt. 
-Egal wie man nun seine \emph{Pods} erzeugt, um auf seine Anwendung zugreifen zu können, braucht man einen \emph{Service}, der einen einfachen Weg bietet, die Anwendung zu erreichen. Auch benötigt man einen \emph{Service}, weil \emph{Pods} innerhalb eines \emph{Deployments} nicht permanent gleich bleiben. Sie werden je nach Bedarf gestartet und beendet und jeder Neue bekommt auch eine neue IP-Adresse zugewiesen. Man kann also die \emph{Pods} auf einem \emph{Deployment} besser erreichen, indem man einen \emph{Service} erzeugt, der alle \emph{Pods} durch eine IP-Adresse erreichbar macht. Eine IP-Adresse lässt sich innerhalb des Clusters aber, ähnlich wie auch Docker, komplett vermeiden, indem man dem Schema \emph{service-name.namespace.svc} folgt.
+Ein \emph{DaemonSet} geht sicher, dass auf allen oder auch nur manchen Knoten ein Exemplar des spezifizierten \emph{Pods} läuft.\cite{k8sDst}
+Das \emph{StatefulSet} dem entgegen, verhält sich fast wie ein \emph{Deployment}, aber die \emph{Pods}, die es erzeugt, sind nicht absolut austauschbar und besitzen deshalb eine \emph{ID}, mit der man diese auseinanderhalten kann. Dies kann wichtig sein, falls ein Container eigenen Speicher besitzt.\cite{k8sSst} 
+Egal wie man nun seine \emph{Pods} erzeugt, um auf seine Anwendung zugreifen zu können, braucht man einen \emph{Service}, der einen einfachen Weg bietet, die Anwendung zu erreichen. Auch benötigt man einen \emph{Service}, weil \emph{Pods} innerhalb eines \emph{Deployments} nicht permanent gleich bleiben. Sie werden je nach Bedarf gestartet und beendet und jeder Neue bekommt auch eine neue IP-Adresse zugewiesen. Man kann also die \emph{Pods} auf einem \emph{Deployment} besser erreichen, indem man einen \emph{Service} erzeugt, der alle \emph{Pods} durch eine IP-Adresse erreichbar macht. Eine IP-Adresse lässt sich innerhalb des Clusters aber, ähnlich wie auch Docker, komplett vermeiden, indem man dem Schema \emph{service-name.namespace.svc} folgt.\cite{k8sSvc}
 
 Mit dem \emph{Cluster} interagieren wir mittels des \emph{kubectl} Befehls. So können wir durch \emph{kubectl create deployment somename --image some/image:test} ein \emph{Deployment} erschaffen und mit \emph{kubectl delete deployment somename} wieder entfernen. 
 
@@ -416,15 +417,15 @@ Doch deutlich genauer und auch angenehmer ist das Erzeugen der Komponenten über
 \begin{figure}[h!]
 	\centering
 	\includegraphics[scale=1]{KubeYmlPod.png}
-	\caption[Screenshot]{Pod-Konfiguration YAML}
+	\caption[Pod-Konfiguration]{Pod-Konfiguration}
 \end{figure}
 
-Auf der Abbildung 4.2 sehen wir ein Beispiel dazu, wie dies für einen \emph{Pod} aussieht. Zu Beginn wird die \emph{apiVersion}, die Art der Komponente, der Namen und die Labels des \emph{Pods} festgelegt. Die \emph{apiVersion} kann sich von Komponente zu Komponente unterscheiden, wie wir später sehen werden. In \emph{spec} werden nun die zum \emph{Pod} gehörigen Container spezifiziert. Der Unterpunkt \emph{containers} ist eine Liste und kann mehrere Container beinhalten. Zu einem Container gehören Name, Image, eine Liste an Ports und idealerweise auch eine \emph{readinessPobe} und \emph{livenessProbe}. Diese sind in Syntax und Argumenten identisch und unterscheiden sich nur in Funktion. Die \emph{readinessProbe} hat die Aufgabe zu erkennen, ab wann die Anwendung betriebsbereit ist und Anfragen entgegennehmen kann. Die \emph{livenessProbe} überprüft, ob die Anwendung noch betriebsbereit ist oder ob diese neu gestartet werden müsste. Im Beispiel benutzen beide eine HTTP-Anfrage, aber es diese Überprüfung kann auch auf andere Weise realisiert werden.
+Auf der Abbildung 4.2 sehen wir ein Beispiel dazu, wie dies für einen \emph{Pod} aussieht. Zu Beginn wird die \emph{apiVersion}, die Art der Komponente, der Namen und die Labels des \emph{Pods} festgelegt. Die \emph{apiVersion} kann sich von Komponente zu Komponente unterscheiden, wie wir später sehen werden. In \emph{spec} werden nun die zum \emph{Pod} gehörigen Container spezifiziert. Der Unterpunkt \emph{containers} ist eine Liste und kann mehrere Container beinhalten. Zu einem Container gehören Name, Image, eine Liste an Ports und idealerweise auch eine \emph{readinessPobe} und \emph{livenessProbe}. Diese sind in Syntax und Argumenten identisch und unterscheiden sich nur in Funktion. Die \emph{readinessProbe} hat die Aufgabe zu erkennen, ab wann die Anwendung betriebsbereit ist und Anfragen entgegennehmen kann. Die \emph{livenessProbe} überprüft, ob die Anwendung noch betriebsbereit ist oder ob diese neu gestartet werden müsste. Im Beispiel benutzen beide eine HTTP-Anfrage, aber es diese Überprüfung kann auch auf andere Weise realisiert werden.\cite{k8sRlp}
 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[scale=1]{KubeYmlDep.png}
-	\caption[Screenshot]{Deployment-Konfiguration YAML}
+	\caption[Deployment-Konfiguration]{Deployment-Konfiguration}
 \end{figure}
 
 Bei einem \emph{Deployment} verändert sich nur wenig, wie man in Abbildung 4.3 sehen kann. In \emph{metadata} wurde lediglich, um die Komponenten vom Rest des Clusters zu trennen, ein \emph{Namespace} hinzugefügt. In \emph{spec} kommt nun doch mehr hinzu. So können wir nun mit \emph{replicas} die Anzahl der \emph{Pods} in unserem \emph{Deployment} auswählen und mit \emph{selector} werden die vom \emph{Deployment} betroffenen Container ausgewählt. Unter \emph{template} finden wir die \emph{metadata} und \emph{spec} unseres \emph{Pods} aus Abbildung 4.2 wieder.
@@ -432,21 +433,21 @@ Bei einem \emph{Deployment} verändert sich nur wenig, wie man in Abbildung 4.3 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[scale=1]{KubeYmlSvc.png}
-	\caption[Screenshot]{Service-Konfiguration YAML}
+	\caption[Service-Konfiguration]{Service-Konfiguration}
 \end{figure}
 
 Auf Abbildung 4.4 sehen wir zu guter Letzt einen \emph{Service}, der auf diese Weise definiert wird. Die allgemeine Struktur bleibt im Vergleich zu dem \emph{Pod} und dem \emph{Deployment} gleich. In \emph{spec} haben wir einen \emph{selector}, der das \emph{Deployment} referenziert. Danach folgt eine Liste an Ports. Diese werden später dann nach außen zur Verfügung gestellt.
 
 \subsubsection{Helm}
 
-Helm ist eine Erweiterung auf das uns schon bekannte \emph{YAML}-Format, das bei der Erzeugung von Kubernetes-Komponenten zum Einsatz kam. Ein sogenanntes Helm-Chart definiert alle Komponenten im selben Schema wie schon zuvor, doch fügt einiges an Funktionalität hinzu. Ein Helm-\emph{Chart} besitzt eine \emph{Chart.yaml}, die Informationen zum \emph{Chart} beinhaltet, einen \emph{Template}-Ordner, der die \emph{YAML}-Dateien der Komponenten beinhaltet, und eine \emph{values.yaml}, in der Werte global für das komplette Chart gesetzt werden, die dann in den \emph{YAML}-Dateien referenziert werden können. Es können sich auch in einem Charts-Ordner weitere \emph{Subcharts} befinden. Helm-\emph{Charts} können wie auch Images in Registries gespeichert werden.
+Helm\cite{hlmWeb} ist eine Erweiterung auf das uns schon bekannte \emph{YAML}-Format, das bei der Erzeugung von Kubernetes-Komponenten zum Einsatz kam. Ein sogenanntes Helm-Chart definiert alle Komponenten im selben Schema wie schon zuvor, doch fügt einiges an Funktionalität hinzu. Ein Helm-\emph{Chart} besitzt eine \emph{Chart.yaml}, die Informationen zum \emph{Chart} beinhaltet, einen \emph{Template}-Ordner, der die \emph{YAML}-Dateien der Komponenten beinhaltet, und eine \emph{values.yaml}, in der Werte global für das komplette Chart gesetzt werden, die dann in den \emph{YAML}-Dateien referenziert werden können. Es können sich auch in einem Charts-Ordner weitere \emph{Subcharts} befinden. Helm-\emph{Charts} können wie auch Images in Registries gespeichert werden.\cite{hlmDoc}
 
 \subsubsection{Skalierung} 
 
 Die Idee hinter der Skalierung von Prozessen ist es, bei ansteigender Last auf ein System, dies auszugleichen, indem die relevanten Komponenten durch die Zuweisung von Ressourcen oder die Vervielfältigung dieser gestärkt werden.
-Die Zuweisung zusätzlicher Ressourcen nennt man vertikale Skalierung, die Vervielfältigung der betroffenen Container horizontale Skalierung.
+Die Zuweisung zusätzlicher Ressourcen nennt man vertikale Skalierung\cite{k8sVpa}, die Vervielfältigung der betroffenen Container horizontale Skalierung.
 
-Beide Arten können durch Kubernetes dynamisch angepasst werden. Dies funktioniert auch automatisch. Bei horizontaler Skalierung erzeugt man in Kubernetes einen \emph{Horizontal Pod Autoscaler (HPA)} auf das gewünschte \emph{Deployment}. Im \emph{Deployment} müssen die Bedingungen für die Replikation der \emph{Pods} angegeben sein. Dies geht am einfachsten über die Angabe der Prozessorauslastung. Zum Lesen der Metrikdaten von \emph{Pods} benötigen wir einen \emph{metrics-server}. Diesen bekommen wir von \emph{Kubernetes SIGs} auf \emph{GitHub}.
+Beide Arten können durch Kubernetes dynamisch angepasst werden. Dies funktioniert auch automatisch. Bei horizontaler Skalierung erzeugt man in Kubernetes einen \emph{Horizontal Pod Autoscaler (HPA)}\cite{k8sHpa} auf das gewünschte \emph{Deployment}. Im \emph{Deployment} müssen die Bedingungen für die Replikation der \emph{Pods} angegeben sein. Dies geht am einfachsten über die Angabe der Prozessorauslastung. Zum Lesen der Metrikdaten von \emph{Pods} benötigen wir einen \emph{metrics-server}.\cite{k8sHPA} Diesen bekommen wir von \emph{Kubernetes SIGs} auf \emph{GitHub}\cite{github}.
 
 \subsection{Aufsetzen eines verteilten Systems}
 
@@ -456,10 +457,10 @@ Den Projekten musste jeweils \emph{readiness}- und \emph{liveness}-Endpunkte hin
 \begin{figure}[h!]
 	\centering
 	\includegraphics[scale=1]{CsEndpoint.png}
-	\caption[Screenshot]{Endpunkte hinzufügen in ASP.NET Core}
+	\caption[Endpunkte hinzufügen in ASP.NET Core]{Endpunkte hinzufügen in ASP.NET Core}
 \end{figure}
 
-In Abbildung 4.5 wird so ein Endpunkt hinzugefügt, der aber keine \emph{Health Checks} prüft und somit immer \emph{healthy} zurückgeben wird. \emph{Health Checks} werden hier aber nicht weiter betrachtet, da der Fokus der Betrachtung auf Kubernetes liegen soll.
+In Abbildung 4.5 wird so ein Endpunkt hinzugefügt, der aber keine \emph{Health Checks}\cite{hthChk} prüft und somit immer \emph{healthy} zurückgeben wird. \emph{Health Checks} werden hier aber nicht weiter betrachtet, da der Fokus der Betrachtung auf Kubernetes liegen soll.
 
 Weiter habe ich für alle betroffenen Projekte mit einem \emph{Dockerfile} Images gebaut und auf eine Registry geschoben, auf die ich von dem Cluster aus Zugriff hatte. Die Adressen der Dienste, die nun innerhalb des Clusters laufen und untereinander kommunizieren sollten, mussten davor natürlich so angepasst werden, dass diese auf einen \emph{Service} und nicht einfach auf eine Adresse oder auf einen Container verwiesen. Kleinere Probleme gab es mit der \emph{Registry}, da diese eine \emph{insecure registry} war und somit dem Cluster hinzugefügt werden musste.
 
@@ -470,7 +471,7 @@ Nachdem ich die Funktion vorerst lokal getestet hatte, konnte ich nun anfangen, 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[scale=1]{KubeIngressPaths.png}
-	\caption[Screenshot]{Ingress Paths}
+	\caption[Ingress Paths]{Ingress Paths}
 \end{figure}
 
 Auf Abbildung 4.6 sehen wir, unter welchen Paths die verschiedenen Services durch den Ingress erreichbar sind. Interessant ist, dass aufgepasst werden muss, dass Anwendungen sich mit ihren Endpunkten nicht gegenseitig in die Quere kommen, falls wir wollen, dass diese auf derselben URL erreichbar sind. 
